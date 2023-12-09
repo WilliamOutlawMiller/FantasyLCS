@@ -1,7 +1,15 @@
+using HtmlAgilityPack;
+using Constants;
+
 namespace GetProDataFromWiki
 {
     public class GetProDataFromWiki
     {
-        
+        public static string GetMatchPicksAndBans(string reg)
+        {
+            string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON_YEAR + SeasonInfo.SEASON + MatchInfo.PICKS_AND_BANS; 
+
+            return "";
+        }
     }
 }
