@@ -11,21 +11,23 @@ public class MatchController : Controller
 {
     public IActionResult GetMatchPicksAndBans(string url)
     {
-        var response = ParseHtml(url);
+        string picksAndBansXPath = "//table[@class='wikitable plainlinks hoverable-rows column-show-hide-1' and @id='pbh-table']/tbody";
+        var response = ParseHtml(url, picksAndBansXPath);
         return View();
     }
 
-    private static async Task<string> ParseHtml(string url)
+    private static async Task<string> ParseHtml(string url, string xpath)
     {
         var web = new HtmlWeb();
         var doc = await web.LoadFromWebAsync(url);
 
-        var tbodyElement = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable plainlinks hoverable-rows column-show-hide-1' and @id='pbh-table']/tbody");
+        var tbodyElement = doc.DocumentNode.SelectSingleNode(xpath);
 
         try
         {
             if (tbodyElement != null)
             {
+                // todo: parse html into readable datatable or other data structure
                 return tbodyElement.OuterHtml;
             }
             else

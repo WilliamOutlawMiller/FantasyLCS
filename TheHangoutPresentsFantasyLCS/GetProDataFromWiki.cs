@@ -9,7 +9,8 @@ public class GetProDataFromWiki
         string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON_YEAR + SeasonInfo.SEASON + MatchInfo.PICKS_AND_BANS; 
 
         MatchController controller = new MatchController();
-        ViewResult webpage = controller.View(url);
+        controller.GetMatchPicksAndBans(url);
+        
         return url;
     }
 }
