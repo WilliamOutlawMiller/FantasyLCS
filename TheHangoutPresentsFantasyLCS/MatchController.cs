@@ -9,10 +9,33 @@ using Microsoft.AspNetCore.Mvc;
 
 public class MatchController : Controller
 {
-    public IActionResult Index()
+    public IActionResult GetMatchPicksAndBans(string url)
     {
-        string url = "https://en.wikipedia.org/wiki/List_of_programmers";
-        var response = RequestHandler.CallUrl(url).Result;
+        var response = ParseHtml(url);
         return View();
+    }
+
+    private static async Task<string> ParseHtml(string url)
+    {
+        var web = new HtmlWeb();
+        var doc = await web.LoadFromWebAsync(url);
+
+        var tbodyElement = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable plainlinks hoverable-rows column-show-hide-1' and @id='pbh-table']/tbody");
+
+        try
+        {
+            if (tbodyElement != null)
+            {
+                return tbodyElement.OuterHtml;
+            }
+            else
+            {
+                throw new Exception("Unable to find the <tbody> element.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return await Task.FromException<string>(ex);
+        }
     }
 }
