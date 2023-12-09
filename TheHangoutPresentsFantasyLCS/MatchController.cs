@@ -15,6 +15,7 @@ public class MatchController : Controller
         try
         {
             string htmlTable = ParseHtml(url, picksAndBansXPath).Result;
+            // todo: parse html into readable datatable or other data structure
             return View();
         }
         catch
@@ -34,7 +35,6 @@ public class MatchController : Controller
         {
             if (tbodyElement != null)
             {
-                // todo: parse html into readable datatable or other data structure
                 return tbodyElement.OuterHtml;
             }
             else
