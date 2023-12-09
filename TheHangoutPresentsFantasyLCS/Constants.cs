@@ -9,4 +9,9 @@ namespace Constants
         public const string SEASON_YEAR = "/2023_Season";
         public const string SEASON = "/Spring_Season";
     }
+
+    public class MatchInfo
+    {
+        public const string PICKS_AND_BANS = "/Picks_and_Bans";
+    }
 }
