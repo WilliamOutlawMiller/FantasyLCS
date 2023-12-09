@@ -17,6 +17,10 @@ public class MatchController : Controller
         {
             HtmlNode tableNode = LocateHTMLNode(url, picksAndBansXPath).Result;
             DataTable dataTable = ParseHtmlToDataTable(tableNode);
+
+            // todo: serialize the data from the datatable into an object that contains pick and ban data for a specific match
+            // we could also get all pick ban data available and cache it on the server. 
+            return Json(new { key = "value" }); 
         }
         catch
         {
