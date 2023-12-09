@@ -12,8 +12,15 @@ public class MatchController : Controller
     public IActionResult GetMatchPicksAndBans(string url)
     {
         string picksAndBansXPath = "//table[@class='wikitable plainlinks hoverable-rows column-show-hide-1' and @id='pbh-table']/tbody";
-        var response = ParseHtml(url, picksAndBansXPath);
-        return View();
+        try
+        {
+            string htmlTable = ParseHtml(url, picksAndBansXPath).Result;
+            return View();
+        }
+        catch
+        {
+            return BadRequest("Unable to locate table from XPath (most likely, no promises though)");
+        }
     }
 
     private static async Task<string> ParseHtml(string url, string xpath)
