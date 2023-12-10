@@ -6,25 +6,35 @@ using System.Net;
 using System.Text;
 using System.IO;
 using System.Data;
-using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
-public class MatchController : Controller
+public class MatchController
 {
-    public IActionResult GetMatchPicksAndBans(string url)
+
+    public List<PickBans.Match> Matches { get; set; } = new List<PickBans.Match>();
+
+    public JsonArray GetMatchPicksAndBans(string url)
     {
-        string picksAndBansXPath = "//table[@class='wikitable plainlinks hoverable-rows column-show-hide-1' and @id='pbh-table']/tbody";
+        string picksAndBansXPath = "//table[@class='table_list footable toggle-square-filled footable-loaded phone breakpoint']";
         try
         {
             HtmlNode tableNode = LocateHTMLNode(url, picksAndBansXPath).Result;
-            DataTable dataTable = ParseHtmlToDataTable(tableNode);
+            JsonArray pickBanJson = ParseHtmlToJsonArray(tableNode);
+            
+            /*
+            (foreach (var item in pickBanJson)
+            {
+                Matches.Add(JsonSerializer.Deserialize<PickBans.Match>(item));
+            }
+            */
 
-            // todo: serialize the data from the datatable into an object that contains pick and ban data for a specific match
-            // we could also get all pick ban data available and cache it on the server. 
-            return Json(new { key = "value" }); 
+            return pickBanJson;
         }
         catch
         {
-            return BadRequest("Unable to locate table from XPath (most likely, no promises though)");
+            return new JsonArray();
         }
     }
 
@@ -52,20 +62,16 @@ public class MatchController : Controller
         }
     }
 
-    private static DataTable ParseHtmlToDataTable(HtmlNode tableNode)
+    private static JsonArray ParseHtmlToJsonArray(HtmlNode tableNode)
     {
-        var dataTable = new DataTable();
+        var resultArray = new JsonArray();
         
         // Skip the title row
         var tableRows = tableNode.Descendants("tr").Skip(1);
 
         // Extract column headers
         var headerRow = tableRows.FirstOrDefault();
-        var headers = headerRow.Descendants("th");
-        foreach (var header in headers)
-        {
-            dataTable.Columns.Add(header.InnerText.Trim());
-        }
+        var headers = headerRow.Descendants("th").Select(header => header.InnerText.Trim());
 
         // Skip the header row
         var dataRows = tableRows.Skip(1); 
@@ -74,33 +80,37 @@ public class MatchController : Controller
         foreach (var row in dataRows) // Skip the header row
         {
             var dataCells = row.Descendants("td").ToArray();
-            var rowData = new List<string>();
+            var rowData = new JsonObject();
 
+            var headerEnumerator = headers.GetEnumerator();
+            
             foreach (var cell in dataCells)
             {
                 var titleAttribute = cell.Attributes["title"];
                 var championAttribute = cell.Attributes["data-c1"];
+
+                string columnName = headerEnumerator.MoveNext() ? headerEnumerator.Current : null;
+
                 if (championAttribute != null)
                 {
                     // If a title attribute is present, use its value
-                    rowData.Add(championAttribute.Value.Trim());
+                    rowData[columnName] = championAttribute.Value.Trim();
                 }
                 else if (titleAttribute != null)
                 {
                     // If a title attribute is present, use its value
-                    rowData.Add(titleAttribute.Value.Trim());
+                    rowData[columnName] = titleAttribute.Value.Trim();
                 }
                 else
                 {
                     // Otherwise, use the inner text
-                    rowData.Add(cell.InnerText.Trim());
+                    rowData[columnName] = cell.InnerText.Trim();
                 }
             }
 
-            dataTable.Rows.Add(rowData.ToArray());
+            resultArray.Add(rowData);
         }
 
-        return dataTable;
+        return resultArray;
     }
-
 }

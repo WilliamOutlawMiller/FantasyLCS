@@ -1,17 +1,15 @@
 using HtmlAgilityPack;
 using Constants;
-using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Nodes;
 
 public class GetProDataFromWiki
 {
-    public static string GetMatchPicksAndBans()
+    public static JsonArray GetMatchPicksAndBans()
     {
-        string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON_YEAR + SeasonInfo.SEASON + MatchInfo.PICKS_AND_BANS; 
+        string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
 
         MatchController controller = new MatchController();
-        controller.GetMatchPicksAndBans(url);
         
-        return url;
+        return controller.GetMatchPicksAndBans(url);
     }
 }
-// ricahrd 
