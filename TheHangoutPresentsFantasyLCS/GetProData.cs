@@ -2,7 +2,7 @@ using HtmlAgilityPack;
 using Constants;
 using System.Text.Json.Nodes;
 
-public class GetProDataFromWiki
+public class GetProData
 {
     public static List<PlayerStats> GetFullStatsForMatch()
     {
