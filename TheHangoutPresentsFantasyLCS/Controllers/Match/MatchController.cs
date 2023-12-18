@@ -13,8 +13,6 @@ using Constants;
 
 public class MatchController
 {
-    public List<PickBans.Match> Matches { get; set; } = new List<PickBans.Match>();
-
     protected static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
     {
         var web = new HtmlWeb();

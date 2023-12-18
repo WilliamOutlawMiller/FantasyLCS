@@ -13,8 +13,6 @@ using Constants;
 
 public class GolGGController : MatchController
 {
-
-    public List<PickBans.Match> Matches { get; set; } = new List<PickBans.Match>();
     public JsonArray MatchFullStatsJson { get; set; } = new JsonArray();
 
     public GolGGController(string url)
