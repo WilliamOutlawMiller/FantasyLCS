@@ -13,15 +13,10 @@ using Constants;
 
 public class GolGGController : MatchController
 {
-    public JsonArray MatchFullStatsJson { get; set; } = new JsonArray();
-
-    public GolGGController(string url)
+    public override List<PlayerStats> GetMatchFullStats(string url)
     {
-        MatchFullStatsJson = GetMatchFullStats(url);
-    }
+        List<PlayerStats> playerStats = new List<PlayerStats>();
 
-    protected JsonArray GetMatchFullStats(string url)
-    {
         string xPath = "//table[contains(@class, 'completestats')]";
         try
         {
