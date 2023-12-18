@@ -9,7 +9,10 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using Constants;
 
+// todo: this class is currently specifically implementing html parsing for gol.gg fullstats page.
+// functionality that can be defined in a subclass should be moved out and reused via interface/inheritance.
 public class MatchController
 {
 
@@ -17,11 +20,12 @@ public class MatchController
 
     public JsonArray GetMatchPicksAndBans(string url)
     {
-        string picksAndBansXPath = "//table[@class='table_list footable toggle-square-filled footable-loaded phone breakpoint']";
+        string xPath = "//table[contains(@class, 'completestats')]";
         try
         {
-            HtmlNode tableNode = LocateHTMLNode(url, picksAndBansXPath).Result;
-            JsonArray pickBanJson = ParseHtmlToJsonArray(tableNode);
+            HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
+            List<Dictionary<string, string>> pickBanJson = ParseGolGGFullStatsHTML(tableNode);
+            JsonArray returnJson = ConvertGolGGFullStatsToJson(pickBanJson);
             
             /*
             (foreach (var item in pickBanJson)
@@ -30,7 +34,7 @@ public class MatchController
             }
             */
 
-            return pickBanJson;
+            return returnJson;
         }
         catch
         {
@@ -38,12 +42,12 @@ public class MatchController
         }
     }
 
-    private static async Task<HtmlNode> LocateHTMLNode(string url, string xpath)
+    private static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
     {
         var web = new HtmlWeb();
         var doc = await web.LoadFromWebAsync(url);
 
-        var tbodyElement = doc.DocumentNode.SelectSingleNode(xpath);
+        var tbodyElement = doc.DocumentNode.SelectSingleNode(xPath);
 
         try
         {
@@ -62,55 +66,87 @@ public class MatchController
         }
     }
 
-    private static JsonArray ParseHtmlToJsonArray(HtmlNode tableNode)
+    /// <summary>
+    /// This method is hardcoded to read from a match fullstats page i.e. https://gol.gg/game/stats/47993/page-fullstats/
+    /// Not extensible for other pages, but some code could be moved to methods for reuse (possibly).
+    /// </summary>
+    /// <param name="tableNode"></param>
+    /// <returns></returns>
+    private static List<Dictionary<string, string>> ParseGolGGFullStatsHTML(HtmlNode tableNode)
     {
-        var resultArray = new JsonArray();
-        
-        // Skip the title row
-        var tableRows = tableNode.Descendants("tr").Skip(1);
+        var resultList = new List<Dictionary<string, string>>();
 
-        // Extract column headers
-        var headerRow = tableRows.FirstOrDefault();
-        var headers = headerRow.Descendants("th").Select(header => header.InnerText.Trim());
+        var tableRows = tableNode.Descendants("tr").ToArray();
 
-        // Skip the header row
-        var dataRows = tableRows.Skip(1); 
+        // Extract the top-level headers text value from the image alt text
+        var topLevelHeaders = tableRows[0].Descendants("th");
+        var headerImgNodes = topLevelHeaders.Skip(1).Select(th => th.SelectSingleNode(".//img")).ToArray();
+        List<string> topLevelImageTexts = new List<string>();
 
-        // Extract rows and data
-        foreach (var row in dataRows) // Skip the header row
+        foreach (var imageNode in headerImgNodes)
         {
+            topLevelImageTexts.Add(imageNode.Attributes["alt"].Value);
+        }
+        
+        tableRows = tableRows.AsEnumerable().Skip(1).ToArray();
+
+        foreach (var row in tableRows)
+        {
+            Dictionary<string, string> rowDict = new Dictionary<string, string>();
             var dataCells = row.Descendants("td").ToArray();
-            var rowData = new JsonObject();
+            string subHeader = dataCells[0].InnerText.Trim();
 
-            var headerEnumerator = headers.GetEnumerator();
-            
-            foreach (var cell in dataCells)
+            // The first cell in each row represents the sub-header
+            dataCells = dataCells.Skip(1).ToArray();
+
+            // Combine sub-header with top-level headers to form unique keys
+            var keys = new List<string>();
+
+            foreach (var topLevelText in topLevelImageTexts)
+                keys.Add($"{topLevelText}_{subHeader}");
+
+            // Assign values to the keys
+            for (int i = 0; i < keys.Count() && i < dataCells.Length; i++)
             {
-                var titleAttribute = cell.Attributes["title"];
-                var championAttribute = cell.Attributes["data-c1"];
-
-                string columnName = headerEnumerator.MoveNext() ? headerEnumerator.Current : null;
-
-                if (championAttribute != null)
-                {
-                    // If a title attribute is present, use its value
-                    rowData[columnName] = championAttribute.Value.Trim();
-                }
-                else if (titleAttribute != null)
-                {
-                    // If a title attribute is present, use its value
-                    rowData[columnName] = titleAttribute.Value.Trim();
-                }
-                else
-                {
-                    // Otherwise, use the inner text
-                    rowData[columnName] = cell.InnerText.Trim();
-                }
+                rowDict.Add(keys.ElementAt(i), dataCells[i].InnerText.Trim());
             }
 
-            resultArray.Add(rowData);
+            resultList.Add(rowDict);
         }
 
-        return resultArray;
+        return resultList;
+    }
+
+    private static JsonArray ConvertGolGGFullStatsToJson(List<Dictionary<string, string>> data)
+    {
+        var groupedData = new Dictionary<string, JsonObject>();
+        var jsonArray = new JsonArray();
+
+        foreach (var entry in data)
+        {
+            foreach (var kvp in entry)
+            {
+                // Assuming the format is "Champion_Stat"
+                string[] parts = kvp.Key.Split('_');
+
+                if (parts.Length == 2)
+                {
+                    string champion = parts[0];
+                    string stat = parts[1];
+
+                    if (!groupedData.ContainsKey(champion))
+                    {
+                        groupedData[champion] = new JsonObject { { "Champion", champion } };
+                    }
+
+                    groupedData[champion][stat] = kvp.Value;
+                }
+            }
+        }
+
+        foreach (var value in groupedData.Values)
+            jsonArray.Add(value);
+
+        return jsonArray;
     }
 }
