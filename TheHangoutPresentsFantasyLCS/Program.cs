@@ -19,7 +19,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getpicksandbans", () =>
 {
-    return GetProDataFromWiki.GetMatchPicksAndBans();
+    return GetProDataFromWiki.GetFullStatsForMatch();
 })
 .WithName("GetMatchPicksAndBans")
 .WithOpenApi();

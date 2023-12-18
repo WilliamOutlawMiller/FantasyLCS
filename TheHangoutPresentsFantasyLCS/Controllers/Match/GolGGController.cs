@@ -23,12 +23,16 @@ public class GolGGController : MatchController
             HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
             List<Dictionary<string, string>> pickBanJson = ParseGolGGFullStatsHTML(tableNode);
             JsonArray returnJson = ConvertGolGGFullStatsToJson(pickBanJson);
+            foreach (JsonObject playerStatsJson in returnJson)
+            {
+                playerStats.Add(JsonSerializer.Deserialize<PlayerStats>(playerStatsJson));
+            }
 
-            return returnJson;
+            return playerStats;
         }
         catch
         {
-            return new JsonArray();
+            return new List<PlayerStats>();
         }
     }
 
