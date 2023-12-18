@@ -1,10 +1,14 @@
 using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 
-public class FullStats
+public class PlayerStats
 {
     [JsonPropertyName("Player")]
     public string Player { get; set; }
+
+    [JsonPropertyName("Champion")]
+    public string Champion { get; set; }
+
     [JsonPropertyName("Role")]
     public string Role { get; set; }
 
@@ -26,146 +30,150 @@ public class FullStats
     [JsonPropertyName("CS")]
     public string CS { get; set; }
 
-    [JsonPropertyName("CSTeamJG")]
+    [JsonPropertyName(@"CS in Team's Jungle")]
     public string CSTeamJG { get; set; }
 
-    [JsonPropertyName("CSEnemyJG")]
+    [JsonPropertyName("CS in Enemy Jungle")]
     public string CSEnemyJG { get; set; }
 
     [JsonPropertyName("CSM")]
     public string CSM { get; set; }
 
-    [JsonPropertyName("Gold")]
+    [JsonPropertyName("Golds")]
     public string Gold { get; set; }
 
     [JsonPropertyName("GPM")]
     public string GPM { get; set; }
 
-    [JsonPropertyName("GoldPercent")]
+    [JsonPropertyName(@"GOLD%")]
     public string GoldPercent { get; set; }
 
-    [JsonPropertyName("VisionScore")]
+    [JsonPropertyName("Vision Score")]
     public string VisionScore { get; set; }
 
-    [JsonPropertyName("WardsPlaced")]
+    [JsonPropertyName("Wards placed")]
     public string WardsPlaced { get; set; }
 
-    [JsonPropertyName("WardsDestroyed")]
+    [JsonPropertyName("Wards destroyed")]
     public string WardsDestroyed { get; set; }
 
-    [JsonPropertyName("ControlWardsPurchased")]
+    [JsonPropertyName("Control Wards Purchased")]
     public string ControlWardsPurchased { get; set; }
 
-    [JsonPropertyName("ControlWardsPlaced")]
+    [JsonPropertyName("Detector Wards Placed")]
     public string ControlWardsPlaced { get; set; }
 
-    [JsonPropertyName("VisionScorePerMinute")]
+    [JsonPropertyName("VSPM")]
     public string VisionScorePerMinute { get; set; }
 
-    [JsonPropertyName("WardsPerMinute")]
+    [JsonPropertyName("WPM")]
     public string WardsPerMinute { get; set; }
 
-    [JsonPropertyName("ControlWardsPerMinute")]
+    [JsonPropertyName("VWPM")]
     public string ControlWardsPerMinute { get; set; }
 
-    [JsonPropertyName("WardsKilledPerMinute")]
+    [JsonPropertyName("WCPM")]
     public string WardsKilledPerMinute { get; set; }
 
-    [JsonPropertyName("VisionScorePercent")]
+    [JsonPropertyName(@"VS%")]
     public string VisionScorePercent { get; set; }
 
-    [JsonPropertyName("TotalDamageToChampions")]
+    [JsonPropertyName("Total damage to Champion")]
     public string TotalDamageToChampions { get; set; }
 
-    [JsonPropertyName("PhysicalDamage")]
+    [JsonPropertyName("Physical Damage")]
     public string PhysicalDamage { get; set; }
 
-    [JsonPropertyName("MagicDamage")]
+    [JsonPropertyName("Magic Damage")]
     public string MagicDamage { get; set; }
 
-    [JsonPropertyName("TrueDamage")]
+    [JsonPropertyName("True Damage")]
     public string TrueDamage { get; set; }
 
     [JsonPropertyName("DPM")]
     public string DPM { get; set; }
 
-    [JsonPropertyName("DamagePercent")]
+    [JsonPropertyName(@"DMG%")]
     public string DamagePercent { get; set; }
 
-    [JsonPropertyName("KillsPlusAssistsPerMinute")]
+    [JsonPropertyName("K+A Per Minute")]
     public string KillsPlusAssistsPerMinute { get; set; }
 
-    [JsonPropertyName("KillPercent")]
+    [JsonPropertyName(@"KP%")]
     public string KillPercent { get; set; }
 
-    [JsonPropertyName("SoloKills")]
+    [JsonPropertyName("Solo kills")]
     public string SoloKills { get; set; }
 
-    [JsonPropertyName("DoubleKills")]
+    [JsonPropertyName("Double kills")]
     public string DoubleKills { get; set; }
 
-    [JsonPropertyName("TripleKills")]
+    [JsonPropertyName("Triple kills")]
     public string TripleKills { get; set; }
 
-    [JsonPropertyName("QuadraKills")]
+    [JsonPropertyName("Quadra kills")]
     public string QuadraKills { get; set; }
 
-    [JsonPropertyName("PentaKills")]
+    [JsonPropertyName("Penta kills")]
     public string PentaKills { get; set; }
 
-    [JsonPropertyName("GD15")]
+    [JsonPropertyName("GD@15")]
     public string GD15 { get; set; }
 
-    [JsonPropertyName("CSD15")]
+    [JsonPropertyName("CSD@15")]
     public string CSD15 { get; set; }
 
-    [JsonPropertyName("XPD15")]
+    [JsonPropertyName("XPD@15")]
     public string XPD15 { get; set; }
 
-    [JsonPropertyName("LVLD15")]
+    [JsonPropertyName("LVLD@15")]
     public string LVLD15 { get; set; }
 
-    [JsonPropertyName("ObjectivesStolen")]
+    [JsonPropertyName("Objectives Stolen")]
     public string ObjectivesStolen { get; set; }
 
-    [JsonPropertyName("DmgToTurrets")]
+    [JsonPropertyName("Damage dealt to turrets")]
     public string DmgToTurrets { get; set; }
 
-    [JsonPropertyName("TotalHeal")]
+    // I think this is the same as damage to turrets most of the time, likely bad data
+    [JsonPropertyName("Damage dealt to buildings")]
+    public string DmgToBuildings { get; set; }
+
+    [JsonPropertyName("Total heal")]
     public string TotalHeal { get; set; }
 
-    [JsonPropertyName("TotalHealOnTeammates")]
+    [JsonPropertyName("Total Heals On Teammates")]
     public string TotalHealOnTeammates { get; set; }
 
-    [JsonPropertyName("DamageSelfMitigated")]
+    [JsonPropertyName("Damage self mitigated")]
     public string DamageSelfMitigated { get; set; }
 
-    [JsonPropertyName("TotalDamageShieldedOnTeammates")]
+    [JsonPropertyName("Total Damage Shielded On Teammates")]
     public string TotalDamageShieldedOnTeammates { get; set; }
 
     // I think this means how many occurrences of CC, not actual time.
-    [JsonPropertyName("TimeCCingOthers")]
+    [JsonPropertyName("Time ccing others")]
     public string TimeCCingOthers { get; set; }
 
     // This is how much time CCed was inflicted
-    [JsonPropertyName("TotalTimeCCDealt")]
+    [JsonPropertyName("Total Time CC Dealt")]
     public string TotalTimeCCDealt { get; set; }
 
-    [JsonPropertyName("TotalDamageTaken")]
+    [JsonPropertyName("Total damage taken")]
     public string TotalDamageTaken { get; set; }
 
-    [JsonPropertyName("TotalTimeSpentDead")]
+    [JsonPropertyName("Total Time Spent Dead")]
     public string TotalTimeSpentDead { get; set; }
 
-    [JsonPropertyName("ConsumablesPurchased")]
+    [JsonPropertyName("Consumables purchased")]
     public string ConsumablesPurchased { get; set; }
 
-    [JsonPropertyName("ItemsPurchased")]
+    [JsonPropertyName("Items Purchased")]
     public string ItemsPurchased { get; set; }
 
-    [JsonPropertyName("ShutdownBountyCollected")]
+    [JsonPropertyName("Shutdown bounty collected")]
     public string ShutdownBountyCollected { get; set; }
 
-    [JsonPropertyName("ShutdownBountyLost")]
+    [JsonPropertyName("Shutdown bounty lost")]
     public string ShutdownBountyLost { get; set; }
 }
