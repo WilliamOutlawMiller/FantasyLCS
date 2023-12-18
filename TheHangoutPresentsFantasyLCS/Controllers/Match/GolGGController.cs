@@ -11,14 +11,18 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using Constants;
 
-// todo: this class is currently specifically implementing html parsing for gol.gg fullstats page.
-// functionality that can be defined in a subclass should be moved out and reused via interface/inheritance.
-public class MatchController
+public class GolGGController : MatchController
 {
 
     public List<PickBans.Match> Matches { get; set; } = new List<PickBans.Match>();
+    public JsonArray MatchFullStatsJson { get; set; } = new JsonArray();
 
-    public JsonArray GetMatchPicksAndBans(string url)
+    public GolGGController(string url)
+    {
+        MatchFullStatsJson = GetMatchFullStats(url);
+    }
+
+    protected JsonArray GetMatchFullStats(string url)
     {
         string xPath = "//table[contains(@class, 'completestats')]";
         try
@@ -26,43 +30,12 @@ public class MatchController
             HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
             List<Dictionary<string, string>> pickBanJson = ParseGolGGFullStatsHTML(tableNode);
             JsonArray returnJson = ConvertGolGGFullStatsToJson(pickBanJson);
-            
-            /*
-            (foreach (var item in pickBanJson)
-            {
-                Matches.Add(JsonSerializer.Deserialize<PickBans.Match>(item));
-            }
-            */
 
             return returnJson;
         }
         catch
         {
             return new JsonArray();
-        }
-    }
-
-    private static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
-    {
-        var web = new HtmlWeb();
-        var doc = await web.LoadFromWebAsync(url);
-
-        var tbodyElement = doc.DocumentNode.SelectSingleNode(xPath);
-
-        try
-        {
-            if (tbodyElement != null)
-            {
-                return tbodyElement;
-            }
-            else
-            {
-                throw new Exception("Unable to find the <tbody> element.");
-            }
-        }
-        catch (Exception ex)
-        {
-            return await Task.FromException<HtmlNode>(ex);
         }
     }
 

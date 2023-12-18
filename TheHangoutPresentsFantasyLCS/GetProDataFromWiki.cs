@@ -9,8 +9,8 @@ public class GetProDataFromWiki
         // string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
         string url = "https://gol.gg/game/stats/53263/page-fullstats/";
 
-        MatchController controller = new MatchController();
+        GolGGController controller = new GolGGController(url);
         
-        return controller.GetMatchPicksAndBans(url);
+        return controller.MatchFullStatsJson;
     }
 }
