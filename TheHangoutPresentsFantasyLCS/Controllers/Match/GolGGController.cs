@@ -22,7 +22,7 @@ public class GolGGController : StatsController
     {
         List<PlayerStats> playerStats = new List<PlayerStats>();
 
-        string xPath = "//table[contains(@class, 'completestats')]";
+        string xPath = GolGGXPaths.FULLSTATS;
         try
         {
             HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;

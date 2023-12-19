@@ -11,4 +11,9 @@ namespace Constants
         public const string SEASON = "LCS%20Spring%20";
         public const string YEAR = "2023/";
     }
+
+    public class GolGGXPaths
+    {
+        public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
+    }
 }
