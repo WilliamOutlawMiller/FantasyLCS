@@ -13,6 +13,11 @@ using Constants;
 
 public class GolGGController : StatsController
 {
+    public override TeamStats GetTeamStats(string url)
+    {
+        throw new NotImplementedException();
+    }
+    
     public override List<PlayerStats> GetMatchFullStats(string url)
     {
         List<PlayerStats> playerStats = new List<PlayerStats>();
