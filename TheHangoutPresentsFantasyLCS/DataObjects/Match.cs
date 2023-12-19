@@ -9,5 +9,5 @@ public class Match
     public Team Loser { get; set; }
     */
 
-    public List<PlayerStats> PlayerStats { get; set; }
+    public List<FullStats> FullStats { get; set; }
 }

@@ -1,4 +1,14 @@
+using TeamStats;
+
 public class Team
 {
-    // todo: get data from here: https://gol.gg/teams/team-stats/1793/split-Summer/tournament-ALL/
+    public TeamSummary TeamSummary { get; set; }
+    public BannedBy BannedBy { get; set; }
+    public BannedAgainst BannedAgainst { get; set; }
+    public Economy Economy { get; set; }
+    public Aggression Aggression { get; set; }
+    public Objectives Objectives { get; set; }
+    public Vision Vision { get; set; }
+    public Roster Roster { get; set; }
+
 }

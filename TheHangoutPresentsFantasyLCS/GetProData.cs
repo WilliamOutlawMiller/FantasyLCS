@@ -13,7 +13,19 @@ public class GetProData
         string url = "https://gol.gg/game/stats/53263/page-fullstats/";
 
         GolGGController controller = new GolGGController();
-        match.PlayerStats = controller.GetMatchFullStats(url);
+        match.FullStats = controller.GetMatchFullStats(url);
         return match;
+    }
+
+    public static Team GetTeam()
+    {
+        // todo: right now this is reading a specific team.
+        
+        Team team = new Team();
+        string url = "https://gol.gg/teams/team-stats/1799/split-ALL/tournament-ALL/";
+
+        GolGGController controller = new GolGGController();
+        team = controller.GetTeam(url);
+        return team;
     }
 }

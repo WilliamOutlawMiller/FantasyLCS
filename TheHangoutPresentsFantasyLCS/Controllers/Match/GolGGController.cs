@@ -13,31 +13,124 @@ using Constants;
 
 public class GolGGController : StatsController
 {
-    public override TeamStats GetTeamStats(string url)
+    public override Team GetTeam(string url)
     {
-        throw new NotImplementedException();
-    }
-    
-    public override List<PlayerStats> GetMatchFullStats(string url)
-    {
-        List<PlayerStats> playerStats = new List<PlayerStats>();
-
-        string xPath = GolGGXPaths.FULLSTATS;
+        Team team = new Team();
         try
         {
-            HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
-            List<Dictionary<string, string>> pickBanJson = ParseGolGGFullStatsHTML(tableNode);
-            JsonArray returnJson = ConvertGolGGFullStatsToJson(pickBanJson);
-            foreach (JsonObject playerStatsJson in returnJson)
+            foreach (var dataTypeAndXPath in GolGGConstants.TeamStats)
             {
-                playerStats.Add(JsonSerializer.Deserialize<PlayerStats>(playerStatsJson));
+                string dataType = dataTypeAndXPath.Key;
+                string xPath = dataTypeAndXPath.Value;
+
+                List<Dictionary<string, string>> scrapedTable = ScrapeTable(url, xPath);
+                var objectType = Type.GetType("TeamStats." + dataType);
+                var property = typeof(Team).GetProperty(dataType);
+                var deserializedObject = Deserialize(scrapedTable, objectType);
+
+                property.SetValue(team, deserializedObject);
             }
 
-            return playerStats;
+            return team;
         }
         catch
         {
-            return new List<PlayerStats>();
+            return new Team();
+        }
+    }
+
+    static object Deserialize(List<Dictionary<string, string>> data, Type objectType)
+    {
+        var jsonObject = new JsonObject();
+        string modifiedKey = string.Empty;
+        string modifiedValue = string.Empty;
+
+        foreach (var dict in data)
+        {
+            foreach (var kvp in dict)
+            {
+                // Check for empty values, cannot have empty's in a dict
+                if (kvp.Key.Contains("&nbsp;") || kvp.Value.Contains("&nbsp;"))
+                {
+                    modifiedKey = kvp.Key.Replace("&nbsp;", "");
+                    modifiedValue = kvp.Value.Replace("&nbsp;", "");
+
+                    if (modifiedKey.Length == 0 || modifiedValue.Length == 0)
+                        continue;
+                    else
+                        jsonObject.Add(modifiedKey, modifiedValue);
+                }
+                else
+                    jsonObject.Add(kvp.Key, kvp.Value);
+            }
+        }     
+
+        var result = JsonSerializer.Deserialize(jsonObject, objectType);
+        return result;
+    }
+
+    static List<Dictionary<string, string>> ScrapeTable(string url, string tableXPath)
+    {
+        var web = new HtmlWeb();
+        var doc = web.Load(url);
+
+        var tableNode = doc.DocumentNode.SelectSingleNode(tableXPath);
+
+        if (tableNode == null)
+        {
+            Console.WriteLine("Table not found.");
+            return null;
+        }
+
+        var rows = tableNode.SelectNodes("tbody/tr");
+
+        if (rows == null || rows.Count == 0)
+        {
+            Console.WriteLine("No rows found in the tbody.");
+            return null;
+        }
+
+        var data = new List<Dictionary<string, string>>();
+
+        foreach (var row in rows)
+        {
+            var cells = row.SelectNodes("td");
+
+            if (cells != null && cells.Count == 2)
+            {
+                var rowData = new Dictionary<string, string>
+                {
+                    // God the formatting of this website is so irregular that we have to handle for so many specific edge cases
+                    { cells[0].InnerText.Trim(' ').Trim(':').Trim(' '), cells[1].InnerText.Trim() }
+                };
+
+                data.Add(rowData);
+            }
+        }
+
+        return data;
+    }
+
+    public override List<FullStats> GetMatchFullStats(string url)
+    {
+        List<FullStats> fullStats = new List<FullStats>();
+
+        string xPath = GolGGConstants.FULLSTATS;
+        try
+        {
+            HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
+            List<Dictionary<string, string>> pickBanDict = ParseGolGGFullStatsHTML(tableNode);
+            JsonArray returnJson = ConvertGolGGFullStatsToJson(pickBanDict);
+            foreach (JsonObject playerStatsJson in returnJson)
+            {
+                fullStats.Add(JsonSerializer.Deserialize<FullStats>(playerStatsJson));
+            }
+
+            return fullStats;
+        }
+        catch
+        {
+            return new List<FullStats>();
         }
     }
 

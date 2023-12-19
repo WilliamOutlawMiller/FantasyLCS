@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 
-public class TeamStats
+namespace TeamStats
 {
     public class TeamSummary
     {

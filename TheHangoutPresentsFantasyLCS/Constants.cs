@@ -12,8 +12,23 @@ namespace Constants
         public const string YEAR = "2023/";
     }
 
-    public class GolGGXPaths
+    
+}
+
+public class GolGGConstants
+{
+    public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
+
+    public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
     {
-        public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
-    }
+        {"TeamSummary"  , "//table[@class='table_list' and caption[contains(.,'stats')]]"                           },
+        /* These will need custom implementation due to the data being returned in a different way than the rest
+        {"BannedBy"     , "//table[@class='table_list' and caption[contains(.,'Most banned champions by')]]"        },
+        {"BannedAgainst", "//table[@class='table_list' and caption[contains(., 'Most banned champions against')]]"  },
+        */
+        {"Economy"      , "//table[@class='table_list' and caption[contains(., 'gold and farm stats')]]"            },
+        {"Aggression"   , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
+        {"Objectives"   , "//table[@class='table_list' and caption[contains(., 'objectives control stats')]]"       },
+        {"Vision"       , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   }
+    };
 }

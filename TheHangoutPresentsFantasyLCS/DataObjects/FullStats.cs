@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 
-public class PlayerStats
+public class FullStats
 {
     [JsonPropertyName("Player")]
     public string Player { get; set; }

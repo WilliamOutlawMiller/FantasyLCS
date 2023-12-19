@@ -17,11 +17,18 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/getpicksandbans", () =>
+app.MapGet("/getmatch", () =>
 {
     return GetProData.GetMatch();
 })
-.WithName("GetMatchPicksAndBans")
+.WithName("GetMatch")
+.WithOpenApi();
+
+app.MapGet("/getteam", () =>
+{
+    return GetProData.GetTeam();
+})
+.WithName("GetTeam")
 .WithOpenApi();
 
 app.Run();
