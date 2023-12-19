@@ -11,7 +11,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using Constants;
 
-public class GolGGController : MatchController
+public class GolGGController : StatsController
 {
     public override List<PlayerStats> GetMatchFullStats(string url)
     {

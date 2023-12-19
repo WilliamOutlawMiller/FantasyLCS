@@ -11,10 +11,10 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using Constants;
 
-public abstract class MatchController
+public abstract class StatsController
 {
     public abstract List<PlayerStats> GetMatchFullStats(string url);
-
+    public abstract TeamStats GetTeamStats(string url);
     protected static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
     {
         var web = new HtmlWeb();
