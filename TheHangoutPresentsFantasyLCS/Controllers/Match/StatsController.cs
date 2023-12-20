@@ -82,11 +82,11 @@ public abstract class StatsController
     /// Attempts to scrape a page that contains Key/Value pairs i.e. CS per Minute: 8.5
     /// Will not work on tables with headers.
     /// </summary>
-    /// <param name="tableXPath"></param>
+    /// <param name="dictionaryXPath"></param>
     /// <returns></returns>
-    protected List<Dictionary<string, string>> ScrapeDictionary(string tableXPath)
+    protected List<Dictionary<string, string>> ScrapeDictionary(string dictionaryXPath)
     {
-        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(dictionaryXPath);
 
         if (tableNode == null)
         {
