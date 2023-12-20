@@ -4,7 +4,7 @@ public class Player
 {
     public GeneralStats GeneralStats { get; set; }
 
-    public ChampionStats ChampionStats { get; set; }
+    public List<ChampionStats> ChampionStats { get; set; }
 
     public AggressionStats AggressionStats { get; set; }
 
