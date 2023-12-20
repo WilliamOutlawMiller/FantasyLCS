@@ -128,12 +128,5 @@ namespace TeamStats
         [JsonPropertyName(@"% Wards Cleared")]
         public string PercentWardsCleared { get; set; }
     }  
-
-    public class Roster
-    {
-        List<Player> Players { get; set; }
-
-        List<Player> Subs { get; set; }
-    }
 }
 
