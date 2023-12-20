@@ -79,7 +79,8 @@ public abstract class StatsController
     }
 
     /// <summary>
-    /// Attempts to scrape a standard HTML table by accessing the tbody and looping through tr and td elements.
+    /// Attempts to scrape a page that contains Key/Value pairs i.e. CS per Minute: 8.5
+    /// Will not work on tables with headers.
     /// </summary>
     /// <param name="tableXPath"></param>
     /// <returns></returns>
@@ -107,16 +108,17 @@ public abstract class StatsController
         {
             var cells = row.SelectNodes("td");
 
-            if (cells != null && cells.Count == 2)
+            var rowData = new Dictionary<string, string>
             {
-                var rowData = new Dictionary<string, string>
-                {
-                    // God the formatting of this website is so irregular that we have to handle for so many specific edge cases
-                    { cells[0].InnerText.Trim(' ').Trim(':').Trim(' '), cells[1].InnerText.Trim() }
-                };
+                // God the formatting of this website is so irregular that we have to handle for so many specific edge cases
+                { cells[0].InnerText.Trim(' ').Trim(':').Trim(' '), cells[1].InnerText.Trim() }
+            };
 
-                data.Add(rowData);
-            }
+            data.Add(rowData);
+        }
+
+        return data;
+    }
         }
 
         return data;
