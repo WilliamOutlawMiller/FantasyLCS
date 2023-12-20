@@ -18,6 +18,10 @@ public class GetProData
         return match;
     }
 
+    /// <summary>
+    /// This method gets an LCS team stats. Probably useless, but we do need it to get an official list of players and subs, so there's that.
+    /// </summary>
+    /// <returns></returns>
     public static Team GetTeam()
     {
         // todo: right now this is reading a specific team.
