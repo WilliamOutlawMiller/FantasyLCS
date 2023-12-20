@@ -10,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using Constants;
+using System.Reflection;
+using PlayerStats;
 
 public class GolGGController : StatsController
 {
@@ -72,21 +74,33 @@ public class GolGGController : StatsController
     public override Player GetPlayer()
     {
         Player player = new Player();
+        Type objectType;
+        PropertyInfo property;
+
+        // Champion stats is a different type of table than the rest, and must be parsed differently.
+        var championStatsXPath = GolGGConstants.PlayerStats["ChampionStats"];
+        var dictionariesToScrape = new Dictionary<string, string>(GolGGConstants.PlayerStats);
+        dictionariesToScrape.Remove("ChampionStats");
 
         try
         {
-            foreach (var dataTypeAndXPath in GolGGConstants.PlayerStats)
+            foreach (var dataTypeAndXPath in dictionariesToScrape)
             {
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
-                List<Dictionary<string, string>> scrapedTable = ScrapeDictionary(xPath);
-                var objectType = Type.GetType("PlayerStats." + dataType);
-                var property = typeof(Player).GetProperty(dataType);
-                var deserializedObject = Deserialize(scrapedTable, objectType);
+                List<Dictionary<string, string>> scrapedDictionary = ScrapeDictionary(xPath);
+                objectType = Type.GetType("PlayerStats." + dataType);
+                property = typeof(Player).GetProperty(dataType);
+                var deserializedObject = Deserialize(scrapedDictionary, objectType);
 
                 property.SetValue(player, deserializedObject);
             }
+
+            // Yes, I know. Please, refactor it.
+            JsonArray scrapedTable = ScrapeTable(championStatsXPath);
+            string cleanedJsonString = JsonSerializer.Serialize(scrapedTable).Replace("\\u0026nbsp;", "");
+            player.ChampionStats = JsonSerializer.Deserialize<List<ChampionStats>>(cleanedJsonString);
 
             return player;
         }
