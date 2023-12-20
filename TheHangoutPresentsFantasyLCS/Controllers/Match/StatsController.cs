@@ -133,12 +133,6 @@ public abstract class StatsController
 
         var rows = tableNode.SelectNodes("tbody/tr");
 
-        if (rows == null || rows.Count == 0)
-        {
-            Console.WriteLine("No rows found in the tbody.");
-            return null;
-        }
-
         var data = new JsonArray();
 
         foreach (var row in rows)
