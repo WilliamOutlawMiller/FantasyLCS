@@ -12,9 +12,9 @@ public class GetProData
         // string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
         string url = "https://gol.gg/game/stats/53263/page-fullstats/";
 
-        GolGGController controller = new GolGGController();
+        GolGGController controller = new GolGGController(url);
         
-        match.FullStats = controller.GetMatchFullStats(url);
+        match.FullStats = controller.GetMatchFullStats();
         return match;
     }
 
@@ -25,18 +25,18 @@ public class GetProData
         Team team = new Team();
         string url = "https://gol.gg/teams/team-stats/1799/split-ALL/tournament-ALL/";
 
-        GolGGController controller = new GolGGController();
-        team = controller.GetTeam(url);
+        GolGGController controller = new GolGGController(url);
+        team = controller.GetTeam();
         return team;
     }
 
     public static Player GetPlayer()
     { 
         Player player = new Player();
-        string url = "https://gol.gg/players/list/season-ALL/split-ALL/tournament-LCS%20Championship%202023/";
+        string url = "https://gol.gg/players/player-stats/107/season-S13/split-Summer/tournament-ALL/champion-ALL/";
 
-        GolGGController controller = new GolGGController();
-        player = controller.GetPlayer(url);
+        GolGGController controller = new GolGGController(url);
+        player = controller.GetPlayer();
         return player;
     }
 }

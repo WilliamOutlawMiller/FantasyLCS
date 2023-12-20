@@ -13,14 +13,19 @@ using Constants;
 
 public class GolGGController : StatsController
 {
-    public override List<FullStats> GetMatchFullStats(string url)
+    public GolGGController(string url) : base(url)
+    {
+
+    }
+
+    public override List<FullStats> GetMatchFullStats()
     {
         List<FullStats> fullStats = new List<FullStats>();
 
         string xPath = GolGGConstants.FULLSTATS;
         try
         {
-            HtmlNode tableNode = LocateHTMLNode(url, xPath).Result;
+            HtmlNode tableNode = LocateHTMLNode(xPath).Result;
             List<Dictionary<string, string>> scrapedTable = ParseGolGGFullStatsHTML(tableNode);
 
             // This implementation must be different due to the fact that the fullstats table has headers on the left.
@@ -38,7 +43,7 @@ public class GolGGController : StatsController
         }
     }
 
-    public override Team GetTeam(string url)
+    public override Team GetTeam()
     {
         Team team = new Team();
         try
@@ -48,7 +53,7 @@ public class GolGGController : StatsController
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
-                List<Dictionary<string, string>> scrapedTable = ScrapeTable(url, xPath);
+                List<Dictionary<string, string>> scrapedTable = ScrapeTable(xPath);
                 var objectType = Type.GetType("TeamStats." + dataType);
                 var property = typeof(Team).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedTable, objectType);
@@ -64,7 +69,7 @@ public class GolGGController : StatsController
         }
     }
 
-    public override Player GetPlayer(string url)
+    public override Player GetPlayer()
     {
         Player player = new Player();
 
@@ -75,7 +80,7 @@ public class GolGGController : StatsController
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
-                List<Dictionary<string, string>> scrapedTable = ScrapeTable(url, xPath);
+                List<Dictionary<string, string>> scrapedTable = ScrapeTable(xPath);
                 var objectType = Type.GetType("PlayerStats." + dataType);
                 var property = typeof(Player).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedTable, objectType);

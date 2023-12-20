@@ -13,15 +13,23 @@ using Constants;
 
 public abstract class StatsController
 {
-    public abstract List<FullStats> GetMatchFullStats(string url);
-    public abstract Team GetTeam(string url);
-    public abstract Player GetPlayer(string url);
-    protected static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
-    {
-        var web = new HtmlWeb();
-        var doc = await web.LoadFromWebAsync(url);
+    protected HtmlDocument CurrentWebpage { get; set; }
+    protected string URL { get; set; }
 
-        var tbodyElement = doc.DocumentNode.SelectSingleNode(xPath);
+    public StatsController(string url)
+    {
+        URL = url;
+
+        var web = new HtmlWeb();
+        CurrentWebpage = web.Load(url);
+    }
+
+    public abstract List<FullStats> GetMatchFullStats();
+    public abstract Team GetTeam();
+    public abstract Player GetPlayer();
+    protected async Task<HtmlNode> LocateHTMLNode(string xPath)
+    {
+        var tbodyElement = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
 
         try
         {
@@ -73,15 +81,11 @@ public abstract class StatsController
     /// <summary>
     /// Attempts to scrape a standard HTML table by accessing the tbody and looping through tr and td elements.
     /// </summary>
-    /// <param name="url"></param>
     /// <param name="tableXPath"></param>
     /// <returns></returns>
-    protected static List<Dictionary<string, string>> ScrapeTable(string url, string tableXPath)
+    protected List<Dictionary<string, string>> ScrapeTable(string tableXPath)
     {
-        var web = new HtmlWeb();
-        var doc = web.Load(url);
-
-        var tableNode = doc.DocumentNode.SelectSingleNode(tableXPath);
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
 
         if (tableNode == null)
         {
