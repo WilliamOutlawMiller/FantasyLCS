@@ -129,12 +129,6 @@ public abstract class StatsController
     {
         var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
 
-        if (tableNode == null)
-        {
-            Console.WriteLine("Table not found.");
-            return null;
-        }
-
         var headers = tableNode.SelectNodes("thead/tr/th");
 
         var rows = tableNode.SelectNodes("tbody/tr");
