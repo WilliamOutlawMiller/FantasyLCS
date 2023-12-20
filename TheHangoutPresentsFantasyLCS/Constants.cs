@@ -35,7 +35,7 @@ public class GolGGConstants
     public static Dictionary<string,string> PlayerStats = new Dictionary<string, string>
     {
         {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
-        {"ChampionStats"     , "//table[@class='table_list' and caption[contains(., 'champion pool')]]"                  },
+        {"ChampionStats"     , "//table[contains(@class, 'table_list') and caption[contains(., 'champion pool')]]"       },
         {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
         {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats stats')]]"             },
         {"VisionStats"       , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   }
