@@ -64,6 +64,11 @@ public class GolGGController : StatsController
         }
     }
 
+    public override List<Player> GetPlayers(string url)
+    {
+        return new List<Player>();
+    }
+
     /// <summary>
     /// This method is hardcoded to read from a match fullstats page i.e. https://gol.gg/game/stats/47993/page-fullstats/
     /// Not extensible for other pages, but some code could be moved to methods for reuse (possibly).
