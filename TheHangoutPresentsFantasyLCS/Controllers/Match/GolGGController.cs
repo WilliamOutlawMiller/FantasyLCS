@@ -53,7 +53,7 @@ public class GolGGController : StatsController
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
-                List<Dictionary<string, string>> scrapedTable = ScrapeTable(xPath);
+                List<Dictionary<string, string>> scrapedTable = ScrapeDictionary(xPath);
                 var objectType = Type.GetType("TeamStats." + dataType);
                 var property = typeof(Team).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedTable, objectType);
@@ -80,7 +80,7 @@ public class GolGGController : StatsController
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
-                List<Dictionary<string, string>> scrapedTable = ScrapeTable(xPath);
+                List<Dictionary<string, string>> scrapedTable = ScrapeDictionary(xPath);
                 var objectType = Type.GetType("PlayerStats." + dataType);
                 var property = typeof(Player).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedTable, objectType);

@@ -83,7 +83,7 @@ public abstract class StatsController
     /// </summary>
     /// <param name="tableXPath"></param>
     /// <returns></returns>
-    protected List<Dictionary<string, string>> ScrapeTable(string tableXPath)
+    protected List<Dictionary<string, string>> ScrapeDictionary(string tableXPath)
     {
         var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
 
