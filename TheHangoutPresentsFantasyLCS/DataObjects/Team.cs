@@ -9,4 +9,5 @@ public class Team
     public Aggression Aggression { get; set; }
     public Objectives Objectives { get; set; }
     public Vision Vision { get; set; }
+    public Roster Roster { get; set; }
 }
