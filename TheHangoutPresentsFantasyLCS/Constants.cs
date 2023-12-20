@@ -18,7 +18,7 @@ namespace Constants
 public class GolGGConstants
 {
     public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
-
+    public const string MATCHLIST = "//table[contains(@class, 'table_list') and caption[contains(., 'results')]]";
     public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
     {
         {"TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },

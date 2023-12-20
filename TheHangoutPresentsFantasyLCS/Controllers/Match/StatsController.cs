@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using Constants;
+using System.Security.Policy;
 
 public abstract class StatsController
 {
@@ -24,6 +25,7 @@ public abstract class StatsController
         CurrentWebpage = web.Load(url);
     }
 
+    public abstract List<int> GetMatchIDs();
     public abstract List<FullStats> GetMatchFullStats();
     public abstract Team GetTeam();
     public abstract Player GetPlayer();

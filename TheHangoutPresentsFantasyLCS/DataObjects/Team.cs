@@ -2,6 +2,7 @@ using TeamStats;
 
 public class Team
 {
+    public int ID { get; set; }
     public TeamSummary TeamSummary { get; set; }
     public BannedBy BannedBy { get; set; }
     public BannedAgainst BannedAgainst { get; set; }

@@ -4,7 +4,16 @@ using System.Text.Json.Nodes;
 
 public class GetProData
 {
-    public static Match GetMatch()
+    
+    public static List<int> GetMatchIDs()
+    {
+        List<int> matchIDs = new List<int>();
+
+        string url = "https://gol.gg/tournament/tournament-matchlist/LCS%20Summer%202023/";
+
+        GolGGController controller = new GolGGController(url);
+    }
+
     public static List<FullStats> GetMatchFullStats()
     {
         // todo: right now this is reading the fullstats page of one game. This will need to be refactored for BO5 that reads from multiple matches

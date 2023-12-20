@@ -1,5 +1,6 @@
 public class Match
 {
+    public int ID { get; set; }
     public Team TeamOne { get; set; }
     public Team TeamTwo { get; set; }
     

@@ -4,5 +4,5 @@ public class Roster
 
     public List<Player> Subs { get; set; }
 
-    public Dictionary<string, string> PlayerPageLinks { get; set; }
+    public List<int> PlayerIDs { get; set; }
 }

@@ -12,11 +12,24 @@ using System.Text.Json;
 using Constants;
 using System.Reflection;
 using PlayerStats;
+using System.Globalization;
 
 public class GolGGController : StatsController
 {
     public GolGGController(string url) : base(url)
     {
+
+    }
+
+    public override List<int> GetMatchIDs()
+    {
+        List<int> ids = new List<int>();
+        string xPath = GolGGConstants.MATCHLIST;
+
+        try
+        {
+
+        }
 
     }
 
@@ -57,9 +70,11 @@ public class GolGGController : StatsController
         dictionariesToScrape.Remove("BannedAgainst");
         dictionariesToScrape.Remove("Roster");
 
-
         try
         {
+            string[] parts = URL.Split('/');
+            team.ID = Convert.ToInt32(parts[3]);
+            
             foreach (var dataTypeAndXPath in dictionariesToScrape)
             {
                 string dataType = dataTypeAndXPath.Key;
@@ -74,7 +89,7 @@ public class GolGGController : StatsController
             }
 
             team.Roster = new Roster();
-            team.Roster.PlayerPageLinks = GetGolGGPlayerPageLinks();
+            team.Roster.PlayerIDs = GetGolGGPlayerIDs();
             
             return team;
         }
@@ -207,16 +222,9 @@ public class GolGGController : StatsController
         return jsonArray;
     }
 
-    /// <summary>
-    /// This method is intended to be called while scraping a TeamStats page. TeamStats is the only place where we can get LCS players filtered out,
-    /// as Gol.GG does not provide a way to get Players by region. As such, we grab all players and subs that are on an official LCS team and store their
-    /// player page link in a dictionary, then later we loop through these links to create individual Player objects.
-    /// </summary>
-    /// <returns></returns>
-    private Dictionary<string, string> GetGolGGPlayerPageLinks()
+    private List<int> GetGolGGPlayerIDs()
     {
-        Dictionary<string, string> playerLinksDict = new Dictionary<string, string>();
-
+        List<int> playerIDs = new List<int>();
 
         var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(GolGGConstants.TeamStats["Roster"]);
         
@@ -227,11 +235,14 @@ public class GolGGController : StatsController
             // There are two rows that do not contain data, skip them.
             if (row.Descendants("td").Count() == 1) continue;
 
-            // The player cell is always the second one. I love hard coding.
+            // Getting unique player id from the link. I know.
             HtmlNode playerCell = row.SelectNodes("td")[1].SelectSingleNode("a");
-            playerLinksDict.Add(playerCell.InnerText, playerCell.Attributes["href"].Value);
+            string url = playerCell.Attributes["href"].Value;
+            string[] parts = url.Split('/');
+            int uniquePlayerID = Convert.ToInt32(parts[3]);
+            playerIDs.Add(uniquePlayerID);
         }
 
-        return playerLinksDict;
+        return playerIDs;
     }
 }
