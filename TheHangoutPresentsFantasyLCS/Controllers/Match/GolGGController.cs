@@ -36,11 +36,11 @@ public class GolGGController : StatsController
     public override List<FullStats> GetMatchFullStats()
     {
         List<FullStats> fullStats = new List<FullStats>();
-
         string xPath = GolGGConstants.FULLSTATS;
+
         try
         {
-            HtmlNode tableNode = LocateHTMLNode(xPath).Result;
+            HtmlNode tableNode = LocateHTMLNode(xPath);
             List<Dictionary<string, string>> scrapedTable = ParseGolGGFullStatsHTML(tableNode);
 
             // This implementation must be different due to the fact that the fullstats table has headers on the left.
@@ -74,7 +74,7 @@ public class GolGGController : StatsController
         {
             string[] parts = URL.Split('/');
             team.ID = Convert.ToInt32(parts[3]);
-            
+
             foreach (var dataTypeAndXPath in dictionariesToScrape)
             {
                 string dataType = dataTypeAndXPath.Key;

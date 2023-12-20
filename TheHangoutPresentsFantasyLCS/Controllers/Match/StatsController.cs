@@ -29,24 +29,17 @@ public abstract class StatsController
     public abstract List<FullStats> GetMatchFullStats();
     public abstract Team GetTeam();
     public abstract Player GetPlayer();
-    protected async Task<HtmlNode> LocateHTMLNode(string xPath)
+    protected HtmlNode LocateHTMLNode(string xPath)
     {
         var tbodyElement = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
-
-        try
+        
+        if (tbodyElement != null)
         {
-            if (tbodyElement != null)
-            {
-                return tbodyElement;
-            }
-            else
-            {
-                throw new Exception("Unable to find the <tbody> element.");
-            }
+            return tbodyElement;
         }
-        catch (Exception ex)
+        else
         {
-            return await Task.FromException<HtmlNode>(ex);
+            throw new Exception("Unable to find the <tbody> element.");
         }
     }
 
