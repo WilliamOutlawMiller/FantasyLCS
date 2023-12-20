@@ -37,7 +37,7 @@ public class GolGGConstants
         {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
         {"ChampionStats"     , "//table[contains(@class, 'table_list') and caption[contains(., 'champion pool')]]"       },
         {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kill stats')]]"         },
-        {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats stats')]]"             },
+        {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats')]]"             },
         {"VisionStats"       , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   }
     };
 }
