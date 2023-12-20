@@ -20,15 +20,21 @@ public abstract class StatsController
     public StatsController(string url)
     {
         URL = url;
-
-        var web = new HtmlWeb();
-        CurrentWebpage = web.Load(url);
+        CurrentWebpage = LoadHtmlDocumentAsync(url).Result;
     }
 
     public abstract List<int> GetMatchIDs();
     public abstract List<FullStats> GetMatchFullStats();
     public abstract Team GetTeam();
     public abstract Player GetPlayer();
+
+    public static async Task<HtmlDocument> LoadHtmlDocumentAsync(string url)
+    {
+        var web = new HtmlWeb();
+        var htmlDoc = await web.LoadFromWebAsync(url);
+        return htmlDoc;
+    }
+
     protected HtmlNode LocateHTMLNode(string xPath)
     {
         var tbodyElement = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
