@@ -19,7 +19,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getmatch", () =>
 {
-    return GetProData.GetMatch();
+    return GetProData.GetMatchFullStats();
 })
 .WithName("GetMatch")
 .WithOpenApi();

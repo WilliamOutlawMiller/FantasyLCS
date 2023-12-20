@@ -5,17 +5,18 @@ using System.Text.Json.Nodes;
 public class GetProData
 {
     public static Match GetMatch()
+    public static List<FullStats> GetMatchFullStats()
     {
         // todo: right now this is reading the fullstats page of one game. This will need to be refactored for BO5 that reads from multiple matches
-        Match match = new Match();
+        List<FullStats> matchFullStats = new List<FullStats>();
         
         // string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
         string url = "https://gol.gg/game/stats/53263/page-fullstats/";
 
         GolGGController controller = new GolGGController(url);
         
-        match.FullStats = controller.GetMatchFullStats();
-        return match;
+        matchFullStats = controller.GetMatchFullStats();
+        return matchFullStats;
     }
 
     /// <summary>
@@ -24,8 +25,6 @@ public class GetProData
     /// <returns></returns>
     public static Team GetTeam()
     {
-        // todo: right now this is reading a specific team.
-        
         Team team = new Team();
         string url = "https://gol.gg/teams/team-stats/1799/split-ALL/tournament-ALL/";
 
