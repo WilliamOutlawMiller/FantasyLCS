@@ -24,6 +24,13 @@ app.MapGet("/getmatch", () =>
 .WithName("GetMatch")
 .WithOpenApi();
 
+app.MapGet("/getplayer", () =>
+{
+    return GetProData.GetPlayer();
+})
+.WithName("GetPlayer")
+.WithOpenApi();
+
 app.MapGet("/getteam", () =>
 {
     return GetProData.GetTeam();
