@@ -15,7 +15,7 @@ public abstract class StatsController
 {
     public abstract List<FullStats> GetMatchFullStats(string url);
     public abstract Team GetTeam(string url);
-    public abstract List<Player> GetPlayers(string url);
+    public abstract Player GetPlayer(string url);
     protected static async Task<HtmlNode> LocateHTMLNode(string url, string xPath)
     {
         var web = new HtmlWeb();

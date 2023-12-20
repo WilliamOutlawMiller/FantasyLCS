@@ -64,9 +64,31 @@ public class GolGGController : StatsController
         }
     }
 
-    public override List<Player> GetPlayers(string url)
+    public override Player GetPlayer(string url)
     {
-        return new List<Player>();
+        Player player = new Player();
+
+        try
+        {
+            foreach (var dataTypeAndXPath in GolGGConstants.PlayerStats)
+            {
+                string dataType = dataTypeAndXPath.Key;
+                string xPath = dataTypeAndXPath.Value;
+
+                List<Dictionary<string, string>> scrapedTable = ScrapeTable(url, xPath);
+                var objectType = Type.GetType("PlayerStats." + dataType);
+                var property = typeof(Player).GetProperty(dataType);
+                var deserializedObject = Deserialize(scrapedTable, objectType);
+
+                property.SetValue(player, deserializedObject);
+            }
+
+            return player;
+        }
+        catch
+        {
+            return new Player();
+        }
     }
 
     /// <summary>

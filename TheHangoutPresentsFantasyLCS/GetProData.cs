@@ -30,13 +30,13 @@ public class GetProData
         return team;
     }
 
-    public static List<Player> GetPlayers()
+    public static Player GetPlayer()
     { 
-        List<Player> players = new List<Player>();
+        Player player = new Player();
         string url = "https://gol.gg/players/list/season-ALL/split-ALL/tournament-LCS%20Championship%202023/";
 
         GolGGController controller = new GolGGController();
-        players = controller.GetPlayers(url);
-        return players;
+        player = controller.GetPlayer(url);
+        return player;
     }
 }
