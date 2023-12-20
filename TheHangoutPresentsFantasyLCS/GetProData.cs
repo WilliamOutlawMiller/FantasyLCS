@@ -18,7 +18,6 @@ public class GetProData
 
     public static List<FullStats> GetMatchFullStats()
     {
-        // todo: right now this is reading the fullstats page of one game. This will need to be refactored for BO5 that reads from multiple matches
         List<FullStats> matchFullStats = new List<FullStats>();
         
         // string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
