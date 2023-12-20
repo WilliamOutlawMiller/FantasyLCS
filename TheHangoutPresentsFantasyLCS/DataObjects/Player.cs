@@ -1,4 +1,15 @@
+using PlayerStats;
+
 public class Player
 {
-    // todo: get data from here: https://gol.gg/players/player-stats/1979/season-S13/split-Summer/tournament-ALL/
+    public GeneralStats GeneralStats { get; set; }
+
+    public ChampionStats ChampionStats { get; set; }
+
+    public AggressionStats AggressionStats { get; set; }
+
+    public EarlyGameStats EarlyGameStats { get; set; }
+
+    public VisionStats VisionStats { get; set; }
+
 }
