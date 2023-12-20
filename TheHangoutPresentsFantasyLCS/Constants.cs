@@ -22,22 +22,21 @@ public class GolGGConstants
     public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
     {
         {"TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
-        /* These will need custom implementation due to the data being returned in a different way than the rest
         {"BannedBy"          , "//table[@class='table_list' and caption[contains(.,'Most banned champions by')]]"        },
         {"BannedAgainst"     , "//table[@class='table_list' and caption[contains(., 'Most banned champions against')]]"  },
-        */
         {"Economy"           , "//table[@class='table_list' and caption[contains(., 'gold and farm stats')]]"            },
         {"Aggression"        , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
         {"Objectives"        , "//table[@class='table_list' and caption[contains(., 'objectives control stats')]]"       },
-        {"Vision"            , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   }
+        {"Vision"            , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   },
+        {"Roster"            , "//table[contains(@class, 'table_list') and caption[contains(., 'player')]]"              }
     };
 
     public static Dictionary<string,string> PlayerStats = new Dictionary<string, string>
     {
         {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
         {"ChampionStats"     , "//table[contains(@class, 'table_list') and caption[contains(., 'champion pool')]]"       },
-        {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kill stats')]]"         },
-        {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats')]]"             },
+        {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kill stats')]]"          },
+        {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats')]]"                   },
         {"VisionStats"       , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   }
     };
 }

@@ -48,16 +48,26 @@ public class GolGGController : StatsController
     public override Team GetTeam()
     {
         Team team = new Team();
+        Type objectType;
+        PropertyInfo property;
+
+        // The Roster, BannedBy and BannedAgainst are different type of table than the rest, and must be parsed differently.
+        var dictionariesToScrape = new Dictionary<string, string>(GolGGConstants.TeamStats);
+        dictionariesToScrape.Remove("BannedBy");
+        dictionariesToScrape.Remove("BannedAgainst");
+        dictionariesToScrape.Remove("Roster");
+
+
         try
         {
-            foreach (var dataTypeAndXPath in GolGGConstants.TeamStats)
+            foreach (var dataTypeAndXPath in dictionariesToScrape)
             {
                 string dataType = dataTypeAndXPath.Key;
                 string xPath = dataTypeAndXPath.Value;
 
                 List<Dictionary<string, string>> scrapedTable = ScrapeDictionary(xPath);
-                var objectType = Type.GetType("TeamStats." + dataType);
-                var property = typeof(Team).GetProperty(dataType);
+                objectType = Type.GetType("TeamStats." + dataType);
+                property = typeof(Team).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedTable, objectType);
 
                 property.SetValue(team, deserializedObject);
