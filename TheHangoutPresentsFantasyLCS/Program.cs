@@ -38,4 +38,11 @@ app.MapGet("/getteam", () =>
 .WithName("GetTeam")
 .WithOpenApi();
 
+app.MapGet("/getmatchids", () =>
+{
+    return GetProData.GetMatchIDs();
+})
+.WithName("GetMatchIDs")
+.WithOpenApi();
+
 app.Run();
