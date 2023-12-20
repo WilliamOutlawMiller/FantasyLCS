@@ -12,6 +12,8 @@ public class GetProData
         string url = "https://gol.gg/tournament/tournament-matchlist/LCS%20Summer%202023/";
 
         GolGGController controller = new GolGGController(url);
+
+        return controller.GetMatchIDs();
     }
 
     public static List<FullStats> GetMatchFullStats()

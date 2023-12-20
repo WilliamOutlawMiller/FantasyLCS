@@ -24,13 +24,15 @@ public class GolGGController : StatsController
     public override List<int> GetMatchIDs()
     {
         List<int> ids = new List<int>();
-        string xPath = GolGGConstants.MATCHLIST;
 
         try
         {
-
+            return GetGolGGMatchIDs();
         }
-
+        catch
+        {
+            return new List<int>();
+        }
     }
 
     public override List<FullStats> GetMatchFullStats()
@@ -244,5 +246,25 @@ public class GolGGController : StatsController
         }
 
         return playerIDs;
+    }
+
+    private List<int> GetGolGGMatchIDs()
+    {
+        List<int> matchIDs = new List<int>();
+
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(GolGGConstants.MATCHLIST);
+        
+        var rows = tableNode.SelectNodes("tbody/tr");
+
+        foreach (var row in rows)
+        {
+            HtmlNode hyperlinkCell = row.SelectNodes("td")[0].SelectSingleNode("a");
+            string url = hyperlinkCell.Attributes["href"].Value;
+            string[] parts = url.Split('/');
+            int uniqueMatchID = Convert.ToInt32(parts[3]);
+            matchIDs.Add(uniqueMatchID);
+        }
+
+        return matchIDs;
     }
 }
