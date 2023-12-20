@@ -15,7 +15,7 @@ using System.Security.Policy;
 public abstract class StatsController
 {   
     private string _url;
-    protected string URL 
+    public string URL 
     { 
         get
         {
