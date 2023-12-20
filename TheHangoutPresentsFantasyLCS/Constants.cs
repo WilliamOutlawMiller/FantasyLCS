@@ -21,7 +21,7 @@ public class GolGGConstants
 
     public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
     {
-        {"TeamSummary"       , "//table[@class='table_list' and caption[contains(.,'stats')]]"                           },
+        {"TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
         /* These will need custom implementation due to the data being returned in a different way than the rest
         {"BannedBy"          , "//table[@class='table_list' and caption[contains(.,'Most banned champions by')]]"        },
         {"BannedAgainst"     , "//table[@class='table_list' and caption[contains(., 'Most banned champions against')]]"  },
@@ -34,7 +34,7 @@ public class GolGGConstants
 
     public static Dictionary<string,string> PlayerStats = new Dictionary<string, string>
     {
-        {"GeneralStats"      , "//table[@class='table_list' and caption[contains(.,'stats')]]"                           },
+        {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
         {"ChampionStats"     , "//table[@class='table_list' and caption[contains(., 'champion pool')]]"                  },
         {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
         {"EarlyGameStats"    , "//table[@class='table_list' and caption[contains(., 'laning stats stats')]]"             },
