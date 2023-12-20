@@ -14,7 +14,23 @@ using System.Security.Policy;
 
 public abstract class StatsController
 {   
-    protected string URL { get; set; }
+    private string _url;
+    protected string URL 
+    { 
+        get
+        {
+            if (_url != null)
+                return _url;
+            
+            throw new Exception("URL is null, please populate this property.");
+        }
+        set
+        {
+            // Any time we change the webpage we are pointed at, we must reload the HtmlDocument
+            _url = value;
+            CurrentWebpage = LoadHtmlDocumentAsync(_url).Result;
+        }
+    }
 
     private HtmlDocument _currentWebpage;
     protected HtmlDocument CurrentWebpage 
@@ -24,9 +40,6 @@ public abstract class StatsController
             if (_currentWebpage != null)
                 return _currentWebpage;
 
-            if (URL == null)
-                throw new Exception("Cannot load webpage without URL. Please populate the URL property first.");
-            
             _currentWebpage = LoadHtmlDocumentAsync(URL).Result;
             return _currentWebpage;
         }
