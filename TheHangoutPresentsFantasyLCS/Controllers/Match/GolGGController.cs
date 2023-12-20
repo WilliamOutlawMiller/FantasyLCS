@@ -16,6 +16,11 @@ using System.Globalization;
 
 public class GolGGController : StatsController
 {
+    public GolGGController() : base()
+    {
+
+    }
+
     public GolGGController(string url) : base(url)
     {
 

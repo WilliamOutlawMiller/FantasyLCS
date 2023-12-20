@@ -13,14 +13,37 @@ using Constants;
 using System.Security.Policy;
 
 public abstract class StatsController
-{
-    protected HtmlDocument CurrentWebpage { get; set; }
+{   
     protected string URL { get; set; }
+
+    private HtmlDocument _currentWebpage;
+    protected HtmlDocument CurrentWebpage 
+    { 
+        get 
+        {
+            if (_currentWebpage != null)
+                return _currentWebpage;
+
+            if (URL == null)
+                throw new Exception("Cannot load webpage without URL. Please populate the URL property first.");
+            
+            _currentWebpage = LoadHtmlDocumentAsync(URL).Result;
+            return _currentWebpage;
+        }
+        set
+        {
+            _currentWebpage = value;
+        }
+    }
+    
+    public StatsController()
+    {
+        // This constructor assumes that you will be setting the URL later.
+    }
 
     public StatsController(string url)
     {
         URL = url;
-        CurrentWebpage = LoadHtmlDocumentAsync(url).Result;
     }
 
     public abstract List<int> GetMatchIDs();
