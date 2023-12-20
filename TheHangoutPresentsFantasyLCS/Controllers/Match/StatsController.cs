@@ -119,6 +119,45 @@ public abstract class StatsController
 
         return data;
     }
+
+    /// <summary>
+    /// Attempts to scrape a table by accessing the tbody and looping through tr and td elements.
+    /// </summary>
+    /// <param name="tableXPath"></param>
+    /// <returns></returns>
+    protected JsonArray ScrapeTable(string tableXPath)
+    {
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
+
+        if (tableNode == null)
+        {
+            Console.WriteLine("Table not found.");
+            return null;
+        }
+
+        var headers = tableNode.SelectNodes("thead/tr/th");
+
+        var rows = tableNode.SelectNodes("tbody/tr");
+
+        if (rows == null || rows.Count == 0)
+        {
+            Console.WriteLine("No rows found in the tbody.");
+            return null;
+        }
+
+        var data = new JsonArray();
+
+        foreach (var row in rows)
+        {
+            var dataObject = new JsonObject();
+            var cells = row.SelectNodes("td");
+            
+            for (int i = 0; i < cells.Count; i++)
+            {
+                dataObject.Add(headers[i].InnerText, cells[i].InnerText);
+            }
+
+            data.Add(dataObject);
         }
 
         return data;
