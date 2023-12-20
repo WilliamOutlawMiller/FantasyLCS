@@ -73,6 +73,9 @@ public class GolGGController : StatsController
                 property.SetValue(team, deserializedObject);
             }
 
+            team.Roster = new Roster();
+            team.Roster.PlayerPageLinks = GetGolGGPlayerPageLinks();
+            
             return team;
         }
         catch
@@ -202,5 +205,33 @@ public class GolGGController : StatsController
             jsonArray.Add(value);
 
         return jsonArray;
+    }
+
+    /// <summary>
+    /// This method is intended to be called while scraping a TeamStats page. TeamStats is the only place where we can get LCS players filtered out,
+    /// as Gol.GG does not provide a way to get Players by region. As such, we grab all players and subs that are on an official LCS team and store their
+    /// player page link in a dictionary, then later we loop through these links to create individual Player objects.
+    /// </summary>
+    /// <returns></returns>
+    private Dictionary<string, string> GetGolGGPlayerPageLinks()
+    {
+        Dictionary<string, string> playerLinksDict = new Dictionary<string, string>();
+
+
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(GolGGConstants.TeamStats["Roster"]);
+        
+        var rows = tableNode.SelectNodes("tbody/tr");
+
+        foreach (var row in rows)
+        {
+            // There are two rows that do not contain data, skip them.
+            if (row.Descendants("td").Count() == 1) continue;
+
+            // The player cell is always the second one. I love hard coding.
+            HtmlNode playerCell = row.SelectNodes("td")[1].SelectSingleNode("a");
+            playerLinksDict.Add(playerCell.InnerText, playerCell.Attributes["href"].Value);
+        }
+
+        return playerLinksDict;
     }
 }
