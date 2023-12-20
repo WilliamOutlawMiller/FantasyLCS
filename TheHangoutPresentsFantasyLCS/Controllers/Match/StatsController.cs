@@ -127,13 +127,11 @@ public abstract class StatsController
     /// <returns></returns>
     protected JsonArray ScrapeTable(string tableXPath)
     {
+        JsonArray data = new JsonArray();
+
         var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
-
         var headers = tableNode.SelectNodes("thead/tr/th");
-
         var rows = tableNode.SelectNodes("tbody/tr");
-
-        var data = new JsonArray();
 
         foreach (var row in rows)
         {
