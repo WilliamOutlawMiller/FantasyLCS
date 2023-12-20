@@ -26,8 +26,7 @@ public class GetProData
 
         GolGGController controller = new GolGGController(url);
         
-        matchFullStats = controller.GetMatchFullStats();
-        return matchFullStats;
+        return controller.GetMatchFullStats();
     }
 
     /// <summary>
@@ -40,8 +39,7 @@ public class GetProData
         string url = "https://gol.gg/teams/team-stats/1799/split-ALL/tournament-ALL/";
 
         GolGGController controller = new GolGGController(url);
-        team = controller.GetTeam();
-        return team;
+        return controller.GetTeam();
     }
 
     public static Player GetPlayer()
@@ -50,7 +48,6 @@ public class GetProData
         string url = "https://gol.gg/players/player-stats/107/season-S13/split-Summer/tournament-ALL/champion-ALL/";
 
         GolGGController controller = new GolGGController(url);
-        player = controller.GetPlayer();
-        return player;
+        return controller.GetPlayer();
     }
 }
