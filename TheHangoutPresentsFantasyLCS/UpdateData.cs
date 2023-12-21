@@ -72,4 +72,10 @@ public class UpdateData
             WriteData(updatedPlayerData);
         } 
     }
+
+    public static Player GetPlayer(int id)
+    {
+        List<Player> players = ReadData<Player>();
+        return players.Where(player => player.ID == id).Single();
+    }
 }
