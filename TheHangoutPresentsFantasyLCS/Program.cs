@@ -20,10 +20,10 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getplayerlist", () =>
 {
-    List<Player> existingPlayerData = ReadData<Player>();
-    List<Player> updatedPlayerData = new List<Player>();
-    
-    if (ShouldRefreshData<Player>())
+    return GetProData.GetPlayerList();
+})
+.WithName("GetPlayerList")
+.WithOpenApi();
     {
         updatedPlayerData = GetProData.GetPlayerList();
         WriteData(updatedPlayerData);
@@ -32,8 +32,6 @@ app.MapGet("/getplayerlist", () =>
     else 
         return existingPlayerData;
 })
-.WithName("GetPlayerList")
-.WithOpenApi();
 
 app.MapGet("/getmatchids", () =>
 {
