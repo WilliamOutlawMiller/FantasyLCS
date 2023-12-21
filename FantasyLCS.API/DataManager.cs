@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 
 using static StorageManager;
+using static StaticMethods;
 
 public class DataManager
 {
@@ -74,6 +75,21 @@ public class DataManager
         } 
     }
 
+    public static void CreateRoster(string name)
+    {
+        List<Roster> rosters = ReadData<Roster>();
+
+        rosters.Add(new Roster
+        {
+            ID = CreateUniqueIdFromString(name),
+            Name = name,
+            Players = new List<Player>(),
+            Subs = new List<Player>(),
+        });
+
+        WriteData<Roster>(rosters);
+    }
+
     public static void AddPlayerToRoster(int rosterID, int playerID)
     {
         List<Roster> rosters = ReadData<Roster>();
@@ -84,7 +100,6 @@ public class DataManager
         roster.Players.Add(player);
         WriteData<Roster>(rosters);
     }
-
     
     public static T Get<T>(int id) where T : class
     {

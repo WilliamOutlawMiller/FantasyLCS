@@ -47,6 +47,21 @@ app.MapPost("/updatematchdata", () =>
 .WithName("UpdateMatchData")
 .WithOpenApi();
 
+app.MapPost("/createroster/{name}", (string name) =>
+{
+    try
+    {
+        DataManager.CreateRoster(name);
+        return Results.Ok("Success!");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("Failure: " + ex.Message);
+    }
+})
+.WithName("CreateRoster")
+.WithOpenApi();
+
 app.MapPost("/addplayertoroster/{rosterID}/{playerID}", (int rosterID, int playerID) =>
 {
     try
