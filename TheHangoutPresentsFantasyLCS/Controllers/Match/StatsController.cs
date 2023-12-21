@@ -168,8 +168,15 @@ public abstract class StatsController
         JsonArray data = new JsonArray();
 
         var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(tableXPath);
+
+        if (tableNode == null)
+            return data;
+
         var headers = tableNode.SelectNodes("thead/tr/th");
         var rows = tableNode.SelectNodes("tbody/tr");
+
+        if (rows == null)
+            return data;
 
         foreach (var row in rows)
         {
@@ -178,7 +185,7 @@ public abstract class StatsController
             
             for (int i = 0; i < cells.Count; i++)
             {
-                dataObject.Add(headers[i].InnerText, cells[i].InnerText);
+                dataObject.Add(headers[i].InnerText.Trim(), cells[i].InnerText.Trim());
             }
 
             data.Add(dataObject);

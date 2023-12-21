@@ -96,7 +96,7 @@ public class GolGGController : StatsController
         try
         {
             string[] parts = URL.Split('/');
-            team.ID = Convert.ToInt32(parts[3]);
+            team.ID = Convert.ToInt32(parts[5]);
 
             foreach (var dataTypeAndXPath in dictionariesToScrape)
             {
@@ -144,6 +144,9 @@ public class GolGGController : StatsController
                 string xPath = dataTypeAndXPath.Value;
 
                 List<Dictionary<string, string>> scrapedDictionary = ScrapeDictionary(xPath);
+                if (scrapedDictionary == null)
+                    continue;
+
                 objectType = Type.GetType("PlayerStats." + dataType);
                 property = typeof(Player).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedDictionary, objectType);
@@ -153,6 +156,9 @@ public class GolGGController : StatsController
 
             // Yes, I know. Please, refactor it.
             JsonArray scrapedTable = ScrapeTable(championStatsXPath);
+            if (scrapedTable == null)
+                return player;
+
             string cleanedJsonString = JsonSerializer.Serialize(scrapedTable).Replace("\\u0026nbsp;", "");
             player.ChampionStats = JsonSerializer.Deserialize<List<ChampionStats>>(cleanedJsonString);
 
