@@ -20,7 +20,7 @@ app.MapPost("/updateplayerlist", () =>
 {
     try
     {
-        UpdateData.UpdatePlayerList();
+        DataManager.UpdatePlayerList();
         return Results.Ok("Success!");
     }
     catch (Exception ex)
@@ -36,7 +36,7 @@ app.MapPost("/updatematchdata", () =>
 {
     try
     {
-        UpdateData.UpdateMatchData();
+        DataManager.UpdateMatchData();
         return Results.Ok("Success!");
     }
     catch (Exception ex)
@@ -47,11 +47,26 @@ app.MapPost("/updatematchdata", () =>
 .WithName("UpdateMatchData")
 .WithOpenApi();
 
+app.MapPost("/addplayertoroster/{rosterID}/{playerID}", (int rosterID, int playerID) =>
+{
+    try
+    {
+        DataManager.AddPlayerToRoster(rosterID, playerID);
+        return Results.Ok("Success!");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("Failure: " + ex.Message);
+    }
+})
+.WithName("AddPlayerToRoster")
+.WithOpenApi();
+
 app.MapGet("/getplayer/{id}", (int id) =>
 {
     try
     {   
-        var player = GetData.Get<Player>(id);
+        var player = DataManager.Get<Player>(id);
         if (player != null)
         {
             return Results.Ok(player);
@@ -73,7 +88,7 @@ app.MapGet("/getmatch/{id}", (int id) =>
 {
     try
     {   
-        var match = GetData.Get<Match>(id);
+        var match = DataManager.Get<Match>(id);
         if (match != null)
         {
             return Results.Ok(match);
@@ -95,7 +110,7 @@ app.MapGet("/getroster/{id}", (int id) =>
 {
     try
     {   
-        var roster = GetData.Get<Roster>(id);
+        var roster = DataManager.Get<Roster>(id);
         if (roster != null)
         {
             return Results.Ok(roster);

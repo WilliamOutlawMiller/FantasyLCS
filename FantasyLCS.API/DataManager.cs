@@ -1,10 +1,11 @@
 using HtmlAgilityPack;
 using Constants;
 using System.Text.Json.Nodes;
-using static StorageManager;
 using Microsoft.AspNetCore.Mvc;
 
-public class UpdateData
+using static StorageManager;
+
+public class DataManager
 {
     public static void UpdateMatchData()
     {
@@ -39,7 +40,7 @@ public class UpdateData
                 updatedMatchData.Add(match);
             }
 
-            WriteData(updatedMatchData);
+            WriteData<Match>(updatedMatchData);
         }
     }
 
@@ -69,7 +70,35 @@ public class UpdateData
                 }
             }
 
-            WriteData(updatedPlayerData);
+            WriteData<Player>(updatedPlayerData);
         } 
+    }
+
+    public static void AddPlayerToRoster(int rosterID, int playerID)
+    {
+        List<Roster> rosters = ReadData<Roster>();
+        Player player = Get<Player>(playerID);
+
+        Roster roster = rosters.Where(roster => roster.ID == rosterID).Single();
+
+        roster.Players.Add(player);
+        WriteData<Roster>(rosters);
+    }
+
+    
+    public static T Get<T>(int id) where T : class
+    {
+        List<T> data = ReadData<T>();
+
+        return data.FirstOrDefault(item => 
+        {
+            var idProperty = item.GetType().GetProperty("ID");
+            if (idProperty != null)
+            {
+                var value = idProperty.GetValue(item);
+                return value != null && (int)value == id;
+            }
+            return false;
+        });
     }
 }
