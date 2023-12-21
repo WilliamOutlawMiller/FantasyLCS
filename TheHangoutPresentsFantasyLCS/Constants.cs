@@ -4,12 +4,26 @@ namespace Constants
 {
     public class SeasonInfo
     {
-        // These constants are used for url construction. The lol.fandom.com url follows this format:
-        // https://lol.fandom.com/wiki/LCS/2023_Season/Spring_Season/
+        // todo: update these to Spring 2024 when data becomes available
+        public const string SEASON = "season-S13";
+        public const string SPLIT = "split-Summer";
+        public const string TOURNAMENT = "tournament-LCS%20Summer%202023";
+        public class TeamListURL
+        {
+            public const string DOMAIN = $"https://gol.gg/teams/list/{SEASON}/{SPLIT}/{TOURNAMENT}/";
+        }
 
-        public const string DOMAIN = "https://gol.gg/tournament/tournament-matchlist/";
-        public const string SEASON = "LCS%20Spring%20";
-        public const string YEAR = "2023/";
+        public class TeamStatsURL
+        {
+            public const string DOMAIN = "https://gol.gg/teams/team-stats/";
+            public const string FILTER = $"/{SPLIT}/{TOURNAMENT}/";
+        }
+
+        public class PlayerStatsURL
+        {
+            public const string DOMAIN = "https://gol.gg/players/player-stats/";
+            public const string FILTER = $"/{SEASON}/{SPLIT}/{TOURNAMENT}/champion-ALL/";
+        }
     }
 
     
@@ -19,6 +33,7 @@ public class GolGGConstants
 {
     public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
     public const string MATCHLIST = "//table[contains(@class, 'table_list') and caption[contains(., 'results')]]";
+    public const string TEAMLIST = "//div[contains(@class, 'col-12') and contains(@class, 'p-4')]/descendant::table";
     public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
     {
         {"TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
