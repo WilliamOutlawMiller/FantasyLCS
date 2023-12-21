@@ -1,3 +1,5 @@
+using static StorageManager;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,26 +18,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-app.MapGet("/getmatch", () =>
+app.MapGet("/getplayerlist", () =>
 {
-    return GetProData.GetMatchFullStats();
+    List<Player> players = GetProData.GetPlayerList();
+    UpdateStorageFiles(players);
+    return players;
 })
-.WithName("GetMatch")
-.WithOpenApi();
-
-app.MapGet("/getplayer", () =>
-{
-    return GetProData.GetPlayer();
-})
-.WithName("GetPlayer")
-.WithOpenApi();
-
-app.MapGet("/getteam", () =>
-{
-    return GetProData.GetTeam();
-})
-.WithName("GetTeam")
+.WithName("GetPlayerList")
 .WithOpenApi();
 
 app.MapGet("/getmatchids", () =>
