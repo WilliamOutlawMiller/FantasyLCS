@@ -20,9 +20,17 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getplayerlist", () =>
 {
-    List<Player> players = GetProData.GetPlayerList();
-    UpdateStorageFiles(players);
-    return players;
+    List<Player> existingPlayerData = ReadData<Player>();
+    List<Player> updatedPlayerData = new List<Player>();
+    
+    if (ShouldRefreshData<Player>())
+    {
+        updatedPlayerData = GetProData.GetPlayerList();
+        WriteData(updatedPlayerData);
+        return updatedPlayerData;
+    }
+    else 
+        return existingPlayerData;
 })
 .WithName("GetPlayerList")
 .WithOpenApi();
