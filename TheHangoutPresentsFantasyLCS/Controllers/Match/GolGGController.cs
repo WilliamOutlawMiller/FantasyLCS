@@ -54,7 +54,7 @@ public class GolGGController : StatsController
         }
     }
 
-    public override List<FullStats> GetMatchFullStats()
+    public override List<FullStats> GetMatchFullStats(int matchID)
     {
         List<FullStats> fullStats = new List<FullStats>();
         string xPath = GolGGConstants.FULLSTATS;
@@ -71,6 +71,9 @@ public class GolGGController : StatsController
                 fullStats.Add(JsonSerializer.Deserialize<FullStats>(playerStatsJson));
             }
 
+            foreach (var fullStat in fullStats)
+                fullStat.MatchID = matchID;
+                
             return fullStats;
         }
         catch
