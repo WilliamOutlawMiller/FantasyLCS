@@ -20,7 +20,6 @@ public class GetProData
     {
         List<FullStats> matchFullStats = new List<FullStats>();
         
-        // string url = SeasonInfo.DOMAIN + SeasonInfo.SEASON + SeasonInfo.YEAR; 
         string url = "https://gol.gg/game/stats/53263/page-fullstats/";
 
         GolGGController controller = new GolGGController(url);
@@ -28,25 +27,28 @@ public class GetProData
         return controller.GetMatchFullStats();
     }
 
-    /// <summary>
-    /// This method gets an LCS team stats. Probably useless, but we do need it to get an official list of players and subs, so there's that.
-    /// </summary>
-    /// <returns></returns>
-    public static Team GetTeam()
-    {
-        Team team = new Team();
-        string url = "https://gol.gg/teams/team-stats/1799/split-ALL/tournament-ALL/";
-
-        GolGGController controller = new GolGGController(url);
-        return controller.GetTeam();
-    }
-
-    public static Player GetPlayer()
+    public static List<Player> GetPlayerList()
     { 
-        Player player = new Player();
-        string url = "https://gol.gg/players/player-stats/107/season-S13/split-Summer/tournament-ALL/champion-ALL/";
+        List<Player> players = new List<Player>();
+        GolGGController controller = new GolGGController();
 
-        GolGGController controller = new GolGGController(url);
-        return controller.GetPlayer();
+        controller.URL = SeasonInfo.TeamListURL.DOMAIN;
+        List<int> teamIDs = controller.GetTeamIDs();
+
+        foreach (int teamID in teamIDs)
+        {
+            controller.URL = SeasonInfo.TeamStatsURL.DOMAIN + teamID + SeasonInfo.TeamStatsURL.FILTER;
+
+            Team team = new Team();
+            team = controller.GetTeam(teamID);
+
+            foreach (int playerID in team.Roster.PlayerIDs)
+            {
+                controller.URL = SeasonInfo.PlayerStatsURL.DOMAIN + playerID + SeasonInfo.PlayerStatsURL.FILTER;
+                players.Add(controller.GetPlayer(playerID));
+            }
+        }
+
+        return players;
     }
 }
