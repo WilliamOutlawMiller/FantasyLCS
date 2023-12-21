@@ -14,7 +14,7 @@ public class UpdateData
 
         if (ShouldRefreshData<Match>())
         {
-            GolGGController controller = new GolGGController();
+            GolGGScraper controller = new GolGGScraper();
 
             controller.URL = SeasonInfo.MatchListURL.DOMAIN;
             List<int> matchIDs = controller.GetMatchIDs();
@@ -50,7 +50,7 @@ public class UpdateData
         
         if (ShouldRefreshData<Player>())
         {
-            GolGGController controller = new GolGGController();
+            GolGGScraper controller = new GolGGScraper();
 
             controller.URL = SeasonInfo.TeamListURL.DOMAIN;
             List<int> teamIDs = controller.GetTeamIDs();
@@ -71,17 +71,5 @@ public class UpdateData
 
             WriteData(updatedPlayerData);
         } 
-    }
-
-    public static Player GetPlayer(int id)
-    {
-        List<Player> players = ReadData<Player>();
-        return players.Where(player => player.ID == id).Single();
-    }
-
-    public static Match GetMatch(int id)
-    {
-        List<Match> matches = ReadData<Match>();
-        return matches.Where(match => match.ID == id).Single();
     }
 }

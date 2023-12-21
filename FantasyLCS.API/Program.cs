@@ -51,7 +51,7 @@ app.MapGet("/getplayer/{id}", (int id) =>
 {
     try
     {   
-        var player = UpdateData.GetPlayer(id);
+        var player = GetData.GetPlayer(id);
         if (player != null)
         {
             return Results.Ok(player);
@@ -73,7 +73,7 @@ app.MapGet("/getmatch/{id}", (int id) =>
 {
     try
     {   
-        var match = UpdateData.GetMatch(id);
+        var match = GetData.GetMatch(id);
         if (match != null)
         {
             return Results.Ok(match);

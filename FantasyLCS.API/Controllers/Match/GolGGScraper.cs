@@ -14,14 +14,14 @@ using System.Reflection;
 using PlayerStats;
 using System.Globalization;
 
-public class GolGGController : StatsController
+public class GolGGScraper : StatsScraper
 {
-    public GolGGController() : base()
+    public GolGGScraper() : base()
     {
 
     }
 
-    public GolGGController(string url) : base(url)
+    public GolGGScraper(string url) : base(url)
     {
 
     }

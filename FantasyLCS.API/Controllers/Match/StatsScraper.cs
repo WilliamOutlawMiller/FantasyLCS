@@ -12,7 +12,7 @@ using System.Text.Json;
 using Constants;
 using System.Security.Policy;
 
-public abstract class StatsController
+public abstract class StatsScraper
 {   
     private string _url;
     public string URL 
@@ -49,12 +49,12 @@ public abstract class StatsController
         }
     }
     
-    public StatsController()
+    public StatsScraper()
     {
         // This constructor assumes that you will be setting the URL later.
     }
 
-    public StatsController(string url)
+    public StatsScraper(string url)
     {
         URL = url;
     }
