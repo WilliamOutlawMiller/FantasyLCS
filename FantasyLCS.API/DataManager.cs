@@ -79,9 +79,16 @@ public class DataManager
     {
         List<Roster> rosters = ReadData<Roster>();
 
+        int uniqueID = CreateUniqueIdFromString(name);
+        
+        if (rosters.Where(roster => roster.ID == uniqueID) != null)
+        {
+            throw new Exception("A roster with that name already exists, you dummy!");
+        }
+
         rosters.Add(new Roster
         {
-            ID = CreateUniqueIdFromString(name),
+            ID = uniqueID,
             Name = name,
             Players = new List<Player>(),
             Subs = new List<Player>(),
