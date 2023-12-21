@@ -7,22 +7,34 @@ namespace Constants
         // todo: update these to Spring 2024 when data becomes available
         public const string SEASON = "season-S13";
         public const string SPLIT = "split-Summer";
-        public const string TOURNAMENT = "tournament-LCS%20Summer%202023";
+        public const string TOURNAMENT = "LCS%20Summer%202023";
+
         public class TeamListURL
         {
-            public const string DOMAIN = $"https://gol.gg/teams/list/{SEASON}/{SPLIT}/{TOURNAMENT}/";
+            public const string DOMAIN = $"https://gol.gg/teams/list/{SEASON}/{SPLIT}/tournament-{TOURNAMENT}/";
         }
 
         public class TeamStatsURL
         {
             public const string DOMAIN = "https://gol.gg/teams/team-stats/";
-            public const string FILTER = $"/{SPLIT}/{TOURNAMENT}/";
+            public const string FILTER = $"/{SPLIT}/tournament-{TOURNAMENT}/";
         }
 
         public class PlayerStatsURL
         {
             public const string DOMAIN = "https://gol.gg/players/player-stats/";
-            public const string FILTER = $"/{SEASON}/{SPLIT}/{TOURNAMENT}/champion-ALL/";
+            public const string FILTER = $"/{SEASON}/{SPLIT}/tournament-{TOURNAMENT}/champion-ALL/";
+        }
+
+        public class MatchListURL
+        {
+            public const string DOMAIN = $"https://gol.gg/tournament/tournament-matchlist/{TOURNAMENT}/";
+        }
+
+        public class GameURL
+        {
+            public const string DOMAIN = $"https://gol.gg/game/stats/";
+            public const string FILTER = $"/page-fullstats/";
         }
     }
 
