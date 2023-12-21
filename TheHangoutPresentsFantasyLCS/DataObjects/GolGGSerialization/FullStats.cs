@@ -8,7 +8,7 @@ public class FullStats
     public int PlayerID { get; set; }
 
     [JsonPropertyName("Player")]
-    public string Player { get; set; }
+    public string Name { get; set; }
 
     [JsonPropertyName("Champion")]
     public string Champion { get; set; }
