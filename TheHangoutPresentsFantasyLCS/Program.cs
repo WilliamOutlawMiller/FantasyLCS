@@ -16,32 +16,32 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/updateplayerlist", () =>
+app.MapPost("/updateplayerlist", () =>
 {
     try
     {
         UpdateData.UpdatePlayerList();
-        return "Success!";
+        return Results.Ok("Success!");
     }
-    catch
+    catch (Exception ex)
     {
-        return "Failure!";
+        return Results.Problem("Failure: " + ex.Message);
     }
     
 })
 .WithName("UpdatePlayerList")
 .WithOpenApi();
 
-app.MapGet("/updatematchdata", () =>
+app.MapPost("/updatematchdata", () =>
 {
     try
     {
         UpdateData.UpdateMatchData();
-        return "Success!";
+        return Results.Ok("Success!");
     }
-    catch
+    catch (Exception ex)
     {
-        return "Failure!";
+        return Results.Problem("Failure: " + ex.Message);
     }
 })
 .WithName("UpdateMatchData")
