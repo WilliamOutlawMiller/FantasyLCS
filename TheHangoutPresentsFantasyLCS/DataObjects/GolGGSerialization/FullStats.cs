@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 
 public class FullStats
 {
+    public int MatchID { get; set; }
+
+    public int PlayerID { get; set; }
+
     [JsonPropertyName("Player")]
     public string Player { get; set; }
 
