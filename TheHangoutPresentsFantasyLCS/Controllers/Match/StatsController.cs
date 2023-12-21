@@ -60,9 +60,10 @@ public abstract class StatsController
     }
 
     public abstract List<int> GetMatchIDs();
+    public abstract List<int> GetTeamIDs();
     public abstract List<FullStats> GetMatchFullStats();
-    public abstract Team GetTeam();
-    public abstract Player GetPlayer();
+    public abstract Team GetTeam(int teamID);
+    public abstract Player GetPlayer(int playerID);
 
     public static async Task<HtmlDocument> LoadHtmlDocumentAsync(string url)
     {

@@ -40,6 +40,20 @@ public class GolGGController : StatsController
         }
     }
 
+    public override List<int> GetTeamIDs()
+    {
+        List<int> ids = new List<int>();
+
+        try
+        {
+            return GetGolGGTeamIDs();
+        }
+        catch
+        {
+            throw new Exception("Unable to get List of Team IDs.");
+        }
+    }
+
     public override List<FullStats> GetMatchFullStats()
     {
         List<FullStats> fullStats = new List<FullStats>();
@@ -65,9 +79,11 @@ public class GolGGController : StatsController
         }
     }
 
-    public override Team GetTeam()
+    public override Team GetTeam(int teamID)
     {
         Team team = new Team();
+        team.ID = teamID;
+
         Type objectType;
         PropertyInfo property;
 
@@ -106,9 +122,10 @@ public class GolGGController : StatsController
         }
     }
 
-    public override Player GetPlayer()
+    public override Player GetPlayer(int playerID)
     {
         Player player = new Player();
+        player.ID = playerID;
         player.Name = LocateHTMLNode(GolGGConstants.PlayerStats["PlayerName"]).InnerText.Replace("&nbsp;", "");
         Type objectType;
         PropertyInfo property;
@@ -117,6 +134,7 @@ public class GolGGController : StatsController
         var championStatsXPath = GolGGConstants.PlayerStats["ChampionStats"];
         var dictionariesToScrape = new Dictionary<string, string>(GolGGConstants.PlayerStats);
         dictionariesToScrape.Remove("ChampionStats");
+        dictionariesToScrape.Remove("PlayerName");
 
         try
         {
@@ -272,5 +290,25 @@ public class GolGGController : StatsController
         }
 
         return matchIDs;
+    }
+    
+    private List<int> GetGolGGTeamIDs()
+    {
+        List<int> teamIDs = new List<int>();
+
+        var tableNode = CurrentWebpage.DocumentNode.SelectSingleNode(GolGGConstants.TEAMLIST);
+        
+        var rows = tableNode.SelectNodes("tr");
+
+        foreach (var row in rows)
+        {
+            HtmlNode hyperlinkCell = row.SelectNodes("td")[0].SelectSingleNode("a");
+            string url = hyperlinkCell.Attributes["href"].Value;
+            string[] parts = url.Split('/');
+            int uniqueMatchID = Convert.ToInt32(parts[2]);
+            teamIDs.Add(uniqueMatchID);
+        }
+
+        return teamIDs;
     }
 }
