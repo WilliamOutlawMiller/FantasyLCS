@@ -1,0 +1,4586 @@
+[
+  {
+    "ID": 107,
+    "Name": "ssumday",
+    "GeneralStats": {
+      "Record": "7W - 12L",
+      "Win Rate": "36.8%",
+      "KDA": "2.4",
+      "CS per Minute": "8.7",
+      "Gold Per Minute": "382",
+      "Gold%": "21.8%",
+      "Kill Participation": "52.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "KSante",
+        "Nb games": "8",
+        "Win Rate": "37.5%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "Sion",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.3"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "8.0"
+      },
+      {
+        "Champion": "Malphite",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "10.0"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.5"
+      },
+      {
+        "Champion": "Kennen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Gwen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "396.3",
+      "Damage%": "21%",
+      "K\u002BA Per Minute": "0.17",
+      "Solo kills": "9",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "-2.8",
+      "Gold Differential at 15 min": "\u002B37",
+      "XP Differential at 15 min": "-65",
+      "First Blood Participation": "21.1%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.98",
+      "Ward Per Minute": "0.33",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.19"
+    }
+  },
+  {
+    "ID": 1638,
+    "Name": "Closer",
+    "GeneralStats": {
+      "Record": "7W - 12L",
+      "Win Rate": "36.8%",
+      "KDA": "2.7",
+      "CS per Minute": "5.2",
+      "Gold Per Minute": "310",
+      "Gold%": "17.7%",
+      "Kill Participation": "60.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "3.1"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "4.4"
+      },
+      {
+        "Champion": "Wukong",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Lee Sin",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "KhaZix",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.4"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "8.0"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "247.3",
+      "Damage%": "12.7%",
+      "K\u002BA Per Minute": "0.18",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "47.4%",
+      "CS Differential at 15 min": "\u002B1.2",
+      "Gold Differential at 15 min": "-398",
+      "XP Differential at 15 min": "-67",
+      "First Blood Participation": "5.3%",
+      "First Blood Victim": "5.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.37",
+      "Ward Per Minute": "0.34",
+      "Vision Ward Per Minute": "0.23",
+      "Ward Cleared Per Minute": "0.33"
+    }
+  },
+  {
+    "ID": 4246,
+    "Name": "Quid",
+    "GeneralStats": {
+      "Record": "6W - 10L",
+      "Win Rate": "37.5%",
+      "KDA": "2.4",
+      "CS per Minute": "8.8",
+      "Gold Per Minute": "404",
+      "Gold%": "22.8%",
+      "Kill Participation": "76.1%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Azir",
+        "Nb games": "7",
+        "Win Rate": "28.6%",
+        "KDA": "2.1"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "5.4"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.7"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Akali",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "623.8",
+      "Damage%": "31.9%",
+      "K\u002BA Per Minute": "0.24",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "56.3%",
+      "CS Differential at 15 min": "-1",
+      "Gold Differential at 15 min": "-238",
+      "XP Differential at 15 min": "-99",
+      "First Blood Participation": "6.3%",
+      "First Blood Victim": "18.8%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.26",
+      "Ward Per Minute": "0.48",
+      "Vision Ward Per Minute": "0.16",
+      "Ward Cleared Per Minute": "0.3"
+    }
+  },
+  {
+    "ID": 149,
+    "Name": "Doublelift",
+    "GeneralStats": {
+      "Record": "7W - 12L",
+      "Win Rate": "36.8%",
+      "KDA": "3.0",
+      "CS per Minute": "10.4",
+      "Gold Per Minute": "451",
+      "Gold%": "25.6%",
+      "Kill Participation": "77.1%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Xayah",
+        "Nb games": "6",
+        "Win Rate": "50%",
+        "KDA": "6.4"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "3.9"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.6"
+      },
+      {
+        "Champion": "Lucian",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Zeri",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Jinx",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Sivir",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "546",
+      "Damage%": "28.6%",
+      "K\u002BA Per Minute": "0.22",
+      "Solo kills": "4",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "\u002B1.6",
+      "Gold Differential at 15 min": "-126",
+      "XP Differential at 15 min": "\u002B68",
+      "First Blood Participation": "15.8%",
+      "First Blood Victim": "15.8%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.28",
+      "Ward Per Minute": "0.38",
+      "Vision Ward Per Minute": "0.13",
+      "Ward Cleared Per Minute": "0.38"
+    }
+  },
+  {
+    "ID": 4500,
+    "Name": "Busio",
+    "GeneralStats": {
+      "Record": "7W - 12L",
+      "Win Rate": "36.8%",
+      "KDA": "2.7",
+      "CS per Minute": "0.9",
+      "Gold Per Minute": "223",
+      "Gold%": "12.7%",
+      "Kill Participation": "77%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rakan",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "3.7"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Renata Glasc",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "17.0"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.8"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.1"
+      },
+      {
+        "Champion": "Nami",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Yuumi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Alistar",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "124.2",
+      "Damage%": "6.7%",
+      "K\u002BA Per Minute": "0.22",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "47.4%",
+      "CS Differential at 15 min": "\u002B0.7",
+      "Gold Differential at 15 min": "-216",
+      "XP Differential at 15 min": "-148",
+      "First Blood Participation": "10.5%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.03",
+      "Ward Per Minute": "1.71",
+      "Vision Ward Per Minute": "0.42",
+      "Ward Cleared Per Minute": "0.28"
+    }
+  },
+  {
+    "ID": 281,
+    "Name": "Nukeduck",
+    "GeneralStats": {
+      "Record": "1W - 2L",
+      "Win Rate": "33.3%",
+      "KDA": "1.3",
+      "CS per Minute": "7.8",
+      "Gold Per Minute": "330",
+      "Gold%": "19.1%",
+      "Kill Participation": "34%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Ahri",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.4"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "485.9",
+      "Damage%": "26.6%",
+      "K\u002BA Per Minute": "0.08",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "33.3%",
+      "CS Differential at 15 min": "-2.7",
+      "Gold Differential at 15 min": "-218",
+      "XP Differential at 15 min": "\u002B1",
+      "First Blood Participation": "0%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.95",
+      "Ward Per Minute": "0.32",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.15"
+    }
+  },
+  {
+    "ID": 2359,
+    "Name": "Fudge",
+    "GeneralStats": {
+      "Record": "14W - 5L",
+      "Win Rate": "73.7%",
+      "KDA": "4.1",
+      "CS per Minute": "8.5",
+      "Gold Per Minute": "410",
+      "Gold%": "20.9%",
+      "Kill Participation": "62.4%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Renekton",
+        "Nb games": "6",
+        "Win Rate": "50%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "5",
+        "Win Rate": "100%",
+        "KDA": "9.6"
+      },
+      {
+        "Champion": "Kennen",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Gnar",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "11.0"
+      },
+      {
+        "Champion": "Gwen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "5.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "519.4",
+      "Damage%": "23.2%",
+      "K\u002BA Per Minute": "0.31",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "68.4%",
+      "CS Differential at 15 min": "\u002B2.2",
+      "Gold Differential at 15 min": "\u002B61",
+      "XP Differential at 15 min": "\u002B31",
+      "First Blood Participation": "10.5%",
+      "First Blood Victim": "5.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.03",
+      "Ward Per Minute": "0.45",
+      "Vision Ward Per Minute": "0.16",
+      "Ward Cleared Per Minute": "0.14"
+    }
+  },
+  {
+    "ID": 1634,
+    "Name": "Blaber",
+    "GeneralStats": {
+      "Record": "14W - 5L",
+      "Win Rate": "73.7%",
+      "KDA": "5.6",
+      "CS per Minute": "7.1",
+      "Gold Per Minute": "405",
+      "Gold%": "20.4%",
+      "Kill Participation": "74.5%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Kindred",
+        "Nb games": "5",
+        "Win Rate": "80%",
+        "KDA": "7.1"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "4",
+        "Win Rate": "100%",
+        "KDA": "6.1"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Sejuani",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "14.0"
+      },
+      {
+        "Champion": "KhaZix",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Nocturne",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "13.0"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "15.0"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "11.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "461.8",
+      "Damage%": "20.1%",
+      "K\u002BA Per Minute": "0.4",
+      "Solo kills": "4",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "94.7%",
+      "CS Differential at 15 min": "\u002B17.3",
+      "Gold Differential at 15 min": "\u002B603",
+      "XP Differential at 15 min": "\u002B705",
+      "First Blood Participation": "36.8%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.76",
+      "Ward Per Minute": "0.4",
+      "Vision Ward Per Minute": "0.27",
+      "Ward Cleared Per Minute": "0.42"
+    }
+  },
+  {
+    "ID": 2742,
+    "Name": "EMENES",
+    "GeneralStats": {
+      "Record": "14W - 5L",
+      "Win Rate": "73.7%",
+      "KDA": "5.7",
+      "CS per Minute": "9",
+      "Gold Per Minute": "446",
+      "Gold%": "22.6%",
+      "Kill Participation": "72%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Annie",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "4.1"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "4",
+        "Win Rate": "100%",
+        "KDA": "11.7"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "15.0"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.5"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Zeri",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Orianna",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.5"
+      },
+      {
+        "Champion": "Lissandra",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.8"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "614.1",
+      "Damage%": "27.5%",
+      "K\u002BA Per Minute": "0.37",
+      "Solo kills": "5",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "47.4%",
+      "CS Differential at 15 min": "-1.9",
+      "Gold Differential at 15 min": "\u002B156",
+      "XP Differential at 15 min": "\u002B17",
+      "First Blood Participation": "26.3%",
+      "First Blood Victim": "21.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.19",
+      "Ward Per Minute": "0.45",
+      "Vision Ward Per Minute": "0.18",
+      "Ward Cleared Per Minute": "0.26"
+    }
+  },
+  {
+    "ID": 3322,
+    "Name": "Berserker",
+    "GeneralStats": {
+      "Record": "14W - 5L",
+      "Win Rate": "73.7%",
+      "KDA": "8.2",
+      "CS per Minute": "9.6",
+      "Gold Per Minute": "454",
+      "Gold%": "23%",
+      "Kill Participation": "64.1%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "5",
+        "Win Rate": "80%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "10.6"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "40.0"
+      },
+      {
+        "Champion": "Zeri",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Draven",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.5"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "KogMaw",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "505.6",
+      "Damage%": "22.2%",
+      "K\u002BA Per Minute": "0.33",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "57.9%",
+      "CS Differential at 15 min": "\u002B8.6",
+      "Gold Differential at 15 min": "\u002B254",
+      "XP Differential at 15 min": "\u002B163",
+      "First Blood Participation": "21.1%",
+      "First Blood Victim": "5.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.33",
+      "Ward Per Minute": "0.5",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.3"
+    }
+  },
+  {
+    "ID": 481,
+    "Name": "Zven",
+    "GeneralStats": {
+      "Record": "14W - 5L",
+      "Win Rate": "73.7%",
+      "KDA": "5.4",
+      "CS per Minute": "0.9",
+      "Gold Per Minute": "259",
+      "Gold%": "13.1%",
+      "Kill Participation": "78.5%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Milio",
+        "Nb games": "5",
+        "Win Rate": "80%",
+        "KDA": "16.5"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      },
+      {
+        "Champion": "Yuumi",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Lulu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "17.0"
+      },
+      {
+        "Champion": "Soraka",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.7"
+      },
+      {
+        "Champion": "Heimerdinger",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "153.2",
+      "Damage%": "6.9%",
+      "K\u002BA Per Minute": "0.41",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "-3.4",
+      "Gold Differential at 15 min": "\u002B153",
+      "XP Differential at 15 min": "\u002B258",
+      "First Blood Participation": "31.6%",
+      "First Blood Victim": "15.8%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "2.79",
+      "Ward Per Minute": "1.35",
+      "Vision Ward Per Minute": "0.24",
+      "Ward Cleared Per Minute": "0.31"
+    }
+  },
+  {
+    "ID": 1613,
+    "Name": "Rich",
+    "GeneralStats": {
+      "Record": "8W - 11L",
+      "Win Rate": "42.1%",
+      "KDA": "2.2",
+      "CS per Minute": "7.7",
+      "Gold Per Minute": "375",
+      "Gold%": "21%",
+      "Kill Participation": "60.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "KSante",
+        "Nb games": "6",
+        "Win Rate": "66.7%",
+        "KDA": "3.4"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "Quinn",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.1"
+      },
+      {
+        "Champion": "Illaoi",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "0.9"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.7"
+      },
+      {
+        "Champion": "Malphite",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Gangplank",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Fiora",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "11.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "553.6",
+      "Damage%": "25.5%",
+      "K\u002BA Per Minute": "0.22",
+      "Solo kills": "8",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "\u002B3.9",
+      "Gold Differential at 15 min": "\u002B243",
+      "XP Differential at 15 min": "-120",
+      "First Blood Participation": "10.5%",
+      "First Blood Victim": "5.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.98",
+      "Ward Per Minute": "0.33",
+      "Vision Ward Per Minute": "0.12",
+      "Ward Cleared Per Minute": "0.23"
+    }
+  },
+  {
+    "ID": 227,
+    "Name": "Santorin",
+    "GeneralStats": {
+      "Record": "8W - 11L",
+      "Win Rate": "42.1%",
+      "KDA": "3.2",
+      "CS per Minute": "5.1",
+      "Gold Per Minute": "321",
+      "Gold%": "18%",
+      "Kill Participation": "70%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "7",
+        "Win Rate": "57.1%",
+        "KDA": "3.7"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "4.9"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.7"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "RekSai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "259",
+      "Damage%": "11.8%",
+      "K\u002BA Per Minute": "0.27",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "42.1%",
+      "CS Differential at 15 min": "-0.6",
+      "Gold Differential at 15 min": "-38",
+      "XP Differential at 15 min": "-127",
+      "First Blood Participation": "36.8%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.61",
+      "Ward Per Minute": "0.39",
+      "Vision Ward Per Minute": "0.35",
+      "Ward Cleared Per Minute": "0.47"
+    }
+  },
+  {
+    "ID": 583,
+    "Name": "Jensen",
+    "GeneralStats": {
+      "Record": "8W - 11L",
+      "Win Rate": "42.1%",
+      "KDA": "3.8",
+      "CS per Minute": "9",
+      "Gold Per Minute": "423",
+      "Gold%": "23.7%",
+      "Kill Participation": "75.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Azir",
+        "Nb games": "5",
+        "Win Rate": "20%",
+        "KDA": "3.1"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "16.5"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.8"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.9"
+      },
+      {
+        "Champion": "Orianna",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "5.8"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Cassiopeia",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.5"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Ziggs",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "657.9",
+      "Damage%": "29.9%",
+      "K\u002BA Per Minute": "0.28",
+      "Solo kills": "4",
+      "Pentakills": "1"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "-0.5",
+      "Gold Differential at 15 min": "-359",
+      "XP Differential at 15 min": "-37",
+      "First Blood Participation": "15.8%",
+      "First Blood Victim": "15.8%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.13",
+      "Ward Per Minute": "0.36",
+      "Vision Ward Per Minute": "0.13",
+      "Ward Cleared Per Minute": "0.25"
+    }
+  },
+  {
+    "ID": 3060,
+    "Name": "Tomo",
+    "GeneralStats": {
+      "Record": "8W - 11L",
+      "Win Rate": "42.1%",
+      "KDA": "2.8",
+      "CS per Minute": "9.6",
+      "Gold Per Minute": "435",
+      "Gold%": "24.4%",
+      "Kill Participation": "71%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Kaisa",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "7.6"
+      },
+      {
+        "Champion": "Aphelios",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Jinx",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "6.7"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Ziggs",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.8"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "614.6",
+      "Damage%": "27.7%",
+      "K\u002BA Per Minute": "0.26",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "42.1%",
+      "CS Differential at 15 min": "-9.4",
+      "Gold Differential at 15 min": "-690",
+      "XP Differential at 15 min": "-323",
+      "First Blood Participation": "26.3%",
+      "First Blood Victim": "15.8%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.09",
+      "Ward Per Minute": "0.35",
+      "Vision Ward Per Minute": "0.12",
+      "Ward Cleared Per Minute": "0.31"
+    }
+  },
+  {
+    "ID": 3059,
+    "Name": "Poome",
+    "GeneralStats": {
+      "Record": "2W - 5L",
+      "Win Rate": "28.6%",
+      "KDA": "1.1",
+      "CS per Minute": "1.1",
+      "Gold Per Minute": "222",
+      "Gold%": "12.4%",
+      "Kill Participation": "57.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.9"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "1.1"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Alistar",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.5"
+      },
+      {
+        "Champion": "Blitzcrank",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "120.6",
+      "Damage%": "5.8%",
+      "K\u002BA Per Minute": "0.18",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "57.1%",
+      "CS Differential at 15 min": "\u002B0.6",
+      "Gold Differential at 15 min": "-93",
+      "XP Differential at 15 min": "-298",
+      "First Blood Participation": "42.9%",
+      "First Blood Victim": "14.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.19",
+      "Ward Per Minute": "1.77",
+      "Vision Ward Per Minute": "0.52",
+      "Ward Cleared Per Minute": "0.36"
+    }
+  },
+  {
+    "ID": 1975,
+    "Name": "Diamond",
+    "GeneralStats": {
+      "Record": "6W - 6L",
+      "Win Rate": "50%",
+      "KDA": "2.0",
+      "CS per Minute": "1.1",
+      "Gold Per Minute": "231",
+      "Gold%": "13%",
+      "Kill Participation": "68.2%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "1.7"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "5.2"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Lulu",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Thresh",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.2"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "Leona",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "1.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "103.5",
+      "Damage%": "4.8%",
+      "K\u002BA Per Minute": "0.26",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "100%",
+      "CS Differential at 15 min": "\u002B6.8",
+      "Gold Differential at 15 min": "-147",
+      "XP Differential at 15 min": "\u002B4",
+      "First Blood Participation": "16.7%",
+      "First Blood Victim": "8.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "2.97",
+      "Ward Per Minute": "1.57",
+      "Vision Ward Per Minute": "0.42",
+      "Ward Cleared Per Minute": "0.36"
+    }
+  },
+  {
+    "ID": 2431,
+    "Name": "Revenge",
+    "GeneralStats": {
+      "Record": "12W - 6L",
+      "Win Rate": "66.7%",
+      "KDA": "3.1",
+      "CS per Minute": "8.2",
+      "Gold Per Minute": "398",
+      "Gold%": "20.9%",
+      "Kill Participation": "60.6%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Renekton",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Sion",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "4.3"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "5.7"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Fiora",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      },
+      {
+        "Champion": "Gwen",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "17.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "504.6",
+      "Damage%": "22.3%",
+      "K\u002BA Per Minute": "0.29",
+      "Solo kills": "6",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "55.6%",
+      "CS Differential at 15 min": "\u002B0.3",
+      "Gold Differential at 15 min": "\u002B126",
+      "XP Differential at 15 min": "-155",
+      "First Blood Participation": "11.1%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.91",
+      "Ward Per Minute": "0.42",
+      "Vision Ward Per Minute": "0.17",
+      "Ward Cleared Per Minute": "0.13"
+    }
+  },
+  {
+    "ID": 4715,
+    "Name": "Sheiden",
+    "GeneralStats": {
+      "Record": "3W - 0L",
+      "Win Rate": "100%",
+      "KDA": "8.2",
+      "CS per Minute": "5.2",
+      "Gold Per Minute": "365",
+      "Gold%": "17.4%",
+      "Kill Participation": "79.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "17.0"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "11.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "274.1",
+      "Damage%": "9.5%",
+      "K\u002BA Per Minute": "0.51",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "66.7%",
+      "CS Differential at 15 min": "-4",
+      "Gold Differential at 15 min": "\u002B62",
+      "XP Differential at 15 min": "\u002B164",
+      "First Blood Participation": "66.7%",
+      "First Blood Victim": "33.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.42",
+      "Ward Per Minute": "0.46",
+      "Vision Ward Per Minute": "0.49",
+      "Ward Cleared Per Minute": "0.35"
+    }
+  },
+  {
+    "ID": 3544,
+    "Name": "jojopyun",
+    "GeneralStats": {
+      "Record": "12W - 6L",
+      "Win Rate": "66.7%",
+      "KDA": "4.2",
+      "CS per Minute": "9.1",
+      "Gold Per Minute": "447",
+      "Gold%": "23.4%",
+      "Kill Participation": "72.4%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Jayce",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "10.0"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "3.1"
+      },
+      {
+        "Champion": "Sylas",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.7"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Azir",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.2"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "711.8",
+      "Damage%": "31.4%",
+      "K\u002BA Per Minute": "0.36",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "83.3%",
+      "CS Differential at 15 min": "\u002B11.7",
+      "Gold Differential at 15 min": "\u002B410",
+      "XP Differential at 15 min": "\u002B216",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.33",
+      "Ward Per Minute": "0.55",
+      "Vision Ward Per Minute": "0.24",
+      "Ward Cleared Per Minute": "0.3"
+    }
+  },
+  {
+    "ID": 2729,
+    "Name": "UNF0RGIVEN",
+    "GeneralStats": {
+      "Record": "12W - 6L",
+      "Win Rate": "66.7%",
+      "KDA": "7.4",
+      "CS per Minute": "10.4",
+      "Gold Per Minute": "476",
+      "Gold%": "25%",
+      "Kill Participation": "63%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Xayah",
+        "Nb games": "7",
+        "Win Rate": "71.4%",
+        "KDA": "9.1"
+      },
+      {
+        "Champion": "Aphelios",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "6.5"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "28.0"
+      },
+      {
+        "Champion": "Lucian",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Draven",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "619.3",
+      "Damage%": "27%",
+      "K\u002BA Per Minute": "0.3",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "44.4%",
+      "CS Differential at 15 min": "-1.4",
+      "Gold Differential at 15 min": "-141",
+      "XP Differential at 15 min": "-215",
+      "First Blood Participation": "16.7%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.06",
+      "Ward Per Minute": "0.37",
+      "Vision Ward Per Minute": "0.1",
+      "Ward Cleared Per Minute": "0.27"
+    }
+  },
+  {
+    "ID": 1999,
+    "Name": "Eyla",
+    "GeneralStats": {
+      "Record": "12W - 6L",
+      "Win Rate": "66.7%",
+      "KDA": "4.5",
+      "CS per Minute": "1",
+      "Gold Per Minute": "244",
+      "Gold%": "12.9%",
+      "Kill Participation": "80.5%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "6",
+        "Win Rate": "83.3%",
+        "KDA": "4.9"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "12.5"
+      },
+      {
+        "Champion": "Lulu",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "6.7"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.9"
+      },
+      {
+        "Champion": "Yuumi",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Janna",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      },
+      {
+        "Champion": "Amumu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "136.6",
+      "Damage%": "6.1%",
+      "K\u002BA Per Minute": "0.39",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "50%",
+      "CS Differential at 15 min": "-1.9",
+      "Gold Differential at 15 min": "-161",
+      "XP Differential at 15 min": "-5",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "2.94",
+      "Ward Per Minute": "1.41",
+      "Vision Ward Per Minute": "0.44",
+      "Ward Cleared Per Minute": "0.39"
+    }
+  },
+  {
+    "ID": 1069,
+    "Name": "Armao",
+    "GeneralStats": {
+      "Record": "9W - 6L",
+      "Win Rate": "60%",
+      "KDA": "4.5",
+      "CS per Minute": "4.9",
+      "Gold Per Minute": "335",
+      "Gold%": "17.9%",
+      "Kill Participation": "81%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "4.4"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "21.0"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Trundle",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Nocturne",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "15.0"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.3"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.2"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "295.5",
+      "Damage%": "13.8%",
+      "K\u002BA Per Minute": "0.36",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "40%",
+      "CS Differential at 15 min": "-4.9",
+      "Gold Differential at 15 min": "-64",
+      "XP Differential at 15 min": "-101",
+      "First Blood Participation": "40%",
+      "First Blood Victim": "13.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.17",
+      "Ward Per Minute": "0.3",
+      "Vision Ward Per Minute": "0.22",
+      "Ward Cleared Per Minute": "0.21"
+    }
+  },
+  {
+    "ID": 46,
+    "Name": "Impact",
+    "GeneralStats": {
+      "Record": "6W - 12L",
+      "Win Rate": "33.3%",
+      "KDA": "2.6",
+      "CS per Minute": "7.7",
+      "Gold Per Minute": "367",
+      "Gold%": "20.8%",
+      "Kill Participation": "57%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Renekton",
+        "Nb games": "9",
+        "Win Rate": "22.2%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Malphite",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "476.1",
+      "Damage%": "23.2%",
+      "K\u002BA Per Minute": "0.22",
+      "Solo kills": "11",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "44.4%",
+      "CS Differential at 15 min": "\u002B1.4",
+      "Gold Differential at 15 min": "\u002B141",
+      "XP Differential at 15 min": "\u002B270",
+      "First Blood Participation": "22.2%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.93",
+      "Ward Per Minute": "0.34",
+      "Vision Ward Per Minute": "0.16",
+      "Ward Cleared Per Minute": "0.17"
+    }
+  },
+  {
+    "ID": 1785,
+    "Name": "Spica",
+    "GeneralStats": {
+      "Record": "6W - 12L",
+      "Win Rate": "33.3%",
+      "KDA": "4.0",
+      "CS per Minute": "5.1",
+      "Gold Per Minute": "330",
+      "Gold%": "18.7%",
+      "Kill Participation": "78%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Ivern",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "4.8"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "3",
+        "Win Rate": "0%",
+        "KDA": "1.4"
+      },
+      {
+        "Champion": "Sejuani",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "4.2"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "4.6"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "9.8"
+      },
+      {
+        "Champion": "RekSai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Amumu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "9.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "263.6",
+      "Damage%": "13.1%",
+      "K\u002BA Per Minute": "0.29",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "50%",
+      "CS Differential at 15 min": "-3.1",
+      "Gold Differential at 15 min": "\u002B19",
+      "XP Differential at 15 min": "-152",
+      "First Blood Participation": "44.4%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.48",
+      "Ward Per Minute": "0.32",
+      "Vision Ward Per Minute": "0.27",
+      "Ward Cleared Per Minute": "0.38"
+    }
+  },
+  {
+    "ID": 3326,
+    "Name": "Vicla",
+    "GeneralStats": {
+      "Record": "6W - 11L",
+      "Win Rate": "35.3%",
+      "KDA": "2.2",
+      "CS per Minute": "8.3",
+      "Gold Per Minute": "399",
+      "Gold%": "22.4%",
+      "Kill Participation": "64%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Jayce",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Azir",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "3",
+        "Win Rate": "0%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Sylas",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "589.6",
+      "Damage%": "29%",
+      "K\u002BA Per Minute": "0.26",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "23.5%",
+      "CS Differential at 15 min": "-8.8",
+      "Gold Differential at 15 min": "-245",
+      "XP Differential at 15 min": "-324",
+      "First Blood Participation": "17.6%",
+      "First Blood Victim": "5.9%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.17",
+      "Ward Per Minute": "0.46",
+      "Vision Ward Per Minute": "0.29",
+      "Ward Cleared Per Minute": "0.23"
+    }
+  },
+  {
+    "ID": 2669,
+    "Name": "Prince",
+    "GeneralStats": {
+      "Record": "6W - 12L",
+      "Win Rate": "33.3%",
+      "KDA": "3.4",
+      "CS per Minute": "9.9",
+      "Gold Per Minute": "443",
+      "Gold%": "25%",
+      "Kill Participation": "57.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "8",
+        "Win Rate": "25%",
+        "KDA": "1.4"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "11.6"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "3.6"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "551.7",
+      "Damage%": "27.2%",
+      "K\u002BA Per Minute": "0.24",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "55.6%",
+      "CS Differential at 15 min": "-0.6",
+      "Gold Differential at 15 min": "\u002B148",
+      "XP Differential at 15 min": "-99",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.25",
+      "Ward Per Minute": "0.55",
+      "Vision Ward Per Minute": "0.08",
+      "Ward Cleared Per Minute": "0.33"
+    }
+  },
+  {
+    "ID": 1301,
+    "Name": "Vulcan",
+    "GeneralStats": {
+      "Record": "6W - 12L",
+      "Win Rate": "33.3%",
+      "KDA": "2.9",
+      "CS per Minute": "1",
+      "Gold Per Minute": "233",
+      "Gold%": "13.1%",
+      "Kill Participation": "70.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Alistar",
+        "Nb games": "6",
+        "Win Rate": "50%",
+        "KDA": "5.6"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.4"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.1"
+      },
+      {
+        "Champion": "Yuumi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      },
+      {
+        "Champion": "Thresh",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.4"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      },
+      {
+        "Champion": "Blitzcrank",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "145.7",
+      "Damage%": "7.5%",
+      "K\u002BA Per Minute": "0.28",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "22.2%",
+      "CS Differential at 15 min": "-1.9",
+      "Gold Differential at 15 min": "-13",
+      "XP Differential at 15 min": "-89",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "2.92",
+      "Ward Per Minute": "1.54",
+      "Vision Ward Per Minute": "0.49",
+      "Ward Cleared Per Minute": "0.25"
+    }
+  },
+  {
+    "ID": 4405,
+    "Name": "Spirax",
+    "GeneralStats": {
+      "Record": "0W - 1L",
+      "Win Rate": "0%",
+      "KDA": "3.0",
+      "CS per Minute": "7.5",
+      "Gold Per Minute": "350",
+      "Gold%": "22%",
+      "Kill Participation": "100%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Jayce",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "543.7",
+      "Damage%": "30.4%",
+      "K\u002BA Per Minute": "0.22",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "0%",
+      "CS Differential at 15 min": "-16",
+      "Gold Differential at 15 min": "\u002B188",
+      "XP Differential at 15 min": "-835",
+      "First Blood Participation": "0%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.95",
+      "Ward Per Minute": "0.4",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.07"
+    }
+  },
+  {
+    "ID": 852,
+    "Name": "Licorice",
+    "GeneralStats": {
+      "Record": "13W - 6L",
+      "Win Rate": "68.4%",
+      "KDA": "3.4",
+      "CS per Minute": "8.3",
+      "Gold Per Minute": "407",
+      "Gold%": "21.4%",
+      "Kill Participation": "51.1%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Jax",
+        "Nb games": "8",
+        "Win Rate": "75%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "3.8"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.7"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.3"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.5"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Gwen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "520.4",
+      "Damage%": "22.5%",
+      "K\u002BA Per Minute": "0.24",
+      "Solo kills": "10",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "63.2%",
+      "CS Differential at 15 min": "\u002B3.8",
+      "Gold Differential at 15 min": "\u002B194",
+      "XP Differential at 15 min": "\u002B93",
+      "First Blood Participation": "15.8%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1",
+      "Ward Per Minute": "0.46",
+      "Vision Ward Per Minute": "0.14",
+      "Ward Cleared Per Minute": "0.12"
+    }
+  },
+  {
+    "ID": 2631,
+    "Name": "River",
+    "GeneralStats": {
+      "Record": "13W - 6L",
+      "Win Rate": "68.4%",
+      "KDA": "5.0",
+      "CS per Minute": "5.8",
+      "Gold Per Minute": "360",
+      "Gold%": "18.9%",
+      "Kill Participation": "74.2%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "7.5"
+      },
+      {
+        "Champion": "Kindred",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "6.9"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "3.6"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.7"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Jarvan IV",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "393.3",
+      "Damage%": "16.5%",
+      "K\u002BA Per Minute": "0.36",
+      "Solo kills": "4",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "57.9%",
+      "CS Differential at 15 min": "\u002B1.7",
+      "Gold Differential at 15 min": "\u002B158",
+      "XP Differential at 15 min": "\u002B58",
+      "First Blood Participation": "52.6%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.52",
+      "Ward Per Minute": "0.35",
+      "Vision Ward Per Minute": "0.29",
+      "Ward Cleared Per Minute": "0.34"
+    }
+  },
+  {
+    "ID": 1235,
+    "Name": "Gori",
+    "GeneralStats": {
+      "Record": "13W - 6L",
+      "Win Rate": "68.4%",
+      "KDA": "4.4",
+      "CS per Minute": "8.9",
+      "Gold Per Minute": "434",
+      "Gold%": "22.7%",
+      "Kill Participation": "66%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Azir",
+        "Nb games": "5",
+        "Win Rate": "80%",
+        "KDA": "3.8"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "8.0"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.4"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Sylas",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "5.0"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Akali",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Taliyah",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "13.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "686.7",
+      "Damage%": "29.2%",
+      "K\u002BA Per Minute": "0.31",
+      "Solo kills": "7",
+      "Pentakills": "1"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "73.7%",
+      "CS Differential at 15 min": "\u002B9.5",
+      "Gold Differential at 15 min": "\u002B346",
+      "XP Differential at 15 min": "\u002B174",
+      "First Blood Participation": "36.8%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.09",
+      "Ward Per Minute": "0.37",
+      "Vision Ward Per Minute": "0.17",
+      "Ward Cleared Per Minute": "0.25"
+    }
+  },
+  {
+    "ID": 580,
+    "Name": "Stixxay",
+    "GeneralStats": {
+      "Record": "13W - 6L",
+      "Win Rate": "68.4%",
+      "KDA": "5.4",
+      "CS per Minute": "9.8",
+      "Gold Per Minute": "458",
+      "Gold%": "24.1%",
+      "Kill Participation": "60.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "7",
+        "Win Rate": "100%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "8.7"
+      },
+      {
+        "Champion": "Lucian",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "6.6"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "6.3"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "5.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "613.2",
+      "Damage%": "25.3%",
+      "K\u002BA Per Minute": "0.3",
+      "Solo kills": "3",
+      "Pentakills": "1"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "52.6%",
+      "CS Differential at 15 min": "\u002B2.4",
+      "Gold Differential at 15 min": "\u002B107",
+      "XP Differential at 15 min": "\u002B188",
+      "First Blood Participation": "15.8%",
+      "First Blood Victim": "5.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.27",
+      "Ward Per Minute": "0.42",
+      "Vision Ward Per Minute": "0.18",
+      "Ward Cleared Per Minute": "0.32"
+    }
+  },
+  {
+    "ID": 579,
+    "Name": "Huhi",
+    "GeneralStats": {
+      "Record": "13W - 6L",
+      "Win Rate": "68.4%",
+      "KDA": "3.4",
+      "CS per Minute": "1.1",
+      "Gold Per Minute": "245",
+      "Gold%": "12.9%",
+      "Kill Participation": "63.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "4",
+        "Win Rate": "100%",
+        "KDA": "5.6"
+      },
+      {
+        "Champion": "Leona",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "2.8"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "7.8"
+      },
+      {
+        "Champion": "Nami",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.5"
+      },
+      {
+        "Champion": "Lulu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Zac",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Renata Glasc",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "149.7",
+      "Damage%": "6.5%",
+      "K\u002BA Per Minute": "0.32",
+      "Solo kills": "2",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "84.2%",
+      "CS Differential at 15 min": "\u002B5",
+      "Gold Differential at 15 min": "\u002B148",
+      "XP Differential at 15 min": "-15",
+      "First Blood Participation": "26.3%",
+      "First Blood Victim": "10.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.54",
+      "Ward Per Minute": "1.74",
+      "Vision Ward Per Minute": "0.46",
+      "Ward Cleared Per Minute": "0.44"
+    }
+  },
+  {
+    "ID": 634,
+    "Name": "solo",
+    "GeneralStats": {
+      "Record": "5W - 13L",
+      "Win Rate": "27.8%",
+      "KDA": "1.8",
+      "CS per Minute": "8",
+      "Gold Per Minute": "356",
+      "Gold%": "21%",
+      "Kill Participation": "46.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Ornn",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Sion",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.5"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Malphite",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "442.2",
+      "Damage%": "20.7%",
+      "K\u002BA Per Minute": "0.17",
+      "Solo kills": "4",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "33.3%",
+      "CS Differential at 15 min": "-6.1",
+      "Gold Differential at 15 min": "-649",
+      "XP Differential at 15 min": "-158",
+      "First Blood Participation": "5.6%",
+      "First Blood Victim": "22.2%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.01",
+      "Ward Per Minute": "0.41",
+      "Vision Ward Per Minute": "0.11",
+      "Ward Cleared Per Minute": "0.18"
+    }
+  },
+  {
+    "ID": 3184,
+    "Name": "Kenvi",
+    "GeneralStats": {
+      "Record": "5W - 13L",
+      "Win Rate": "27.8%",
+      "KDA": "2.1",
+      "CS per Minute": "5",
+      "Gold Per Minute": "302",
+      "Gold%": "17.8%",
+      "Kill Participation": "67.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "5",
+        "Win Rate": "20%",
+        "KDA": "1.2"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "3",
+        "Win Rate": "0%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Nocturne",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "KhaZix",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Wukong",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.7"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Graves",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "9.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "290.3",
+      "Damage%": "14.2%",
+      "K\u002BA Per Minute": "0.25",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "44.4%",
+      "CS Differential at 15 min": "-7.3",
+      "Gold Differential at 15 min": "-648",
+      "XP Differential at 15 min": "-417",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.67",
+      "Ward Per Minute": "0.46",
+      "Vision Ward Per Minute": "0.34",
+      "Ward Cleared Per Minute": "0.47"
+    }
+  },
+  {
+    "ID": 2013,
+    "Name": "Bolulu",
+    "GeneralStats": {
+      "Record": "5W - 13L",
+      "Win Rate": "27.8%",
+      "KDA": "2.9",
+      "CS per Minute": "8.2",
+      "Gold Per Minute": "372",
+      "Gold%": "21.8%",
+      "Kill Participation": "74.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Annie",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "5.7"
+      },
+      {
+        "Champion": "VelKoz",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Azir",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.7"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Veigar",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Zoe",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Ziggs",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Twisted Fate",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "583.4",
+      "Damage%": "27.5%",
+      "K\u002BA Per Minute": "0.24",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "38.9%",
+      "CS Differential at 15 min": "-8.7",
+      "Gold Differential at 15 min": "-610",
+      "XP Differential at 15 min": "-131",
+      "First Blood Participation": "11.1%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.94",
+      "Ward Per Minute": "0.47",
+      "Vision Ward Per Minute": "0.2",
+      "Ward Cleared Per Minute": "0.11"
+    }
+  },
+  {
+    "ID": 1979,
+    "Name": "Tactical",
+    "GeneralStats": {
+      "Record": "5W - 13L",
+      "Win Rate": "27.8%",
+      "KDA": "2.7",
+      "CS per Minute": "9.6",
+      "Gold Per Minute": "445",
+      "Gold%": "26%",
+      "Kill Participation": "74.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "6",
+        "Win Rate": "50%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Jinx",
+        "Nb games": "3",
+        "Win Rate": "0%",
+        "KDA": "1.8"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "KogMaw",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Ezreal",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      },
+      {
+        "Champion": "Kalista",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "5.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "639.7",
+      "Damage%": "29.6%",
+      "K\u002BA Per Minute": "0.24",
+      "Solo kills": "4",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "61.1%",
+      "CS Differential at 15 min": "\u002B0.6",
+      "Gold Differential at 15 min": "\u002B125",
+      "XP Differential at 15 min": "-106",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "16.7%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.19",
+      "Ward Per Minute": "0.47",
+      "Vision Ward Per Minute": "0.17",
+      "Ward Cleared Per Minute": "0.35"
+    }
+  },
+  {
+    "ID": 1496,
+    "Name": "Treatz",
+    "GeneralStats": {
+      "Record": "5W - 13L",
+      "Win Rate": "27.8%",
+      "KDA": "2.3",
+      "CS per Minute": "0.8",
+      "Gold Per Minute": "229",
+      "Gold%": "13.4%",
+      "Kill Participation": "78.2%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "4.4"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.1"
+      },
+      {
+        "Champion": "Alistar",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.1"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      },
+      {
+        "Champion": "Karma",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Renata Glasc",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.4"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "164.7",
+      "Damage%": "8%",
+      "K\u002BA Per Minute": "0.25",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "44.4%",
+      "CS Differential at 15 min": "-1",
+      "Gold Differential at 15 min": "\u002B14",
+      "XP Differential at 15 min": "\u002B167",
+      "First Blood Participation": "27.8%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "2.7",
+      "Ward Per Minute": "1.51",
+      "Vision Ward Per Minute": "0.33",
+      "Ward Cleared Per Minute": "0.22"
+    }
+  },
+  {
+    "ID": 1135,
+    "Name": "Dhokla",
+    "GeneralStats": {
+      "Record": "9W - 9L",
+      "Win Rate": "50%",
+      "KDA": "2.7",
+      "CS per Minute": "7.6",
+      "Gold Per Minute": "376",
+      "Gold%": "20.9%",
+      "Kill Participation": "60.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "KSante",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "3.7"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.6"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.4"
+      },
+      {
+        "Champion": "Sion",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Gangplank",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "458.3",
+      "Damage%": "20.9%",
+      "K\u002BA Per Minute": "0.23",
+      "Solo kills": "3",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "11.1%",
+      "CS Differential at 15 min": "-13.1",
+      "Gold Differential at 15 min": "-564",
+      "XP Differential at 15 min": "-277",
+      "First Blood Participation": "22.2%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "0.94",
+      "Ward Per Minute": "0.39",
+      "Vision Ward Per Minute": "0.16",
+      "Ward Cleared Per Minute": "0.17"
+    }
+  },
+  {
+    "ID": 733,
+    "Name": "Contractz",
+    "GeneralStats": {
+      "Record": "9W - 9L",
+      "Win Rate": "50%",
+      "KDA": "3.4",
+      "CS per Minute": "5.2",
+      "Gold Per Minute": "329",
+      "Gold%": "18.3%",
+      "Kill Participation": "77.2%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Sejuani",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Ivern",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Wukong",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "9.0"
+      },
+      {
+        "Champion": "KhaZix",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Vi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Sion",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.4"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "8.0"
+      },
+      {
+        "Champion": "Amumu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.2"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "342.4",
+      "Damage%": "15.2%",
+      "K\u002BA Per Minute": "0.3",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "61.1%",
+      "CS Differential at 15 min": "\u002B1.8",
+      "Gold Differential at 15 min": "\u002B49",
+      "XP Differential at 15 min": "\u002B118",
+      "First Blood Participation": "38.9%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.54",
+      "Ward Per Minute": "0.34",
+      "Vision Ward Per Minute": "0.26",
+      "Ward Cleared Per Minute": "0.41"
+    }
+  },
+  {
+    "ID": 1282,
+    "Name": "Palafox",
+    "GeneralStats": {
+      "Record": "9W - 9L",
+      "Win Rate": "50%",
+      "KDA": "4.5",
+      "CS per Minute": "9.1",
+      "Gold Per Minute": "428",
+      "Gold%": "23.8%",
+      "Kill Participation": "73.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Azir",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "7.8"
+      },
+      {
+        "Champion": "Syndra",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.5"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.5"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.3"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "16.0"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "649.1",
+      "Damage%": "29.4%",
+      "K\u002BA Per Minute": "0.29",
+      "Solo kills": "8",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "55.6%",
+      "CS Differential at 15 min": "\u002B1.6",
+      "Gold Differential at 15 min": "-12",
+      "XP Differential at 15 min": "\u002B40",
+      "First Blood Participation": "16.7%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.28",
+      "Ward Per Minute": "0.48",
+      "Vision Ward Per Minute": "0.18",
+      "Ward Cleared Per Minute": "0.25"
+    }
+  },
+  {
+    "ID": 1138,
+    "Name": "FBI",
+    "GeneralStats": {
+      "Record": "9W - 9L",
+      "Win Rate": "50%",
+      "KDA": "3.5",
+      "CS per Minute": "9.2",
+      "Gold Per Minute": "438",
+      "Gold%": "24.3%",
+      "Kill Participation": "72.4%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "6",
+        "Win Rate": "16.7%",
+        "KDA": "1.9"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "4",
+        "Win Rate": "100%",
+        "KDA": "8.6"
+      },
+      {
+        "Champion": "Zeri",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Jinx",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "6.8"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "4.3"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.2"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "667.4",
+      "Damage%": "29.1%",
+      "K\u002BA Per Minute": "0.3",
+      "Solo kills": "1",
+      "Pentakills": "1"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "38.9%",
+      "CS Differential at 15 min": "-4.8",
+      "Gold Differential at 15 min": "\u002B11",
+      "XP Differential at 15 min": "-128",
+      "First Blood Participation": "11.1%",
+      "First Blood Victim": "22.2%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.05",
+      "Ward Per Minute": "0.41",
+      "Vision Ward Per Minute": "0.16",
+      "Ward Cleared Per Minute": "0.24"
+    }
+  },
+  {
+    "ID": 463,
+    "Name": "IgNar",
+    "GeneralStats": {
+      "Record": "9W - 9L",
+      "Win Rate": "50%",
+      "KDA": "4.4",
+      "CS per Minute": "0.8",
+      "Gold Per Minute": "231",
+      "Gold%": "12.8%",
+      "Kill Participation": "72.4%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rell",
+        "Nb games": "5",
+        "Win Rate": "80%",
+        "KDA": "4.8"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "8.5"
+      },
+      {
+        "Champion": "Alistar",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Rakan",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "6.3"
+      },
+      {
+        "Champion": "Yuumi",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "10.5"
+      },
+      {
+        "Champion": "Blitzcrank",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.7"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.2"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "123.8",
+      "Damage%": "5.4%",
+      "K\u002BA Per Minute": "0.31",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "55.6%",
+      "CS Differential at 15 min": "-0.6",
+      "Gold Differential at 15 min": "\u002B53",
+      "XP Differential at 15 min": "-146",
+      "First Blood Participation": "16.7%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.35",
+      "Ward Per Minute": "1.96",
+      "Vision Ward Per Minute": "0.59",
+      "Ward Cleared Per Minute": "0.35"
+    }
+  },
+  {
+    "ID": 1264,
+    "Name": "Summit",
+    "GeneralStats": {
+      "Record": "10W - 8L",
+      "Win Rate": "55.6%",
+      "KDA": "2.7",
+      "CS per Minute": "8.5",
+      "Gold Per Minute": "420",
+      "Gold%": "22.1%",
+      "Kill Participation": "57.4%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Kennen",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Gnar",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Rumble",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "3.9"
+      },
+      {
+        "Champion": "Jax",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "12.0"
+      },
+      {
+        "Champion": "Renekton",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.4"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "10.0"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.0"
+      },
+      {
+        "Champion": "Fiora",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "670.7",
+      "Damage%": "26.8%",
+      "K\u002BA Per Minute": "0.28",
+      "Solo kills": "9",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "72.2%",
+      "CS Differential at 15 min": "\u002B14.6",
+      "Gold Differential at 15 min": "\u002B688",
+      "XP Differential at 15 min": "\u002B414",
+      "First Blood Participation": "22.2%",
+      "First Blood Victim": "11.1%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.13",
+      "Ward Per Minute": "0.35",
+      "Vision Ward Per Minute": "0.21",
+      "Ward Cleared Per Minute": "0.26"
+    }
+  },
+  {
+    "ID": 2664,
+    "Name": "Pyosik",
+    "GeneralStats": {
+      "Record": "10W - 8L",
+      "Win Rate": "55.6%",
+      "KDA": "3.3",
+      "CS per Minute": "5.7",
+      "Gold Per Minute": "362",
+      "Gold%": "18.9%",
+      "Kill Participation": "69.9%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Vi",
+        "Nb games": "5",
+        "Win Rate": "40%",
+        "KDA": "2.6"
+      },
+      {
+        "Champion": "Wukong",
+        "Nb games": "4",
+        "Win Rate": "75%",
+        "KDA": "4.7"
+      },
+      {
+        "Champion": "Lee Sin",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "7.0"
+      },
+      {
+        "Champion": "Sejuani",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "4.3"
+      },
+      {
+        "Champion": "Kindred",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.0"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.1"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "384.2",
+      "Damage%": "15.2%",
+      "K\u002BA Per Minute": "0.34",
+      "Solo kills": "2",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "61.1%",
+      "CS Differential at 15 min": "\u002B3.9",
+      "Gold Differential at 15 min": "\u002B476",
+      "XP Differential at 15 min": "\u002B229",
+      "First Blood Participation": "44.4%",
+      "First Blood Victim": "16.7%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.61",
+      "Ward Per Minute": "0.52",
+      "Vision Ward Per Minute": "0.41",
+      "Ward Cleared Per Minute": "0.36"
+    }
+  },
+  {
+    "ID": 3808,
+    "Name": "APA",
+    "GeneralStats": {
+      "Record": "5W - 3L",
+      "Win Rate": "62.5%",
+      "KDA": "3.9",
+      "CS per Minute": "8.5",
+      "Gold Per Minute": "465",
+      "Gold%": "24.5%",
+      "Kill Participation": "72.1%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Ziggs",
+        "Nb games": "3",
+        "Win Rate": "100%",
+        "KDA": "10.0"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "5.3"
+      },
+      {
+        "Champion": "Cassiopeia",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "4.3"
+      },
+      {
+        "Champion": "Viktor",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "773.5",
+      "Damage%": "29.8%",
+      "K\u002BA Per Minute": "0.34",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "62.5%",
+      "CS Differential at 15 min": "\u002B7.9",
+      "Gold Differential at 15 min": "\u002B1103",
+      "XP Differential at 15 min": "\u002B390",
+      "First Blood Participation": "12.5%",
+      "First Blood Victim": "12.5%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.09",
+      "Ward Per Minute": "0.43",
+      "Vision Ward Per Minute": "0.11",
+      "Ward Cleared Per Minute": "0.18"
+    }
+  },
+  {
+    "ID": 3537,
+    "Name": "Yeon",
+    "GeneralStats": {
+      "Record": "10W - 8L",
+      "Win Rate": "55.6%",
+      "KDA": "5.6",
+      "CS per Minute": "9.3",
+      "Gold Per Minute": "447",
+      "Gold%": "23.4%",
+      "Kill Participation": "56.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Aphelios",
+        "Nb games": "7",
+        "Win Rate": "57.1%",
+        "KDA": "4.6"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "4",
+        "Win Rate": "25%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Lucian",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Samira",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "13.0"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "6.7"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Draven",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "11.0"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "7.5"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "658.3",
+      "Damage%": "25.5%",
+      "K\u002BA Per Minute": "0.29",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "55.6%",
+      "CS Differential at 15 min": "\u002B4.3",
+      "Gold Differential at 15 min": "\u002B163",
+      "XP Differential at 15 min": "\u002B258",
+      "First Blood Participation": "22.2%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.21",
+      "Ward Per Minute": "0.37",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.3"
+    }
+  },
+  {
+    "ID": 257,
+    "Name": "CoreJJ",
+    "GeneralStats": {
+      "Record": "10W - 8L",
+      "Win Rate": "55.6%",
+      "KDA": "4.9",
+      "CS per Minute": "0.9",
+      "Gold Per Minute": "250",
+      "Gold%": "13.1%",
+      "Kill Participation": "69.7%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rakan",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "5.1"
+      },
+      {
+        "Champion": "Renata Glasc",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "7.4"
+      },
+      {
+        "Champion": "Milio",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "16.0"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "3.2"
+      },
+      {
+        "Champion": "Thresh",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.5"
+      },
+      {
+        "Champion": "Nami",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "9.0"
+      },
+      {
+        "Champion": "Heimerdinger",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.6"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "148.1",
+      "Damage%": "6%",
+      "K\u002BA Per Minute": "0.34",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "50%",
+      "CS Differential at 15 min": "-0.9",
+      "Gold Differential at 15 min": "\u002B168",
+      "XP Differential at 15 min": "\u002B119",
+      "First Blood Participation": "33.3%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.36",
+      "Ward Per Minute": "1.69",
+      "Vision Ward Per Minute": "0.43",
+      "Ward Cleared Per Minute": "0.41"
+    }
+  },
+  {
+    "ID": 1992,
+    "Name": "Haeri",
+    "GeneralStats": {
+      "Record": "5W - 5L",
+      "Win Rate": "50%",
+      "KDA": "3.7",
+      "CS per Minute": "8.4",
+      "Gold Per Minute": "398",
+      "Gold%": "20.9%",
+      "Kill Participation": "59.2%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Ahri",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "4.0"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "4.8"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "5.0"
+      },
+      {
+        "Champion": "Akali",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.6"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "606.6",
+      "Damage%": "24%",
+      "K\u002BA Per Minute": "0.28",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "70%",
+      "CS Differential at 15 min": "\u002B5.3",
+      "Gold Differential at 15 min": "\u002B461",
+      "XP Differential at 15 min": "\u002B333",
+      "First Blood Participation": "10%",
+      "First Blood Victim": "10%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.1",
+      "Ward Per Minute": "0.39",
+      "Vision Ward Per Minute": "0.15",
+      "Ward Cleared Per Minute": "0.26"
+    }
+  },
+  {
+    "ID": 323,
+    "Name": "Hauntzer",
+    "GeneralStats": {
+      "Record": "8W - 10L",
+      "Win Rate": "44.4%",
+      "KDA": "2.5",
+      "CS per Minute": "8.4",
+      "Gold Per Minute": "378",
+      "Gold%": "21.6%",
+      "Kill Participation": "47.8%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Renekton",
+        "Nb games": "6",
+        "Win Rate": "66.7%",
+        "KDA": "2.5"
+      },
+      {
+        "Champion": "KSante",
+        "Nb games": "4",
+        "Win Rate": "50%",
+        "KDA": "5.5"
+      },
+      {
+        "Champion": "Malphite",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Ornn",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.5"
+      },
+      {
+        "Champion": "Gwen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      },
+      {
+        "Champion": "Poppy",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Kennen",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "4.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "397.9",
+      "Damage%": "21.2%",
+      "K\u002BA Per Minute": "0.18",
+      "Solo kills": "2",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "50%",
+      "CS Differential at 15 min": "-4.6",
+      "Gold Differential at 15 min": "-307",
+      "XP Differential at 15 min": "-30",
+      "First Blood Participation": "5.6%",
+      "First Blood Victim": "22.2%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.14",
+      "Ward Per Minute": "0.48",
+      "Vision Ward Per Minute": "0.18",
+      "Ward Cleared Per Minute": "0.2"
+    }
+  },
+  {
+    "ID": 1710,
+    "Name": "Bugi",
+    "GeneralStats": {
+      "Record": "8W - 10L",
+      "Win Rate": "44.4%",
+      "KDA": "3.5",
+      "CS per Minute": "5.1",
+      "Gold Per Minute": "324",
+      "Gold%": "18.5%",
+      "Kill Participation": "84%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Maokai",
+        "Nb games": "5",
+        "Win Rate": "60%",
+        "KDA": "4.2"
+      },
+      {
+        "Champion": "Nocturne",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "2.2"
+      },
+      {
+        "Champion": "Sejuani",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "7.8"
+      },
+      {
+        "Champion": "Wukong",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "2.4"
+      },
+      {
+        "Champion": "Viego",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Nautilus",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "5.8"
+      },
+      {
+        "Champion": "Jarvan IV",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "12.0"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "319.9",
+      "Damage%": "16.7%",
+      "K\u002BA Per Minute": "0.3",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "22.2%",
+      "CS Differential at 15 min": "-11.3",
+      "Gold Differential at 15 min": "-196",
+      "XP Differential at 15 min": "-323",
+      "First Blood Participation": "55.6%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.34",
+      "Ward Per Minute": "0.38",
+      "Vision Ward Per Minute": "0.25",
+      "Ward Cleared Per Minute": "0.3"
+    }
+  },
+  {
+    "ID": 1633,
+    "Name": "Insanity",
+    "GeneralStats": {
+      "Record": "8W - 7L",
+      "Win Rate": "53.3%",
+      "KDA": "3.0",
+      "CS per Minute": "8.5",
+      "Gold Per Minute": "406",
+      "Gold%": "22.7%",
+      "Kill Participation": "66.3%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Graves",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "LeBlanc",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "21.0"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "2",
+        "Win Rate": "100%",
+        "KDA": "8.0"
+      },
+      {
+        "Champion": "Jayce",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.1"
+      },
+      {
+        "Champion": "Gragas",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      },
+      {
+        "Champion": "Ahri",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Yone",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "6.5"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "3.5"
+      },
+      {
+        "Champion": "Sejuani",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.5"
+      },
+      {
+        "Champion": "Neeko",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.3"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "588.2",
+      "Damage%": "29.4%",
+      "K\u002BA Per Minute": "0.26",
+      "Solo kills": "2",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "33.3%",
+      "CS Differential at 15 min": "-6.3",
+      "Gold Differential at 15 min": "-175",
+      "XP Differential at 15 min": "-85",
+      "First Blood Participation": "33.3%",
+      "First Blood Victim": "13.3%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.03",
+      "Ward Per Minute": "0.42",
+      "Vision Ward Per Minute": "0.18",
+      "Ward Cleared Per Minute": "0.17"
+    }
+  },
+  {
+    "ID": 139,
+    "Name": "WildTurtle",
+    "GeneralStats": {
+      "Record": "8W - 10L",
+      "Win Rate": "44.4%",
+      "KDA": "3.4",
+      "CS per Minute": "9.7",
+      "Gold Per Minute": "431",
+      "Gold%": "24.5%",
+      "Kill Participation": "63%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Jinx",
+        "Nb games": "6",
+        "Win Rate": "66.7%",
+        "KDA": "4.1"
+      },
+      {
+        "Champion": "Ashe",
+        "Nb games": "3",
+        "Win Rate": "66.7%",
+        "KDA": "5.1"
+      },
+      {
+        "Champion": "Xayah",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "3.3"
+      },
+      {
+        "Champion": "Kaisa",
+        "Nb games": "2",
+        "Win Rate": "0%",
+        "KDA": "1.6"
+      },
+      {
+        "Champion": "Lucian",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Jhin",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.5"
+      },
+      {
+        "Champion": "Varus",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Tristana",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.0"
+      },
+      {
+        "Champion": "Zeri",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "503.7",
+      "Damage%": "25.7%",
+      "K\u002BA Per Minute": "0.25",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "50%",
+      "CS Differential at 15 min": "-1.4",
+      "Gold Differential at 15 min": "\u002B173",
+      "XP Differential at 15 min": "\u002B188",
+      "First Blood Participation": "22.2%",
+      "First Blood Victim": "5.6%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.25",
+      "Ward Per Minute": "0.43",
+      "Vision Ward Per Minute": "0.14",
+      "Ward Cleared Per Minute": "0.36"
+    }
+  },
+  {
+    "ID": 3063,
+    "Name": "Chime",
+    "GeneralStats": {
+      "Record": "8W - 10L",
+      "Win Rate": "44.4%",
+      "KDA": "4.2",
+      "CS per Minute": "1",
+      "Gold Per Minute": "228",
+      "Gold%": "13%",
+      "Kill Participation": "73.7%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Rakan",
+        "Nb games": "6",
+        "Win Rate": "50%",
+        "KDA": "5.8"
+      },
+      {
+        "Champion": "Alistar",
+        "Nb games": "3",
+        "Win Rate": "33.3%",
+        "KDA": "4.8"
+      },
+      {
+        "Champion": "Braum",
+        "Nb games": "2",
+        "Win Rate": "50%",
+        "KDA": "3.0"
+      },
+      {
+        "Champion": "Nami",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Karma",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "2.0"
+      },
+      {
+        "Champion": "Renata Glasc",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "13.0"
+      },
+      {
+        "Champion": "Blitzcrank",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.8"
+      },
+      {
+        "Champion": "Lulu",
+        "Nb games": "1",
+        "Win Rate": "100%",
+        "KDA": "-"
+      },
+      {
+        "Champion": "Rell",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.3"
+      },
+      {
+        "Champion": "Maokai",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "142",
+      "Damage%": "7.7%",
+      "K\u002BA Per Minute": "0.28",
+      "Solo kills": "-",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "44.4%",
+      "CS Differential at 15 min": "-0.8",
+      "Gold Differential at 15 min": "-17",
+      "XP Differential at 15 min": "-32",
+      "First Blood Participation": "38.9%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "3.12",
+      "Ward Per Minute": "1.7",
+      "Vision Ward Per Minute": "0.38",
+      "Ward Cleared Per Minute": "0.32"
+    }
+  },
+  {
+    "ID": 2271,
+    "Name": "Ruby",
+    "GeneralStats": {
+      "Record": "0W - 3L",
+      "Win Rate": "0%",
+      "KDA": "1.1",
+      "CS per Minute": "8.1",
+      "Gold Per Minute": "332",
+      "Gold%": "20.7%",
+      "Kill Participation": "55.7%"
+    },
+    "ChampionStats": [
+      {
+        "Champion": "Azir",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "0.7"
+      },
+      {
+        "Champion": "Syndra",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.3"
+      },
+      {
+        "Champion": "Annie",
+        "Nb games": "1",
+        "Win Rate": "0%",
+        "KDA": "1.5"
+      }
+    ],
+    "AggressionStats": {
+      "Damage Per Minute": "445.6",
+      "Damage%": "25.1%",
+      "K\u002BA Per Minute": "0.09",
+      "Solo kills": "1",
+      "Pentakills": "0"
+    },
+    "EarlyGameStats": {
+      "Ahead in CS at 15 min": "0%",
+      "CS Differential at 15 min": "-16",
+      "Gold Differential at 15 min": "-421",
+      "XP Differential at 15 min": "-798",
+      "First Blood Participation": "33.3%",
+      "First Blood Victim": "0%"
+    },
+    "VisionStats": {
+      "Vision score Per Minute": "1.19",
+      "Ward Per Minute": "0.51",
+      "Vision Ward Per Minute": "0.17",
+      "Ward Cleared Per Minute": "0.17"
+    }
+  }
+]
