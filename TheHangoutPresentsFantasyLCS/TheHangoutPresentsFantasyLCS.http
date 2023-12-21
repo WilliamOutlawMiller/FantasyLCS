@@ -1,6 +1,0 @@
-@TheHangoutPresentsFantasyLCS_HostAddress = http://localhost:5031
-
-GET {{TheHangoutPresentsFantasyLCS_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
