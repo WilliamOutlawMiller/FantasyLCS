@@ -58,8 +58,9 @@ public class GetProData
             return updatedPlayerData;
         }
         else 
+        {
             existingPlayerData = ReadData<Player>();
             return existingPlayerData;
-        
+        }       
     }
 }
