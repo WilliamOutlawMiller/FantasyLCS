@@ -69,4 +69,26 @@ app.MapGet("/getplayer/{id}", (int id) =>
 .WithName("GetPlayer")
 .WithOpenApi();
 
+app.MapGet("/getmatch/{id}", (int id) =>
+{
+    try
+    {   
+        var match = UpdateData.GetMatch(id);
+        if (match != null)
+        {
+            return Results.Ok(match);
+        }
+        else
+        {
+            return Results.NotFound("Player not found.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetMatch")
+.WithOpenApi();
+
 app.Run();
