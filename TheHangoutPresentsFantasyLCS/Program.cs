@@ -1,5 +1,3 @@
-using static StorageManager;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,20 +22,12 @@ app.MapGet("/getplayerlist", () =>
 })
 .WithName("GetPlayerList")
 .WithOpenApi();
-    {
-        updatedPlayerData = GetProData.GetPlayerList();
-        WriteData(updatedPlayerData);
-        return updatedPlayerData;
-    }
-    else 
-        return existingPlayerData;
-})
 
-app.MapGet("/getmatchids", () =>
+app.MapGet("/getmatches", () =>
 {
-    return GetProData.GetMatchIDs();
+    return GetProData.GetMatchFullStats();
 })
-.WithName("GetMatchIDs")
+.WithName("GetMatch")
 .WithOpenApi();
 
 app.Run();
