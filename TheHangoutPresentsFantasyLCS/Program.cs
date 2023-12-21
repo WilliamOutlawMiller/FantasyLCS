@@ -1,33 +1,5 @@
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.MapGet("/getplayerlist", () =>
-{
-    return GetProData.GetPlayerList();
-})
-.WithName("GetPlayerList")
-.WithOpenApi();
-
-app.MapGet("/getmatches", () =>
-{
-    return GetProData.GetMatchFullStats();
-})
-.WithName("GetMatch")
-.WithOpenApi();
-
-app.Run();
+// I am removing the API, as it feels unnecessary at this point. 
+// The data returned from these two methods is far too big to be returned at an endpoint,
+// so we might as well just stick to file IO until necessary.
+UpdateData.UpdatePlayerList();
+UpdateData.UpdateMatchData();
