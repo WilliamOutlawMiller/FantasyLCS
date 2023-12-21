@@ -36,7 +36,7 @@ public class GolGGController : StatsController
         }
         catch
         {
-            return new List<int>();
+            throw new Exception("Unable to get List of Match IDs.");
         }
     }
 
@@ -75,7 +75,7 @@ public class GolGGController : StatsController
         }
         catch
         {
-            return new List<FullStats>();
+            throw new Exception("Unable to get FullStats.");
         }
     }
 
@@ -118,7 +118,7 @@ public class GolGGController : StatsController
         }
         catch
         {
-            return new Team();
+            throw new Exception("Unable to get Team object.");
         }
     }
 
@@ -160,7 +160,7 @@ public class GolGGController : StatsController
         }
         catch
         {
-            return new Player();
+            throw new Exception("Unable to get Player object.");
         }
     }
 
