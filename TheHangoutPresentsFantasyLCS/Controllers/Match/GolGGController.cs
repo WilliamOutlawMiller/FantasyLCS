@@ -109,6 +109,7 @@ public class GolGGController : StatsController
     public override Player GetPlayer()
     {
         Player player = new Player();
+        player.Name = LocateHTMLNode(GolGGConstants.PlayerStats["PlayerName"]).InnerText.Replace("&nbsp;", "");
         Type objectType;
         PropertyInfo property;
 

@@ -33,6 +33,7 @@ public class GolGGConstants
 
     public static Dictionary<string,string> PlayerStats = new Dictionary<string, string>
     {
+        {"PlayerName"        , "//div[contains(@class, 'col-12') and contains(@class, 'mt-4')]/descendant::h1"           },
         {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
         {"ChampionStats"     , "//table[contains(@class, 'table_list') and caption[contains(., 'champion pool')]]"       },
         {"AggressionStats"   , "//table[@class='table_list' and caption[contains(., 'damage and kill stats')]]"          },
