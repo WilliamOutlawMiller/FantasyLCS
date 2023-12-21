@@ -51,7 +51,7 @@ app.MapGet("/getplayer/{id}", (int id) =>
 {
     try
     {   
-        var player = GetData.GetPlayer(id);
+        var player = GetData.Get<Player>(id);
         if (player != null)
         {
             return Results.Ok(player);
@@ -73,14 +73,14 @@ app.MapGet("/getmatch/{id}", (int id) =>
 {
     try
     {   
-        var match = GetData.GetMatch(id);
+        var match = GetData.Get<Match>(id);
         if (match != null)
         {
             return Results.Ok(match);
         }
         else
         {
-            return Results.NotFound("Player not found.");
+            return Results.NotFound("Match not found.");
         }
     }
     catch (Exception ex)
@@ -89,6 +89,28 @@ app.MapGet("/getmatch/{id}", (int id) =>
     }
 })
 .WithName("GetMatch")
+.WithOpenApi();
+
+app.MapGet("/getroster/{id}", (int id) =>
+{
+    try
+    {   
+        var roster = GetData.Get<Roster>(id);
+        if (roster != null)
+        {
+            return Results.Ok(roster);
+        }
+        else
+        {
+            return Results.NotFound("Roster not found.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetRoster")
 .WithOpenApi();
 
 app.Run();

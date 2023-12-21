@@ -2,15 +2,19 @@ using static StorageManager;
 
 public class GetData
 {
-    public static Player GetPlayer(int id)
+    public static T Get<T>(int id) where T : class
     {
-        List<Player> players = ReadData<Player>();
-        return players.Where(player => player.ID == id).Single();
-    }
+        List<T> data = ReadData<T>();
 
-    public static Match GetMatch(int id)
-    {
-        List<Match> matches = ReadData<Match>();
-        return matches.Where(match => match.ID == id).Single();
+        return data.FirstOrDefault(item => 
+        {
+            var idProperty = item.GetType().GetProperty("ID");
+            if (idProperty != null)
+            {
+                var value = idProperty.GetValue(item);
+                return value != null && (int)value == id;
+            }
+            return false;
+        });
     }
 }
