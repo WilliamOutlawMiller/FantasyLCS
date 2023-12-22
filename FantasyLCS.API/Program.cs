@@ -92,6 +92,28 @@ app.MapPost("/removeplayerfromteam/{teamID}/{playerID}", (int teamID, int player
 .WithName("RemovePlayerFromTeam")
 .WithOpenApi();
 
+app.MapGet("/getallplayers", () =>
+{
+    try
+    {   
+        var players = StorageManager.Get<Player>();
+        if (players != null)
+        {
+            return Results.Ok(players);
+        }
+        else
+        {
+            return Results.NotFound("Player list not found.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetPlayer")
+.WithOpenApi();
+
 app.MapGet("/getplayer/{id}", (int id) =>
 {
     try

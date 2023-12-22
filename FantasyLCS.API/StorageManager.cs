@@ -118,6 +118,11 @@ public static class StorageManager
         });
     }
 
+    public static List<T> Get<T>() where T : class
+    {
+        return ReadData<T>();
+    }
+
     public static void Add<T>(T data) where T : class, new()
     {
         var dataList = ReadData<T>();
