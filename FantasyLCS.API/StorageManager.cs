@@ -118,6 +118,17 @@ public static class StorageManager
         });
     }
 
+    public static void Add<T>(T data) where T : class, new()
+    {
+        var dataList = ReadData<T>();
+
+        // Add the new data to the end of the list
+        dataList.Add(data);
+
+        // Write the updated list back to the file
+        WriteData(dataList);
+    }
+
     public static bool ShouldRefreshData<T>() where T : class
     {
         string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
