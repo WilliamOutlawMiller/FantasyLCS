@@ -61,8 +61,8 @@ public abstract class StatsScraper
 
     public abstract List<int> GetMatchIDs();
     public abstract List<int> GetTeamIDs();
+    public abstract List<int> GetPlayerIDs(int teamID);
     public abstract List<FullStats> GetMatchFullStats(int matchID);
-    public abstract Team GetTeam(int teamID);
     public abstract Player GetPlayer(int playerID);
 
     public static async Task<HtmlDocument> LoadHtmlDocumentAsync(string url)

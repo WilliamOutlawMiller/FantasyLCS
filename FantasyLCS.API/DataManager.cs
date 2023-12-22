@@ -61,10 +61,9 @@ public class DataManager
             {
                 controller.URL = SeasonInfo.TeamStatsURL.DOMAIN + teamID + SeasonInfo.TeamStatsURL.FILTER;
 
-                Team team = new Team();
-                team = controller.GetTeam(teamID);
+                List<int> playerIDs = controller.GetPlayerIDs(teamID);
 
-                foreach (int playerID in team.Roster.PlayerIDs)
+                foreach (int playerID in playerIDs)
                 {
                     controller.URL = SeasonInfo.PlayerStatsURL.DOMAIN + playerID + SeasonInfo.PlayerStatsURL.FILTER;
                     updatedPlayerData.Add(controller.GetPlayer(playerID));
