@@ -97,28 +97,13 @@ public class DataManager
 
     public static void AddPlayerToTeam(int teamID, int playerID)
     {
-        List<Team> teams = ReadData<Team>();
+        Team team = Get<Team>(teamID);
         Player player = Get<Player>(playerID);
 
-        Team team = teams.Where(team => team.ID == teamID).Single();
-
         team.Players.Add(player);
-        WriteData<Team>(teams);
-    }
-    
-    public static T Get<T>(int id) where T : class
-    {
-        List<T> data = ReadData<T>();
+        player.TeamID = teamID;
 
-        return data.FirstOrDefault(item => 
-        {
-            var idProperty = item.GetType().GetProperty("ID");
-            if (idProperty != null)
-            {
-                var value = idProperty.GetValue(item);
-                return value != null && (int)value == id;
-            }
-            return false;
-        });
+        UpdateData(team);
+        UpdateData(player);
     }
 }
