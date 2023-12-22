@@ -81,7 +81,7 @@ app.MapGet("/getplayer/{id}", (int id) =>
 {
     try
     {   
-        var player = DataManager.Get<Player>(id);
+        var player = StorageManager.Get<Player>(id);
         if (player != null)
         {
             return Results.Ok(player);
@@ -103,7 +103,7 @@ app.MapGet("/getmatch/{id}", (int id) =>
 {
     try
     {   
-        var match = DataManager.Get<Match>(id);
+        var match = StorageManager.Get<Match>(id);
         if (match != null)
         {
             return Results.Ok(match);
@@ -125,7 +125,7 @@ app.MapGet("/getteam/{id}", (int id) =>
 {
     try
     {   
-        var team = DataManager.Get<Team>(id);
+        var team = StorageManager.Get<Team>(id);
         if (team != null)
         {
             return Results.Ok(team);
