@@ -53,7 +53,6 @@ public class GolGGScraper : StatsScraper
             throw new Exception("Unable to get List of Team IDs.");
         }
     }
-
     
     public override List<int> GetPlayerIDs(int teamID)
     {
@@ -66,7 +65,7 @@ public class GolGGScraper : StatsScraper
             throw new Exception("Unable to get Team object.");
         }
     }
-    
+
     public override List<FullStats> GetMatchFullStats(int matchID)
     {
         List<FullStats> fullStats = new List<FullStats>();
