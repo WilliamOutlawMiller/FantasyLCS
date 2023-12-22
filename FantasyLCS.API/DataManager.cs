@@ -118,4 +118,10 @@ public class DataManager
         UpdateData(team);
         UpdateData(player);
     }
+
+    public static int GetTeamID(string name)
+    {
+        List<Team> teams = ReadData<Team>();
+        return teams.FirstOrDefault(team => team.Name.Equals(name)).ID;
+    }
 }

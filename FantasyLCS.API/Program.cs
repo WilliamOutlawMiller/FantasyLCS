@@ -158,4 +158,19 @@ app.MapGet("/getteam/{id}", (int id) =>
 .WithName("GetTeam")
 .WithOpenApi();
 
+app.MapGet("/getteamid/{name}", (string name) =>
+{
+    try
+    {
+        int teamID = DataManager.GetTeamID(name);
+        return Results.Ok(teamID);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("Failure: " + ex.Message);
+    }
+})
+.WithName("GetTeamID")
+.WithOpenApi();
+
 app.Run();
