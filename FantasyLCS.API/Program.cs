@@ -62,7 +62,7 @@ app.MapPost("/createteam/{name}", (string name) =>
 .WithName("CreateTeam")
 .WithOpenApi();
 
-app.MapPost("/addplayertoteam/teamID}/{playerID}", (int teamID, int playerID) =>
+app.MapPost("/addplayertoteam/{teamID}/{playerID}", (int teamID, int playerID) =>
 {
     try
     {
