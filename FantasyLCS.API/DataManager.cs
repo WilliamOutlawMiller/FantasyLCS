@@ -88,8 +88,8 @@ public class DataManager
         {
             ID = uniqueID,
             Name = name,
-            Players = new List<Player>(),
-            Subs = new List<Player>(),
+            PlayerIDs = new List<int>(),
+            SubIDs = new List<int>(),
         });
 
         WriteData(teams);
@@ -100,7 +100,7 @@ public class DataManager
         Team team = Get<Team>(teamID);
         Player player = Get<Player>(playerID);
 
-        team.Players.Add(player);
+        team.PlayerIDs.Add(playerID);
         player.TeamID = teamID;
 
         UpdateData(team);
