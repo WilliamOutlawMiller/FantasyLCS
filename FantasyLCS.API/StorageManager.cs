@@ -48,8 +48,8 @@ public static class StorageManager
         var idProperty = data.GetType().GetProperty("ID");
 
         var dataId = (int)idProperty.GetValue(data);
-
         var itemIndex = dataList.FindIndex(i => (int)i.GetType().GetProperty("ID").GetValue(i) == dataId);
+
         if (itemIndex != -1)
         {
             UpdateProperties(dataList[itemIndex], data);
@@ -71,8 +71,8 @@ public static class StorageManager
             var idProperty = data.GetType().GetProperty("ID");
 
             var dataId = (int)idProperty.GetValue(data);
-
             var itemIndex = dataList.FindIndex(i => (int)i.GetType().GetProperty("ID").GetValue(i) == dataId);
+
             if (itemIndex != -1)
             {
                 UpdateProperties(dataList[itemIndex], data);

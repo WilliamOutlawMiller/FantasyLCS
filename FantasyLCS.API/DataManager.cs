@@ -39,7 +39,7 @@ public class DataManager
                 updatedMatchData.Add(match);
             }
 
-            WriteData<Match>(updatedMatchData);
+            UpdateData(updatedMatchData);
         }
     }
 
@@ -68,7 +68,7 @@ public class DataManager
                 }
             }
 
-            WriteData<Player>(updatedPlayerData);
+            UpdateData(updatedPlayerData);
         } 
     }
 
@@ -92,7 +92,7 @@ public class DataManager
             Subs = new List<Player>(),
         });
 
-        WriteData<Team>(teams);
+        WriteData(teams);
     }
 
     public static void AddPlayerToTeam(int teamID, int playerID)
