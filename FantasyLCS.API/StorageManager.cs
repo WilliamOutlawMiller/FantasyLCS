@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 public static class StorageManager
@@ -48,15 +49,10 @@ public static class StorageManager
 
         var dataId = (int)idProperty.GetValue(data);
 
-        var item = dataList.FirstOrDefault(i => 
+        var itemIndex = dataList.FindIndex(i => (int)i.GetType().GetProperty("ID").GetValue(i) == dataId);
+        if (itemIndex != -1)
         {
-            var idProp = i.GetType().GetProperty("ID");
-            return idProp != null && (int)idProp.GetValue(i) == dataId;
-        });
-
-        if (item != null)
-        {
-            dataList[dataList.IndexOf(item)] = data;
+            UpdateProperties(dataList[itemIndex], data);
         }
         else
         {
@@ -76,15 +72,10 @@ public static class StorageManager
 
             var dataId = (int)idProperty.GetValue(data);
 
-            var item = dataList.FirstOrDefault(i => 
+            var itemIndex = dataList.FindIndex(i => (int)i.GetType().GetProperty("ID").GetValue(i) == dataId);
+            if (itemIndex != -1)
             {
-                var idProp = i.GetType().GetProperty("ID");
-                return idProp != null && (int)idProp.GetValue(i) == dataId;
-            });
-
-            if (item != null)
-            {
-                dataList[dataList.IndexOf(item)] = data;
+                UpdateProperties(dataList[itemIndex], data);
             }
             else
             {
@@ -93,6 +84,22 @@ public static class StorageManager
         }
 
         WriteData(dataList);
+    }
+
+    private static void UpdateProperties<T>(T existingItem, T newItem) where T : class
+    {
+        PropertyInfo[] properties = typeof(T).GetProperties();
+
+        foreach (PropertyInfo property in properties)
+        {
+            var existingValue = property.GetValue(existingItem);
+            var newValue = property.GetValue(newItem);
+
+            if ((existingValue != null && !existingValue.Equals(newValue)) || (existingValue == null && newValue != null))
+            {
+                property.SetValue(existingItem, newValue);
+            }
+        }
     }
         
     public static T Get<T>(int id) where T : class
