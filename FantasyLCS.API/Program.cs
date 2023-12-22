@@ -47,11 +47,11 @@ app.MapPost("/updatematchdata", () =>
 .WithName("UpdateMatchData")
 .WithOpenApi();
 
-app.MapPost("/createroster/{name}", (string name) =>
+app.MapPost("/createteam/{name}", (string name) =>
 {
     try
     {
-        DataManager.CreateRoster(name);
+        DataManager.CreateTeam(name);
         return Results.Ok("Success!");
     }
     catch (Exception ex)
@@ -59,7 +59,7 @@ app.MapPost("/createroster/{name}", (string name) =>
         return Results.Problem("Failure: " + ex.Message);
     }
 })
-.WithName("CreateRoster")
+.WithName("CreateTeam")
 .WithOpenApi();
 
 app.MapPost("/addplayertoroster/{rosterID}/{playerID}", (int rosterID, int playerID) =>
@@ -125,7 +125,7 @@ app.MapGet("/getroster/{id}", (int id) =>
 {
     try
     {   
-        var roster = DataManager.Get<Roster>(id);
+        var roster = DataManager.Get<Team>(id);
         if (roster != null)
         {
             return Results.Ok(roster);

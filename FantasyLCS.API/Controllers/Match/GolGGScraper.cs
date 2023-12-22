@@ -283,8 +283,8 @@ public class GolGGScraper : StatsScraper
             HtmlNode hyperlinkCell = row.SelectNodes("td")[0].SelectSingleNode("a");
             string url = hyperlinkCell.Attributes["href"].Value;
             string[] parts = url.Split('/');
-            int uniqueMatchID = Convert.ToInt32(parts[2]);
-            teamIDs.Add(uniqueMatchID);
+            int uniqueTeamID = Convert.ToInt32(parts[2]);
+            teamIDs.Add(uniqueTeamID);
         }
 
         return teamIDs;
