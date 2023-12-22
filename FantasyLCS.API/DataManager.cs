@@ -81,7 +81,7 @@ public class DataManager
 
         if (team != null)
         {
-            throw new Exception("A roster with that name already exists, you dummy!");
+            throw new Exception("A team with that name already exists, you dummy!");
         }
 
         teams.Add(new Team
@@ -95,15 +95,15 @@ public class DataManager
         WriteData<Team>(teams);
     }
 
-    public static void AddPlayerToRoster(int rosterID, int playerID)
+    public static void AddPlayerToTeam(int teamID, int playerID)
     {
-        List<Team> rosters = ReadData<Team>();
+        List<Team> teams = ReadData<Team>();
         Player player = Get<Player>(playerID);
 
-        Team roster = rosters.Where(roster => roster.ID == rosterID).Single();
+        Team team = teams.Where(team => team.ID == teamID).Single();
 
-        roster.Players.Add(player);
-        WriteData<Team>(rosters);
+        team.Players.Add(player);
+        WriteData<Team>(teams);
     }
     
     public static T Get<T>(int id) where T : class

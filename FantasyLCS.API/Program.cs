@@ -62,11 +62,11 @@ app.MapPost("/createteam/{name}", (string name) =>
 .WithName("CreateTeam")
 .WithOpenApi();
 
-app.MapPost("/addplayertoroster/{rosterID}/{playerID}", (int rosterID, int playerID) =>
+app.MapPost("/addplayertoteam/teamID}/{playerID}", (int teamID, int playerID) =>
 {
     try
     {
-        DataManager.AddPlayerToRoster(rosterID, playerID);
+        DataManager.AddPlayerToTeam(teamID, playerID);
         return Results.Ok("Success!");
     }
     catch (Exception ex)
@@ -74,7 +74,7 @@ app.MapPost("/addplayertoroster/{rosterID}/{playerID}", (int rosterID, int playe
         return Results.Problem("Failure: " + ex.Message);
     }
 })
-.WithName("AddPlayerToRoster")
+.WithName("AddPlayerToTeam")
 .WithOpenApi();
 
 app.MapGet("/getplayer/{id}", (int id) =>
@@ -121,18 +121,18 @@ app.MapGet("/getmatch/{id}", (int id) =>
 .WithName("GetMatch")
 .WithOpenApi();
 
-app.MapGet("/getroster/{id}", (int id) =>
+app.MapGet("/getteam/{id}", (int id) =>
 {
     try
     {   
-        var roster = DataManager.Get<Team>(id);
-        if (roster != null)
+        var team = DataManager.Get<Team>(id);
+        if (team != null)
         {
-            return Results.Ok(roster);
+            return Results.Ok(team);
         }
         else
         {
-            return Results.NotFound("Roster not found.");
+            return Results.NotFound("Team not found.");
         }
     }
     catch (Exception ex)
@@ -140,7 +140,7 @@ app.MapGet("/getroster/{id}", (int id) =>
         return Results.Problem("An error occurred: " + ex.Message);
     }
 })
-.WithName("GetRoster")
+.WithName("GetTeam")
 .WithOpenApi();
 
 app.Run();
