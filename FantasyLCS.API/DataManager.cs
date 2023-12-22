@@ -28,14 +28,12 @@ public class DataManager
 
                 Match match = new Match();
                 match.ID = matchID;
-                match.Players = new List<Player>();
                 match.FullStats = controller.GetMatchFullStats(matchID);
 
                 foreach (var fullStat in match.FullStats)
                 {
                     Player matchPlayer = existingPlayers.Where(player => player.Name.ToLower().Equals(fullStat.Name.ToLower())).Single();
                     fullStat.PlayerID = matchPlayer.ID;
-                    match.Players.Add(matchPlayer);
                 }
 
                 updatedMatchData.Add(match);

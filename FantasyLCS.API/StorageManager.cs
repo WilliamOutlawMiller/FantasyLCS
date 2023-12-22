@@ -8,7 +8,7 @@ public static class StorageManager
     public static List<T> ReadData<T>() where T : class
     {
         List<T> dataList = new List<T>();
-        string filePath = $"{typeof(T).Name.ToLower()}.json";
+        string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
 
         try
         {
@@ -28,7 +28,7 @@ public static class StorageManager
 
     public static void WriteData<T>(List<T> dataList) where T : class
     {
-        string filePath = $"{typeof(T).Name.ToLower()}.json";
+        string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
 
         try
         {
@@ -43,7 +43,7 @@ public static class StorageManager
 
     public static bool ShouldRefreshData<T>() where T : class
     {
-        string filePath = $"{typeof(T).Name.ToLower()}.json";
+        string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
         
         if (File.Exists(filePath))
         {
