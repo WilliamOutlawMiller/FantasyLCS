@@ -77,6 +77,21 @@ app.MapPost("/addplayertoteam/{teamID}/{playerID}", (int teamID, int playerID) =
 .WithName("AddPlayerToTeam")
 .WithOpenApi();
 
+app.MapPost("/removeplayerfromteam/{teamID}/{playerID}", (int teamID, int playerID) =>
+{
+    try
+    {
+        DataManager.RemovePlayerFromTeam(teamID, playerID);
+        return Results.Ok("Success!");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("Failure: " + ex.Message);
+    }
+})
+.WithName("RemovePlayerFromTeam")
+.WithOpenApi();
+
 app.MapGet("/getplayer/{id}", (int id) =>
 {
     try

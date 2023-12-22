@@ -106,4 +106,16 @@ public class DataManager
         UpdateData(team);
         UpdateData(player);
     }
+
+    public static void RemovePlayerFromTeam(int teamID, int playerID)
+    {
+        Team team = Get<Team>(teamID);
+        Player player = Get<Player>(playerID);
+
+        team.PlayerIDs.Remove(playerID);
+        player.TeamID = 0;
+
+        UpdateData(team);
+        UpdateData(player);
+    }
 }
