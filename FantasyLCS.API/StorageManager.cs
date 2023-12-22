@@ -41,6 +41,76 @@ public static class StorageManager
         }
     }
 
+    public static void UpdateData<T>(T data) where T : class, new()
+    {
+        var dataList = ReadData<T>();
+        var idProperty = data.GetType().GetProperty("ID");
+
+        var dataId = (int)idProperty.GetValue(data);
+
+        var item = dataList.FirstOrDefault(i => 
+        {
+            var idProp = i.GetType().GetProperty("ID");
+            return idProp != null && (int)idProp.GetValue(i) == dataId;
+        });
+
+        if (item != null)
+        {
+            dataList[dataList.IndexOf(item)] = data;
+        }
+        else
+        {
+            dataList.Add(data);
+        }
+
+        WriteData(dataList);
+    }
+
+    public static void UpdateData<T>(List<T> updatedDataList) where T : class, new()
+    {
+        var dataList = ReadData<T>();
+
+        foreach (var data in updatedDataList)
+        {
+            var idProperty = data.GetType().GetProperty("ID");
+
+            var dataId = (int)idProperty.GetValue(data);
+
+            var item = dataList.FirstOrDefault(i => 
+            {
+                var idProp = i.GetType().GetProperty("ID");
+                return idProp != null && (int)idProp.GetValue(i) == dataId;
+            });
+
+            if (item != null)
+            {
+                dataList[dataList.IndexOf(item)] = data;
+            }
+            else
+            {
+                dataList.Add(data);
+            }
+        }
+
+        WriteData(dataList);
+    }
+        
+    public static T Get<T>(int id) where T : class
+    {
+        List<T> data = ReadData<T>();
+
+        return data.FirstOrDefault(item => 
+        {
+            var idProperty = item.GetType().GetProperty("ID");
+            if (idProperty != null)
+            {
+                var value = idProperty.GetValue(item);
+                return value != null && (int)value == id;
+            }
+            return false;
+        });
+    }
+
     public static bool ShouldRefreshData<T>() where T : class
     {
         string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
