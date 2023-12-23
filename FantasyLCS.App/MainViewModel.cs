@@ -63,12 +63,6 @@ namespace FantasyLCS.App
             }
         }
 
-        // Constructor
-        public MainViewModel()
-        {
-            LoadDataAsync();
-        }
-
         // Method to load data (e.g., players and teams) asynchronously
         private async void LoadDataAsync()
         {
