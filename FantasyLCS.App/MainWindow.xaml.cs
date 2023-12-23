@@ -7,16 +7,36 @@ namespace FantasyLCS.App
         public MainWindow()
         {
             InitializeComponent();
+
+            LoadTeamInformation();
         }
 
-        private void Draft_Click(object sender, RoutedEventArgs e)
+        private void FullPlayerStats_Click(object sender, RoutedEventArgs e)
         {
-            // Logic to open draft view
+            // Navigate to full player stats view
         }
 
-        private void Teams_Click(object sender, RoutedEventArgs e)
+        private void FullTeamStats_Click(object sender, RoutedEventArgs e)
         {
-            // Logic to open teams view
+            // Navigate to full team stats view
+        }
+
+        private void StartDraft_Click(object sender, RoutedEventArgs e)
+        {
+            // Start draft logic
+        }
+
+        private void LoadTeamInformation()
+        {
+            // Replace with actual data retrieval logic
+            string teamName = "My Team";
+            string userName = "John Doe";
+            string winLossRecord = "5W - 3L";
+
+            // Set the text of TextBlocks
+            TeamNameTextBlock.Text = "Team Name: " + teamName;
+            UserNameTextBlock.Text = "User's Name: " + userName;
+            WinLossTextBlock.Text = "Win/Loss: " + winLossRecord;
         }
     }
 }
