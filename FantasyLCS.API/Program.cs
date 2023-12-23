@@ -230,14 +230,14 @@ app.MapGet("/getallteams", () =>
 {
     try
     {
-        var players = StorageManager.Get<Player>();
-        if (players != null)
+        var teams = StorageManager.Get<Team>();
+        if (teams != null)
         {
-            return Results.Ok(players);
+            return Results.Ok(teams);
         }
         else
         {
-            return Results.NotFound("Player list not found.");
+            return Results.NotFound("Team list not found.");
         }
     }
     catch (Exception ex)
@@ -245,7 +245,7 @@ app.MapGet("/getallteams", () =>
         return Results.Problem("An error occurred: " + ex.Message);
     }
 })
-.WithName("GetTeamID")
+.WithName("GetAllTeams")
 .WithOpenApi();
 
 app.Run();
