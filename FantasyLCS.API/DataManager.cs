@@ -3,6 +3,7 @@ using Constants;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 
+using FantasyLCS.DataObjects;
 using static StorageManager;
 using static StaticMethods;
 

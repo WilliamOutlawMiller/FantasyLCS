@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS", "FantasyLCS\Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.DiscordBot", "FantasyLCS.DiscordBot\FantasyLCS.DiscordBot.csproj", "{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
