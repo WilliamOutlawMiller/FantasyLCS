@@ -120,7 +120,15 @@ app.MapGet("/getavailableplayers", () =>
 {
     try
     {
-        return Results.Ok(DataManager.GetAvailablePlayers());
+        var players = DataManager.GetAvailablePlayers();
+        if (players != null)
+        {
+            return Results.Ok(players);
+        }
+        else
+        {
+            return Results.NotFound("Players not found.");
+        }
     }
     catch (Exception ex)
     {
@@ -201,7 +209,36 @@ app.MapGet("/getteamid/{name}", (string name) =>
     try
     {
         int teamID = DataManager.GetTeamID(name);
-        return Results.Ok(teamID);
+        if (teamID != 0)
+        {
+            return Results.Ok(teamID);
+        }
+        else
+        {
+            return Results.NotFound("Team not found.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetTeamID")
+.WithOpenApi();
+
+app.MapGet("/getallteams", () =>
+{
+    try
+    {
+        var players = StorageManager.Get<Player>();
+        if (players != null)
+        {
+            return Results.Ok(players);
+        }
+        else
+        {
+            return Results.NotFound("Player list not found.");
+        }
     }
     catch (Exception ex)
     {
