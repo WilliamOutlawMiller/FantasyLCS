@@ -180,6 +180,20 @@ app.MapGet("/getteam/{id}", (int id) =>
 .WithName("GetTeam")
 .WithOpenApi();
 
+app.MapGet("/getavailableplayers", () =>
+{
+    try
+    {   
+        return Results.Ok(DataManager.GetAvailablePlayers());
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetAvailablePlayers")
+.WithOpenApi();
+
 app.MapGet("/getteamid/{name}", (string name) =>
 {
     try
@@ -189,7 +203,7 @@ app.MapGet("/getteamid/{name}", (string name) =>
     }
     catch (Exception ex)
     {
-        return Results.Problem("Failure: " + ex.Message);
+        return Results.Problem("An error occurred: " + ex.Message);
     }
 })
 .WithName("GetTeamID")

@@ -119,6 +119,12 @@ public class DataManager
         UpdateData(player);
     }
 
+    public static List<Player> GetAvailablePlayers()
+    {
+        List<Player> players = ReadData<Player>();
+        return players.Where(player => player.TeamID == 0).ToList();
+    }
+
     public static int GetTeamID(string name)
     {
         List<Team> teams = ReadData<Team>();
