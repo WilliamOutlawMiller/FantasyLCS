@@ -1,34 +1,22 @@
 ﻿using System.Windows;
+using System.Windows.Navigation;
 
 namespace FantasyLCS.App
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly NavigationService _navigationService;
+        private readonly MainViewModel _mainViewModel;
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-        }
 
-        private void FullPlayerStats_Click(object sender, RoutedEventArgs e)
-        {
-            // Navigate to full player stats view
-        }
+            _navigationService = new NavigationService(MainFrame);
+            _mainViewModel = viewModel;
+            DataContext = _mainViewModel;
 
-        private void FullTeamStats_Click(object sender, RoutedEventArgs e)
-        {
-            // Navigate to full team stats view
-        }
-
-        private void StartDraft_Click(object sender, RoutedEventArgs e)
-        {
-            // Start draft logic
-        }
-
-        // Handle the "Create Team" button click event
-        private void CreateTeamButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Implement logic to create a team for the user
-            // You can show a dialog or navigate to a new page for team creation
+            HomePage homePage = new HomePage(viewModel, _navigationService);
+            _navigationService.NavigateToPage(homePage);
         }
     }
 }

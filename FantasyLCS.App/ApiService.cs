@@ -56,12 +56,12 @@ public class ApiService
         return new ObservableCollection<Team>();
     }
 
-    public async Task<bool> CreateTeamAsync(string name, string username)
+    public async Task<bool> CreateTeamAsync(string name, string logoUrl, string username)
     {
         try
         {
             // Create an object to send in the request body
-            var requestData = new { name, username };
+            var requestData = new { name, logoUrl, username };
 
             // Serialize the requestData to JSON
             var jsonRequest = JsonSerializer.Serialize(requestData);

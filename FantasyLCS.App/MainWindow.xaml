@@ -1,73 +1,20 @@
 ﻿<Window x:Class="FantasyLCS.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Fantasy LCS App" Height="1080" Width="1920">
+        xmlns:local="clr-namespace:FantasyLCS.App"
+        Title="Fantasy LCS App" Height="1080" Width="1920"
+        Background="#F5F5F5">
+
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- Toolbar for Actions -->
-        <ToolBar Grid.Row="0">
-            <Button Content="Full Player Stats" Click="FullPlayerStats_Click"/>
-            <Button Content="Full Team Stats" Click="FullTeamStats_Click"/>
-            <Button Content="Start Draft" Click="StartDraft_Click"/>
-            <!-- More buttons as needed -->
-        </ToolBar>
-
-        <!-- Main Content Area -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Team Information Section -->
-            <Border BorderBrush="Black" BorderThickness="1" Margin="10" Padding="10">
-                <StackPanel Margin="0,0,299,733">
-                    <!-- Team Logo -->
-                    <Image Source="team_logo.png" Width="100" Height="100" />
-
-                    <!-- Team Name -->
-                    <TextBlock Text="Team Name: My Team" FontSize="20" Margin="0 10" />
-
-                    <!-- User's Name -->
-                    <TextBlock Text="User's Name: John Doe" FontSize="16" Margin="0 5" />
-
-                    <!-- Win/Loss Record -->
-                    <TextBlock Text="Win/Loss: 5W - 3L" FontSize="16" Margin="0 5" />
-
-                    <!-- Buttons -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
-                        <!-- Create Team Button -->
-                        <Button Content="Create Team" Margin="5" Visibility="{Binding IsCreateTeamButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-                        <!-- View Team Stats Button -->
-                        <Button Content="View Team Stats" Margin="5" />
-                        <!-- Start a Draft Button -->
-                        <Button Content="Start a Draft" Margin="5" />
-                        <!-- Add more buttons as needed -->
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <!-- Right Side: Team Standings and Player Stats -->
-            <StackPanel Grid.Column="1">
-                <!-- Team Standings Summary -->
-                <TextBlock Text="Team Standings"/>
-                <ListView>
-                    <!-- Bind to Team Standings data -->
-                </ListView>
-
-                <!-- Player Stats Summary -->
-                <TextBlock Text="Player Stats"/>
-                <ListView>
-                    <!-- Bind to Player Stats data -->
-                </ListView>
-            </StackPanel>
-        </Grid>
-    </Grid>
+    <Frame x:Name="MainFrame"/>
 </Window>

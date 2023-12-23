@@ -23,7 +23,6 @@ namespace FantasyLCS.App
         {
             _apiService = apiService;
             _username = username;
-            LoadDataAsync();
         }
 
         public ObservableCollection<Player> AvailablePlayers
@@ -67,17 +66,22 @@ namespace FantasyLCS.App
                 // Additional logic when a team is selected
             }
         }
-
         public Team UserTeam
         {
             get => _userTeam;
             set
             {
-                _userTeam = value;
-                OnPropertyChanged(nameof(UserTeam));
-                // Additional logic when a team is selected
+                if (_userTeam != value)
+                {
+                    _userTeam = value;
+                    OnPropertyChanged(nameof(UserTeam));
+                    OnPropertyChanged(nameof(IsUserTeamAvailable)); // Notify that IsUserTeamAvailable has changed
+                }
             }
         }
+
+        public bool IsUserTeamAvailable => UserTeam != null;
+        public bool IsCreateTeamButtonVisible => !IsUserTeamAvailable;
 
         public string Username
         {
@@ -90,29 +94,31 @@ namespace FantasyLCS.App
             }
         }
 
-        private bool _isCreateTeamButtonVisible;
-
-        public bool IsCreateTeamButtonVisible
+        public async Task InitializeAsync()
         {
-            get => _isCreateTeamButtonVisible;
-            set
+            try
             {
-                _isCreateTeamButtonVisible = value;
-                OnPropertyChanged(nameof(IsCreateTeamButtonVisible));
+                AvailablePlayers = await _apiService.LoadAvailablePlayersAsync();
+                Teams = await _apiService.LoadTeamsAsync();
+                UserTeam = Teams.FirstOrDefault(team => team.OwnerName.Equals(Username));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, maybe log the error
+                // Optionally, set a property to indicate that data loading failed
             }
         }
 
-        // Method to load data (e.g., players and teams) asynchronously
-        private async void LoadDataAsync()
+        public async Task<bool> CreateTeam(string teamName, string logoUrl)
         {
-            AvailablePlayers = await _apiService.LoadAvailablePlayersAsync();
-            Teams = await _apiService.LoadTeamsAsync();
-            UserTeam = Teams.Where(team => team.OwnerName.Equals(Username)).SingleOrDefault();
-
-            if (UserTeam == null)
-                IsCreateTeamButtonVisible = true;
-            else
-                IsCreateTeamButtonVisible = false;
+            // Call the ApiService to create a team
+            var result = await _apiService.CreateTeamAsync(teamName, logoUrl, _username);
+            if (result)
+            {
+                Teams = await _apiService.LoadTeamsAsync();
+                UserTeam = Teams.FirstOrDefault(team => team.OwnerName.Equals(Username));
+            }
+            return result;
         }
 
         // Method to raise the PropertyChanged event
