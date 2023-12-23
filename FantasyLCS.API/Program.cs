@@ -113,7 +113,7 @@ app.MapGet("/getallplayers", () =>
         return Results.Problem("An error occurred: " + ex.Message);
     }
 })
-.WithName("GetPlayer")
+.WithName("GetAllPlayers")
 .WithOpenApi();
 
 app.MapGet("/getplayer/{id}", (int id) =>
