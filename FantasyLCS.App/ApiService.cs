@@ -1,6 +1,7 @@
 ﻿using FantasyLCS.DataObjects;
 using System;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -68,8 +69,8 @@ public class ApiService
             // Create a StringContent from the JSON data
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-            // Send a POST request to the /createteam/{name}/{username} endpoint
-            var response = await _httpClient.PostAsync($"/createteam/{name}/{username}", content);
+            // Send a POST request to the /createteam endpoint
+            var response = await _httpClient.PostAsync($"{_baseApiUrl}/createteam", content);
 
             // Check if the request was successful (status code 200)
             if (response.IsSuccessStatusCode)
@@ -86,6 +87,39 @@ public class ApiService
         {
             // Handle exceptions here if needed
             return false;
+        }
+    }
+
+    public async Task<Team> LoadTeamInformationAsync(string username)
+    {
+        try
+        {
+            // Call the new API endpoint to get the team by username
+            var response = await _httpClient.GetAsync($"{_baseApiUrl}/getteambyusername/{username}");
+
+            // Check if the request was successful (status code 200)
+            if (response.IsSuccessStatusCode)
+            {
+                var teamJson = await response.Content.ReadAsStringAsync();
+                var team = JsonSerializer.Deserialize<Team>(teamJson);
+
+                return team;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                // Handle the case where no team was found for the username
+                return null;
+            }
+            else
+            {
+                // Handle other error cases here if needed
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions here if needed
+            return null;
         }
     }
 }
