@@ -1,16 +1,8 @@
 using HtmlAgilityPack;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Net;
-using System.Text;
-using System.IO;
-using System.Data;
-using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
 using System.Text.Json;
-using Constants;
-using System.Security.Policy;
+
+using FantasyLCS.DataObjects;
 
 public abstract class StatsScraper
 {   

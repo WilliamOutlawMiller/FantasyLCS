@@ -3,31 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.API", "FantasyLCS.API\FantasyLCS.API.csproj", "{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.API", "FantasyLCS.API\FantasyLCS.API.csproj", "{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS", "FantasyLCS\FantasyLCS.csproj", "{F350BF11-555D-45BA-AC87-48933C2BD8F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.DiscordBot", "FantasyLCS.DiscordBot\FantasyLCS.DiscordBot.csproj", "{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.DiscordBot", "FantasyLCS.DiscordBot\FantasyLCS.DiscordBot.csproj", "{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED08BD59-E9B3-4FDC-A0F8-2F943B1032B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F350BF11-555D-45BA-AC87-48933C2BD8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F350BF11-555D-45BA-AC87-48933C2BD8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F350BF11-555D-45BA-AC87-48933C2BD8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F350BF11-555D-45BA-AC87-48933C2BD8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73845CD8-37CB-467D-A4BD-2F4F16F0BA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,5 +27,8 @@ Global
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
