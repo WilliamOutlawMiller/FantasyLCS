@@ -90,6 +90,18 @@ namespace FantasyLCS.App
             }
         }
 
+        private bool _isCreateTeamButtonVisible;
+
+        public bool IsCreateTeamButtonVisible
+        {
+            get => _isCreateTeamButtonVisible;
+            set
+            {
+                _isCreateTeamButtonVisible = value;
+                OnPropertyChanged(nameof(IsCreateTeamButtonVisible));
+            }
+        }
+
         // Method to load data (e.g., players and teams) asynchronously
         private async void LoadDataAsync()
         {
