@@ -74,7 +74,7 @@ public class DataManager
         } 
     }
 
-    public static void CreateTeam(string name, string username)
+    public static void CreateTeam(string name, string logoUrl, string username)
     {
         List<Team> teams = ReadData<Team>();
 
@@ -91,6 +91,7 @@ public class DataManager
             ID = uniqueID,
             Name = name,
             OwnerName = username,
+            LogoUrl = logoUrl,
             Wins = 0,
             Losses = 0,
             PlayerIDs = new List<int>(),

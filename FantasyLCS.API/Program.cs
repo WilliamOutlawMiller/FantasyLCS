@@ -62,7 +62,7 @@ app.MapPost("/createteam", async (HttpContext context) =>
 
         if (requestData != null)
         {
-            DataManager.CreateTeam(requestData.Name, requestData.Username);
+            DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
             return Results.Ok("Success!");
         }
         else
