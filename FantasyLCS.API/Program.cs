@@ -231,13 +231,13 @@ app.MapGet("/getallteams", () =>
     try
     {
         var teams = StorageManager.Get<Team>();
-        if (teams != null)
+        if (teams.Count > 0)
         {
             return Results.Ok(teams);
         }
         else
         {
-            return Results.NotFound("Team list not found.");
+            return Results.NotFound("No teams were returned.");
         }
     }
     catch (Exception ex)
