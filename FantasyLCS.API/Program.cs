@@ -49,11 +49,11 @@ app.MapPost("/updatematchdata", () =>
 .WithName("UpdateMatchData")
 .WithOpenApi();
 
-app.MapPost("/createteam/{name}", (string name) =>
+app.MapPost("/createteam/{name}/{username}", (string name, string username) =>
 {
     try
     {
-        DataManager.CreateTeam(name);
+        DataManager.CreateTeam(name, username);
         return Results.Ok("Success!");
     }
     catch (Exception ex)
