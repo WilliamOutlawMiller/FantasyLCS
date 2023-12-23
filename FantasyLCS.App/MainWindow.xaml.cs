@@ -7,8 +7,6 @@ namespace FantasyLCS.App
         public MainWindow()
         {
             InitializeComponent();
-
-            LoadTeamInformation();
         }
 
         private void FullPlayerStats_Click(object sender, RoutedEventArgs e)
@@ -26,17 +24,11 @@ namespace FantasyLCS.App
             // Start draft logic
         }
 
-        private void LoadTeamInformation()
+        // Handle the "Create Team" button click event
+        private void CreateTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            // Replace with actual data retrieval logic
-            string teamName = "My Team";
-            string userName = "John Doe";
-            string winLossRecord = "5W - 3L";
-
-            // Set the text of TextBlocks
-            TeamNameTextBlock.Text = "Team Name: " + teamName;
-            UserNameTextBlock.Text = "User's Name: " + userName;
-            WinLossTextBlock.Text = "Win/Loss: " + winLossRecord;
+            // Implement logic to create a team for the user
+            // You can show a dialog or navigate to a new page for team creation
         }
     }
 }

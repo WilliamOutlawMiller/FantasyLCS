@@ -9,8 +9,10 @@ namespace FantasyLCS.App
         {
             base.OnStartup(e);
 
-            var apiService = new ApiService(new HttpClient(), "your_api_base_url");
-            var mainViewModel = new MainViewModel(apiService);
+            string tempUsername = "Test";
+
+            var apiService = new ApiService(new HttpClient(), "https://localhost:7273");
+            var mainViewModel = new MainViewModel(apiService, tempUsername);
 
             var mainWindow = new MainWindow
             {

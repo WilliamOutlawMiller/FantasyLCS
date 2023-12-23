@@ -1,6 +1,7 @@
 ﻿using FantasyLCS.DataObjects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FantasyLCS.App
@@ -13,11 +14,15 @@ namespace FantasyLCS.App
         private Player _selectedPlayer;
         private Team _selectedTeam;
 
+        private Team _userTeam;
+        private string _username;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainViewModel(ApiService apiService)
+        public MainViewModel(ApiService apiService, string username)
         {
             _apiService = apiService;
+            _username = username;
             LoadDataAsync();
         }
 
@@ -63,11 +68,39 @@ namespace FantasyLCS.App
             }
         }
 
+        public Team UserTeam
+        {
+            get => _userTeam;
+            set
+            {
+                _userTeam = value;
+                OnPropertyChanged(nameof(UserTeam));
+                // Additional logic when a team is selected
+            }
+        }
+
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged(nameof(Username));
+                // Additional logic when a team is selected
+            }
+        }
+
         // Method to load data (e.g., players and teams) asynchronously
         private async void LoadDataAsync()
         {
             AvailablePlayers = await _apiService.LoadAvailablePlayersAsync();
             Teams = await _apiService.LoadTeamsAsync();
+            UserTeam = Teams.Where(team => team.OwnerName.Equals(Username)).SingleOrDefault();
+
+            if (UserTeam == null)
+                IsCreateTeamButtonVisible = true;
+            else
+                IsCreateTeamButtonVisible = false;
         }
 
         // Method to raise the PropertyChanged event
