@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="FantasyLCS.App.TeamManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <ListView x:Name="lvTeamPlayers">
+                <!-- ListView setup -->
+            </ListView>
+            <Button Content="Remove Player" Click="RemovePlayer_Click"/>
+            <!-- Other controls can be added here inside the StackPanel -->
+        </StackPanel>
+    </Grid>
+</UserControl>

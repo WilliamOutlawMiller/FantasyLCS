@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="FantasyLCS.App.MatchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <ComboBox x:Name="cbMatches" SelectionChanged="Matches_SelectionChanged">
+                <!-- ComboBox setup -->
+            </ComboBox>
+            <TextBlock Text="{Binding SelectedMatchDetail}" />
+            <!-- Other controls can go here inside the StackPanel -->
+        </StackPanel>
+    </Grid>
+</UserControl>
