@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using FantasyLCS.DataObjects;
 using static StorageManager;
 using static StaticMethods;
+using System.Xml.Linq;
 
 public class DataManager
 {
@@ -97,6 +98,13 @@ public class DataManager
         });
 
         WriteData(teams);
+    }
+
+    public static Team GetTeamByUsername(string username)
+    {
+        List<Team> teams = ReadData<Team>();
+
+        return teams.Where(team => team.OwnerName == username).SingleOrDefault();
     }
 
     public static void AddPlayerToTeam(int teamID, int playerID)
