@@ -1,4 +1,5 @@
 using FantasyLCS.DataObjects;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapPost("/updateplayerlist", () =>
+app.MapPost("/updateplayerlist", async (HttpContext context) =>
 {
     try
     {
+        // Implement logic to update player list
         DataManager.UpdatePlayerList();
         return Results.Ok("Success!");
     }
@@ -29,15 +30,15 @@ app.MapPost("/updateplayerlist", () =>
     {
         return Results.Problem("Failure: " + ex.Message);
     }
-    
 })
 .WithName("UpdatePlayerList")
 .WithOpenApi();
 
-app.MapPost("/updatematchdata", () =>
+app.MapPost("/updatematchdata", async (HttpContext context) =>
 {
     try
     {
+        // Implement logic to update match data
         DataManager.UpdateMatchData();
         return Results.Ok("Success!");
     }
@@ -49,12 +50,25 @@ app.MapPost("/updatematchdata", () =>
 .WithName("UpdateMatchData")
 .WithOpenApi();
 
-app.MapPost("/createteam/{name}/{username}", (string name, string username) =>
+app.MapPost("/createteam", async (HttpContext context) =>
 {
     try
     {
-        DataManager.CreateTeam(name, username);
-        return Results.Ok("Success!");
+        using var reader = new StreamReader(context.Request.Body);
+        var requestBody = await reader.ReadToEndAsync();
+
+        // Deserialize the JSON data to get the name and username
+        var requestData = JsonSerializer.Deserialize<CreateTeamRequest>(requestBody);
+
+        if (requestData != null)
+        {
+            DataManager.CreateTeam(requestData.Name, requestData.Username);
+            return Results.Ok("Success!");
+        }
+        else
+        {
+            return Results.Problem("Invalid JSON data.");
+        }
     }
     catch (Exception ex)
     {
@@ -64,12 +78,25 @@ app.MapPost("/createteam/{name}/{username}", (string name, string username) =>
 .WithName("CreateTeam")
 .WithOpenApi();
 
-app.MapPost("/addplayertoteam/{teamID}/{playerID}", (int teamID, int playerID) =>
+app.MapPost("/addplayertoteam", async (HttpContext context) =>
 {
     try
     {
-        DataManager.AddPlayerToTeam(teamID, playerID);
-        return Results.Ok("Success!");
+        using var reader = new StreamReader(context.Request.Body);
+        var requestBody = await reader.ReadToEndAsync();
+
+        // Deserialize the JSON data to get teamID and playerID
+        var requestData = JsonSerializer.Deserialize<AddPlayerToTeamRequest>(requestBody);
+
+        if (requestData != null)
+        {
+            DataManager.AddPlayerToTeam(requestData.TeamID, requestData.PlayerID);
+            return Results.Ok("Success!");
+        }
+        else
+        {
+            return Results.Problem("Invalid JSON data.");
+        }
     }
     catch (Exception ex)
     {
@@ -79,12 +106,25 @@ app.MapPost("/addplayertoteam/{teamID}/{playerID}", (int teamID, int playerID) =
 .WithName("AddPlayerToTeam")
 .WithOpenApi();
 
-app.MapPost("/removeplayerfromteam/{teamID}/{playerID}", (int teamID, int playerID) =>
+app.MapPost("/removeplayerfromteam", async (HttpContext context) =>
 {
     try
     {
-        DataManager.RemovePlayerFromTeam(teamID, playerID);
-        return Results.Ok("Success!");
+        using var reader = new StreamReader(context.Request.Body);
+        var requestBody = await reader.ReadToEndAsync();
+
+        // Deserialize the JSON data to get teamID and playerID
+        var requestData = JsonSerializer.Deserialize<RemovePlayerFromTeamRequest>(requestBody);
+
+        if (requestData != null)
+        {
+            DataManager.RemovePlayerFromTeam(requestData.TeamID, requestData.PlayerID);
+            return Results.Ok("Success!");
+        }
+        else
+        {
+            return Results.Problem("Invalid JSON data.");
+        }
     }
     catch (Exception ex)
     {
@@ -97,7 +137,7 @@ app.MapPost("/removeplayerfromteam/{teamID}/{playerID}", (int teamID, int player
 app.MapGet("/getallplayers", () =>
 {
     try
-    {   
+    {
         var players = StorageManager.Get<Player>();
         if (players != null)
         {
@@ -138,10 +178,10 @@ app.MapGet("/getavailableplayers", () =>
 .WithName("GetAvailablePlayers")
 .WithOpenApi();
 
-app.MapGet("/getplayer/{id}", (int id) =>
+app.MapGet("/getplayer/{id}", async (int id) =>
 {
     try
-    {   
+    {
         var player = StorageManager.Get<Player>(id);
         if (player != null)
         {
@@ -160,10 +200,10 @@ app.MapGet("/getplayer/{id}", (int id) =>
 .WithName("GetPlayer")
 .WithOpenApi();
 
-app.MapGet("/getmatch/{id}", (int id) =>
+app.MapGet("/getmatch/{id}", async (int id) =>
 {
     try
-    {   
+    {
         var match = StorageManager.Get<Match>(id);
         if (match != null)
         {
@@ -182,10 +222,10 @@ app.MapGet("/getmatch/{id}", (int id) =>
 .WithName("GetMatch")
 .WithOpenApi();
 
-app.MapGet("/getteam/{id}", (int id) =>
+app.MapGet("/getteam/{id}", async (int id) =>
 {
     try
-    {   
+    {
         var team = StorageManager.Get<Team>(id);
         if (team != null)
         {
@@ -204,7 +244,31 @@ app.MapGet("/getteam/{id}", (int id) =>
 .WithName("GetTeam")
 .WithOpenApi();
 
-app.MapGet("/getteamid/{name}", (string name) =>
+app.MapGet("/getteambyusername/{username}", async (string username) =>
+{
+    try
+    {
+        // Implement logic to retrieve the team by username from your data
+        var team = DataManager.GetTeamByUsername(username);
+
+        if (team != null)
+        {
+            return Results.Ok(team);
+        }
+        else
+        {
+            return Results.NotFound("No team found for the username.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("An error occurred: " + ex.Message);
+    }
+})
+.WithName("GetTeamByUsername")
+.WithOpenApi();
+
+app.MapGet("/getteamid/{name}", async (string name) =>
 {
     try
     {
