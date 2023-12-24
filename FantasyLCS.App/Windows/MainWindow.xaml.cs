@@ -16,8 +16,6 @@ namespace FantasyLCS.App
             _mainViewModel = viewModel;
             DataContext = _mainViewModel;
 
-            _mainViewModel.InitializeAsync();
-
             HomePage homePage = new HomePage(viewModel, _navigationService);
             _navigationService.NavigateToPage(homePage);
         }

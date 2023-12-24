@@ -25,8 +25,6 @@ namespace FantasyLCS.App
             var apiService = new ApiService(new HttpClient(), configuration);
             var mainViewModel = new MainViewModel(apiService, tempUsername);
 
-            mainViewModel.InitializeAsync();
-
             // Optionally show a loading window here if needed
 
             _mainWindow = new MainWindow(mainViewModel);
