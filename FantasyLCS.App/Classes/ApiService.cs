@@ -16,11 +16,11 @@ public class ApiService
 
     public ApiService(HttpClient httpClient, IConfiguration configuration)
     {
-        _httpClient = httpClient;
-        _httpClient.DefaultRequestHeaders.Add("ApiKey", _apiKey);
-
         _baseApiUrl = configuration["ApiSettings:BaseApiUrl"];
         _apiKey = configuration["ApiSettings:ApiKey"];
+
+        _httpClient = httpClient;
+        _httpClient.DefaultRequestHeaders.Add("ApiKey", _apiKey);
     }
 
     public async Task<ObservableCollection<Player>> LoadAvailablePlayersAsync()
