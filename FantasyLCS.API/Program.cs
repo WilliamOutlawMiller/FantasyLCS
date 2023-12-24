@@ -17,7 +17,7 @@ public class Program
             {
                 options.Listen(System.Net.IPAddress.Any, 443, listenOptions =>
                 {
-                    listenOptions.UseHttps("/etc/letsencrypt/live/fantasy-lcs.com/fullchain.pem", "/etc/letsencrypt/live/fantasy-lcs.com/privkey.pem");
+                    listenOptions.UseHttps("/etc/myappcerts/fullchain.pem", "/etc/myappcerts/privkey.pem");
                 });
             });
         });
