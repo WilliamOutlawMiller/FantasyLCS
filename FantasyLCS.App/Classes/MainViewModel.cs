@@ -1,8 +1,10 @@
 ﻿using FantasyLCS.DataObjects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.IO;
+
+using static FantasyLCS.App.Classes.LogoHelper;
 
 namespace FantasyLCS.App.Classes
 {
@@ -17,13 +19,61 @@ namespace FantasyLCS.App.Classes
         private Team _userTeam;
         private string _username;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string _imagesFolderPath 
+        { 
+            get
+            {
+                string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                return Path.Combine(basePath, "Images");
+            } 
+        }
 
         public MainViewModel(ApiService apiService, string username)
         {
             _apiService = apiService;
             _username = username;
+
+            InitializeAsync();
         }
+
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                // Load AvailablePlayers only if it's not already loaded
+                if (AvailablePlayers == null || !AvailablePlayers.Any())
+                {
+                    AvailablePlayers = await _apiService.LoadAvailablePlayersAsync();
+                }
+
+                // Load Teams only if it's not already loaded
+                if (Teams == null || !Teams.Any())
+                {
+                    Teams = await _apiService.LoadTeamsAsync();
+                }
+
+                if (UserTeam == null)
+                {
+                    UserTeam = Teams.FirstOrDefault(team => team.OwnerName.Equals(Username));
+                    if (UserTeam != null)
+                    {
+                        UserTeam.LogoPath = Path.Combine(_imagesFolderPath, $"{UserTeam.Name}.png");
+                        OnPropertyChanged(nameof(UserTeam)); // Notify the View of the change
+                    }
+                }
+
+                if (UserTeam != null && UserTeam.LogoPath != null && !File.Exists(UserTeam.LogoPath))
+                {
+                    await LoadAndDisplayImage();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, maybe log the error
+                // Optionally, set a property to indicate that data loading failed
+            }
+        }
+
 
         public ObservableCollection<Player> AvailablePlayers
         {
@@ -76,6 +126,7 @@ namespace FantasyLCS.App.Classes
                     _userTeam = value;
                     OnPropertyChanged(nameof(UserTeam));
                     OnPropertyChanged(nameof(IsUserTeamAvailable)); // Notify that IsUserTeamAvailable has changed
+                    OnPropertyChanged(nameof(IsCreateTeamButtonVisible));
                 }
             }
         }
@@ -94,21 +145,6 @@ namespace FantasyLCS.App.Classes
             }
         }
 
-        public async Task InitializeAsync()
-        {
-            try
-            {
-                AvailablePlayers = await _apiService.LoadAvailablePlayersAsync();
-                Teams = await _apiService.LoadTeamsAsync();
-                UserTeam = Teams.FirstOrDefault(team => team.OwnerName.Equals(Username));
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions, maybe log the error
-                // Optionally, set a property to indicate that data loading failed
-            }
-        }
-
         public async Task<bool> CreateTeam(string teamName, string logoUrl)
         {
             // Call the ApiService to create a team
@@ -117,11 +153,19 @@ namespace FantasyLCS.App.Classes
             {
                 Teams = await _apiService.LoadTeamsAsync();
                 UserTeam = Teams.FirstOrDefault(team => team.OwnerName.Equals(Username));
+
+                UserTeam.LogoPath = Path.Combine(_imagesFolderPath, $"{teamName}.png");
             }
             return result;
         }
 
-        // Method to raise the PropertyChanged event
+        public async Task LoadAndDisplayImage()
+        {
+            await DownloadImageAsync(UserTeam.LogoUrl, UserTeam.LogoPath);
+            OnPropertyChanged(nameof(UserTeam)); // Notify the View of the change
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

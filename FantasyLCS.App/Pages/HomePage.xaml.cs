@@ -30,6 +30,8 @@ namespace FantasyLCS.App
             _mainViewModel = viewModel;
             DataContext = _mainViewModel;
             _navigationService = navigationService;
+
+            _mainViewModel.InitializeAsync();
         }
 
         private void FullPlayerStats_Click(object sender, RoutedEventArgs e)

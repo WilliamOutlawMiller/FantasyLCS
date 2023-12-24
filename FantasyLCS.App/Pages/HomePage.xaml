@@ -66,9 +66,16 @@
                 <Border.Effect>
                     <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
                 </Border.Effect>
-                <StackPanel>
-                    <Image Source="{Binding UserTeam.LogoUrl}" Width="100" Height="100" Margin="0,0,0,10" Stretch="UniformToFill" HorizontalAlignment="Center" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}"/>
+                <StackPanel HorizontalAlignment="Center">
 
+                    <!-- Circular Image Container -->
+                    <Border Width="100" Height="100" ClipToBounds="True" HorizontalAlignment="Center" Margin="0,0,0,10">
+                        <Border.Clip>
+                            <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                        </Border.Clip>
+                        <Image Source="{Binding UserTeam.LogoPath}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}"/>
+                    </Border>
+                    
                     <TextBlock Text="{Binding UserTeam.Name}" FontSize="24" FontWeight="Bold" Margin="0,0,0,5" HorizontalAlignment="Center" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}" />
 
                     <TextBlock Text="{Binding UserTeam.OwnerName}" Margin="0,0,0,5" HorizontalAlignment="Center" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}" />
