@@ -18,6 +18,7 @@ namespace FantasyLCS.App
             string tempUsername = "Test";
 
             IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json") // Load appsettings.json
                 .Build(); // Build the configuration
 
