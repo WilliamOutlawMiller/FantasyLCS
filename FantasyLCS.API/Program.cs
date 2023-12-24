@@ -19,6 +19,12 @@ public class Program
                 {
                     listenOptions.UseHttps("/etc/myappcerts/fullchain.pem", "/etc/myappcerts/privkey.pem");
                 });
+            })
+            .ConfigureLogging((hostingContext, logging) =>
+            {
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                logging.AddConsole();
+                logging.AddDebug();
             });
         });
 }
