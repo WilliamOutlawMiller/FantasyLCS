@@ -9,22 +9,13 @@ public class Program
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
+    Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
             webBuilder.UseKestrel(options =>
             {
-                options.Listen(System.Net.IPAddress.Any, 443, listenOptions =>
-                {
-                    listenOptions.UseHttps("/etc/myappcerts/fullchain.pem", "/etc/myappcerts/privkey.pem");
-                });
-            })
-            .ConfigureLogging((hostingContext, logging) =>
-            {
-                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                logging.AddConsole();
-                logging.AddDebug();
+                options.Listen(System.Net.IPAddress.Loopback, 5000);  // Listen on localhost and port 5000
             });
         });
 }
