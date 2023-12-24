@@ -1,5 +1,6 @@
 using FantasyLCS.DataObjects;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,26 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+IConfiguration configuration = new  ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+// Custom authorization middleware
+app.Use(async (context, next) =>
+{
+    // Implement API key authentication logic here
+    if (!IsValidApiKey(context.Request.Headers["ApiKey"]))
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await context.Response.WriteAsync("Unauthorized: Invalid API key.");
+        return;
+    }
+
+    await next();
+});
+
 app.MapPost("/updateplayerlist", async (HttpContext context) =>
 {
     try
@@ -313,3 +334,11 @@ app.MapGet("/getallteams", () =>
 .WithOpenApi();
 
 app.Run();
+
+// API key validation logic
+bool IsValidApiKey(string apiKey)
+{
+    // Implement your API key validation logic here
+    // Return true if the key is valid, false otherwise
+    return apiKey == configuration["ApiSettings:ApiKey"]; // Replace with your valid API key
+}

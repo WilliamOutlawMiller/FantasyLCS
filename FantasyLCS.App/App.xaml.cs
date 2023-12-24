@@ -1,6 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 using System.Windows;
 using FantasyLCS.App.Classes;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace FantasyLCS.App
 {
@@ -14,7 +17,11 @@ namespace FantasyLCS.App
 
             string tempUsername = "Test";
 
-            var apiService = new ApiService(new HttpClient(), "http://localhost:5031");
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json") // Load appsettings.json
+                .Build(); // Build the configuration
+
+            var apiService = new ApiService(new HttpClient(), configuration);
             var mainViewModel = new MainViewModel(apiService, tempUsername);
 
             mainViewModel.InitializeAsync();

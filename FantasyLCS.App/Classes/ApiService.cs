@@ -6,16 +6,21 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 public class ApiService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _baseApiUrl; // Base URL of your API
+    private readonly string _baseApiUrl;
+    private readonly string _apiKey;
 
-    public ApiService(HttpClient httpClient, string baseApiUrl)
+    public ApiService(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
-        _baseApiUrl = baseApiUrl;
+        _httpClient.DefaultRequestHeaders.Add("ApiKey", _apiKey);
+
+        _baseApiUrl = configuration["ApiSettings:BaseApiUrl"];
+        _apiKey = configuration["ApiSettings:ApiKey"];
     }
 
     public async Task<ObservableCollection<Player>> LoadAvailablePlayersAsync()
