@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace FantasyLCS.App
+namespace FantasyLCS.App.Classes
 {
     public class MainViewModel : INotifyPropertyChanged
     {
