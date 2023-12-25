@@ -58,5 +58,10 @@ namespace FantasyLCS.App
         {
             _navigationService.NavigateToPage(new CreateTeamPage(_navigationService, _mainViewModel));
         }
+
+        private void DeleteTeamButton_Click(object sender, RoutedEventArgs e)
+        {
+            _mainViewModel.DeleteTeam();
+        }
     }
 }

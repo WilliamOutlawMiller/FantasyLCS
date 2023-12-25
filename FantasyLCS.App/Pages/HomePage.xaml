@@ -10,6 +10,21 @@
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+        <!-- Card Style for the Border -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+        
         <!-- Custom Button Style -->
         <Style x:Key="CustomButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#FF0066CC"/>
@@ -39,6 +54,16 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Delete Button Style -->
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource CustomButtonStyle}">
+            <Setter Property="Background" Value="#FF4C4C"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF6565"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Page.Resources>
     
     <Grid>
@@ -62,10 +87,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Team Information Section -->
-            <Border BorderBrush="#CCCCCC" BorderThickness="1" Margin="10" Padding="10" Grid.Column="0" Background="White" CornerRadius="10">
-                <Border.Effect>
-                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
-                </Border.Effect>
+            <Border Style="{StaticResource CardStyle}" Grid.Column="0">
                 <StackPanel HorizontalAlignment="Center">
 
                     <!-- Circular Image Container -->
@@ -88,7 +110,7 @@
                     
                     <Button Content="Create Team" Style="{StaticResource CustomButtonStyle}" Click="CreateTeamButton_Click" Visibility="{Binding IsCreateTeamButtonVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}" />
                     <Button Content="View Team Stats" Style="{StaticResource CustomButtonStyle}" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}" />
-
+                    <Button Content="Delete Team" Style="{StaticResource DeleteButtonStyle}" Click="DeleteTeamButton_Click" Visibility="{Binding IsUserTeamAvailable, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Hidden}" />
                 </StackPanel>
             </Border>
 

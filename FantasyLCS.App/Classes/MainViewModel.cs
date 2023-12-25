@@ -159,6 +159,18 @@ namespace FantasyLCS.App.Classes
             return result;
         }
 
+        public async Task<bool> DeleteTeam()
+        {
+            // Call the ApiService to create a team
+            var result = await _apiService.DeleteTeamAsync(UserTeam.Name, UserTeam.OwnerName);
+            if (result)
+            {
+                Teams = await _apiService.LoadTeamsAsync();
+                UserTeam = null;
+            }
+            return result;
+        }
+
         public async Task LoadAndDisplayImage()
         {
             await DownloadImageAsync(UserTeam.LogoUrl, UserTeam.LogoPath);

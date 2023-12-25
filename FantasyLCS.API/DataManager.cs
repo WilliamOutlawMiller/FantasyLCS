@@ -101,6 +101,22 @@ public class DataManager
         WriteData(teams);
     }
 
+    public static void DeleteTeam(string teamName, string ownerName)
+    {
+        List<Team> teams = ReadData<Team>();
+
+        Team team = teams.Where(team => team.Name == teamName && team.OwnerName == ownerName).SingleOrDefault();
+
+        if (team == null)
+        {
+            throw new Exception("No team found with that team name and owner name.");
+        }
+
+        teams.Remove(team);
+
+        WriteData(teams);
+    }
+
     public static Team GetTeamByUsername(string username)
     {
         List<Team> teams = ReadData<Team>();

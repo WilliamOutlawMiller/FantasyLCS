@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Xml.Linq;
 
 public class ApiService
 {
@@ -17,10 +18,7 @@ public class ApiService
     public ApiService(HttpClient httpClient, IConfiguration configuration)
     {
         _baseApiUrl = configuration["ApiSettings:BaseApiUrl"];
-        _apiKey = configuration["ApiSettings:ApiKey"];
-
         _httpClient = httpClient;
-        _httpClient.DefaultRequestHeaders.Add("ApiKey", _apiKey);
     }
 
     public async Task<ObservableCollection<Player>> LoadAvailablePlayersAsync()
@@ -84,7 +82,39 @@ public class ApiService
             }
             else
             {
-                // Handle the error here if needed
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions here if needed
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteTeamAsync(string teamName, string ownerName)
+    {
+        try
+        {
+            // Create an object to send in the request body
+            var requestData = new { teamName, ownerName };
+
+            // Serialize the requestData to JSON
+            var jsonRequest = JsonSerializer.Serialize(requestData);
+
+            // Create a StringContent from the JSON data
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+            // Send a POST request to the /createteam endpoint
+            var response = await _httpClient.PostAsync($"{_baseApiUrl}/deleteteam", content);
+
+            // Check if the request was successful (status code 200)
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
                 return false;
             }
         }

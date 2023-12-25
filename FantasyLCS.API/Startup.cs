@@ -33,20 +33,6 @@ public class Startup
 
         app.UseHttpsRedirection();
 
-        // Custom authorization middleware
-        app.Use(async (context, next) =>
-        {
-            // Implement API key authentication logic here
-            if (!IsValidApiKey(context.Request.Headers["ApiKey"]))
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync("Unauthorized: Invalid API key.");
-                return;
-            }
-
-            await next();
-        });
-
         app.UseRouting();
 
         app.UseEndpoints(endpoints =>
@@ -109,6 +95,34 @@ public class Startup
                 }
             })
             .WithName("CreateTeam")
+            .WithOpenApi();
+
+            endpoints.MapPost("/deleteteam", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+
+                    // Deserialize the JSON data to get the name and username
+                    var requestData = JsonSerializer.Deserialize<DeleteTeamRequest>(requestBody);
+
+                    if (requestData != null)
+                    {
+                        DataManager.DeleteTeam(requestData.Name, requestData.OwnerName);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("DeleteTeam")
             .WithOpenApi();
 
             endpoints.MapPost("/addplayertoteam", async (HttpContext context) =>
@@ -346,12 +360,4 @@ public class Startup
             .WithOpenApi();
         });
     }
-
-    // API key validation logic
-    private bool IsValidApiKey(string apiKey)
-    {
-        return apiKey == Configuration["MyAPIKey"];
-    }
-
-    // You can add other utility methods if necessary
 }
