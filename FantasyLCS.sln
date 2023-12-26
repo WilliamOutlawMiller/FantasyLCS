@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.API", "FantasyLC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS", "FantasyLCS\FantasyLCS.csproj", "{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +21,6 @@ Global
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B6C799E4-D3ED-4477-ACEC-1F9279FCE454}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
