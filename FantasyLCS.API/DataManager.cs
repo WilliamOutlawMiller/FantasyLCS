@@ -111,14 +111,6 @@ public class DataManager
         }
     }
 
-    public static Team GetTeamByUsername(string username)
-    {
-        using (var context = new AppDbContext())
-        {
-            return context.Teams.FirstOrDefault(team => team.OwnerName == username);
-        }
-    }
-
 
     public static void AddPlayerToTeam(int teamID, int playerID)
     {
@@ -154,20 +146,4 @@ public class DataManager
         }
     }
 
-    public static List<Player> GetAvailablePlayers()
-    {
-        using (var context = new AppDbContext())
-        {
-            return context.Players.Where(player => player.TeamID == 0).ToList();
-        }
-    }
-
-    public static int GetTeamID(string name)
-    {
-        using (var context = new AppDbContext())
-        {
-            var team = context.Teams.FirstOrDefault(team => team.Name.Equals(name));
-            return team?.ID ?? 0;
-        }
-    }
 }

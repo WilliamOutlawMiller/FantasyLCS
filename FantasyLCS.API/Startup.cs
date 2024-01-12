@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Xml.Linq;
 
 public class Startup
 {
@@ -252,11 +253,13 @@ public class Startup
             .WithName("RemovePlayerFromTeam")
             .WithOpenApi();
 
-            endpoints.MapGet("/getallplayers", () =>
+            endpoints.MapGet("/getallplayers", async () =>
             {
                 try
                 {
-                    var players = StorageManager.Get<Player>();
+                    using var dbContext = new AppDbContext();
+                    var players = dbContext.Players.ToList();
+
                     if (players != null)
                     {
                         return Results.Ok(players);
@@ -278,7 +281,9 @@ public class Startup
             {
                 try
                 {
-                    var players = DataManager.GetAvailablePlayers();
+                    using var dbContext = new AppDbContext();
+                    var players = dbContext.Players.Where(player => player.TeamID == 0).ToList();
+
                     if (players != null)
                     {
                         return Results.Ok(players);
@@ -300,7 +305,8 @@ public class Startup
             {
                 try
                 {
-                    var player = StorageManager.Get<Player>(id);
+                    using var dbContext = new AppDbContext();
+                    var player = dbContext.Players.FirstOrDefault(player => player.ID == id);
                     if (player != null)
                     {
                         return Results.Ok(player);
@@ -322,7 +328,8 @@ public class Startup
             {
                 try
                 {
-                    var match = StorageManager.Get<Match>(id);
+                    using var dbContext = new AppDbContext();
+                    var match = dbContext.Matches.FirstOrDefault(match => match.ID == id);
                     if (match != null)
                     {
                         return Results.Ok(match);
@@ -344,7 +351,8 @@ public class Startup
             {
                 try
                 {
-                    var team = StorageManager.Get<Team>(id);
+                    using var dbContext = new AppDbContext();
+                    var team = dbContext.Teams.FirstOrDefault(team => team.ID == id);
                     if (team != null)
                     {
                         return Results.Ok(team);
@@ -366,8 +374,8 @@ public class Startup
             {
                 try
                 {
-                    // Implement logic to retrieve the team by username from your data
-                    var team = DataManager.GetTeamByUsername(username);
+                    using var dbContext = new AppDbContext();
+                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName == username);
 
                     if (team != null)
                     {
@@ -390,10 +398,12 @@ public class Startup
             {
                 try
                 {
-                    int teamID = DataManager.GetTeamID(name);
-                    if (teamID != 0)
+                    using var dbContext = new AppDbContext();
+                    var team = dbContext.Teams.FirstOrDefault(team => team.Name.Equals(name));
+
+                    if (team.ID != 0)
                     {
-                        return Results.Ok(teamID);
+                        return Results.Ok(team.ID);
                     }
                     else
                     {
@@ -412,7 +422,8 @@ public class Startup
             {
                 try
                 {
-                    var teams = StorageManager.Get<Team>();
+                    using var dbContext = new AppDbContext();
+                    var teams = dbContext.Teams.ToList();
                     if (teams.Count > 0)
                     {
                         return Results.Ok(teams);
