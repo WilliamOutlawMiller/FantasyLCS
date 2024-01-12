@@ -3,9 +3,10 @@ using System.Data;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Reflection;
-
+using System.Security.Cryptography;
 using FantasyLCS.DataObjects;
 using PlayerStats;
+using System.Text;
 
 public class GolGGScraper : StatsScraper
 {
@@ -77,7 +78,7 @@ public class GolGGScraper : StatsScraper
             }
 
             foreach (var fullStat in fullStats)
-                fullStat.MatchID = matchID;
+                fullStat.ID = matchID;
                 
             return fullStats;
         }
@@ -119,7 +120,6 @@ public class GolGGScraper : StatsScraper
                 property.SetValue(player, deserializedObject);
             }
 
-            // Yes, I know. Please, refactor it.
             JsonArray scrapedTable = ScrapeTable(championStatsXPath);
             if (scrapedTable == null)
                 return player;
@@ -127,11 +127,37 @@ public class GolGGScraper : StatsScraper
             string cleanedJsonString = JsonSerializer.Serialize(scrapedTable).Replace("\\u0026nbsp;", "");
             player.ChampionStats = JsonSerializer.Deserialize<List<ChampionStats>>(cleanedJsonString);
 
+            player.AggressionStats.PlayerID = playerID;
+            player.EarlyGameStats.PlayerID = playerID;
+            player.GeneralStats.PlayerID = playerID;
+            player.VisionStats.PlayerID = playerID;
+            foreach (var champStat in player.ChampionStats)
+            {
+                champStat.PlayerID = playerID;
+                champStat.ChampionID = GenerateChampIDFromName(champStat.Champion);
+            }
+
             return player;
         }
         catch
         {
             throw new Exception("Unable to get Player object.");
+        }
+    }
+
+    private int GenerateChampIDFromName(string name)
+    {
+        using (var sha256 = SHA256.Create())
+        {
+            // Compute the hash of the name
+            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(name));
+
+            // Use only the first few bytes of the hash to create a number
+            // and ensure the ID is a manageable size
+            int id = BitConverter.ToInt32(hashBytes, 0);
+
+            // Ensure the ID is positive
+            return Math.Abs(id);
         }
     }
 

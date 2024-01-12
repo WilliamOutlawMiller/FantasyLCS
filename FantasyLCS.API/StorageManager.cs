@@ -134,18 +134,15 @@ public static class StorageManager
         WriteData(dataList);
     }
 
-    public static bool ShouldRefreshData<T>() where T : class
+    public static bool ShouldRefreshData<T>(AppDbContext context)
     {
-        string filePath = $"JsonStorage/{typeof(T).Name.ToLower()}.json";
-        
-        if (File.Exists(filePath))
-        {
-            var lastWriteTime = File.GetLastWriteTime(filePath);
-            return DateTime.Now - lastWriteTime >= TimeSpan.FromDays(7); // Refresh if older than a week
-        }
-        else
-        {
-            return true; // Refresh if file does not exist
-        }
+        string dataType = typeof(T).Name;
+        var lastUpdate = context.DataUpdateLogs
+                                 .Where(log => log.DataType == dataType)
+                                 .OrderByDescending(log => log.LastUpdated)
+                                 .Select(log => log.LastUpdated)
+                                 .FirstOrDefault();
+
+        return DateTime.Now - lastUpdate >= TimeSpan.FromDays(7);
     }
 }

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.API", "FantasyLC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.WebApp", "FantasyLCS.WebApp\FantasyLCS.WebApp.csproj", "{DAA362FA-57EF-40D6-8D97-625E9E28C36F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D3D6DB3-5327-4D64-A0FF-1D789D522972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA362FA-57EF-40D6-8D97-625E9E28C36F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA362FA-57EF-40D6-8D97-625E9E28C36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA362FA-57EF-40D6-8D97-625E9E28C36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA362FA-57EF-40D6-8D97-625E9E28C36F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

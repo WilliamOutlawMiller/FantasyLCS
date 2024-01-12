@@ -1,10 +1,15 @@
 using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
+using FantasyLCS.DataObjects;
 
 namespace PlayerStats
 {
     public class GeneralStats
     {
+        public int PlayerID { get; set; }
+        
+        public Player Player { get; set; }
+
         [JsonPropertyName("Record")]
         public string Record { get; set; }
 
@@ -29,6 +34,11 @@ namespace PlayerStats
 
     public class ChampionStats
     {
+        public int ChampionID { get; set; }
+        public int PlayerID { get; set; }
+
+        public Player Player { get; set; }
+
         [JsonPropertyName("Champion")]
         public string Champion { get; set; }
 
@@ -44,6 +54,10 @@ namespace PlayerStats
 
     public class AggressionStats
     {
+        public int PlayerID { get; set; }
+
+        public Player Player { get; set; }
+
         [JsonPropertyName("Damage Per Minute")]
         public string DPM { get; set; }
 
@@ -62,6 +76,10 @@ namespace PlayerStats
 
     public class EarlyGameStats
     {
+        public int PlayerID { get; set; }
+
+        public Player Player { get; set; }
+
         [JsonPropertyName("Ahead in CS at 15 min")]
         public string AheadInCSAt15Percent { get; set; }
 
@@ -83,6 +101,10 @@ namespace PlayerStats
 
     public class VisionStats
     {
+        public int PlayerID { get; set; }
+
+        public Player Player { get; set; }
+
         [JsonPropertyName("Vision score Per Minute")]
         public string VSPM { get; set; }
 

@@ -1,3 +1,4 @@
+using FantasyLCS.API;
 using FantasyLCS.DataObjects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,76 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapPost("/login", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+
+                    // Deserialize the JSON data to get username and password
+                    var loginData = JsonSerializer.Deserialize<LoginRequest>(requestBody);
+
+                    if (loginData != null)
+                    {
+                        bool isAuthenticated = LoginManager.ValidateLogin(loginData.Username, loginData.Password);
+
+                        if (isAuthenticated)
+                        {
+                            return Results.Ok("Login successful!");
+                        }
+                        else
+                        {
+                            return Results.Unauthorized();
+                        }
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("Login")
+            .WithOpenApi();
+
+            endpoints.MapPost("/signup", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+                    var signupData = JsonSerializer.Deserialize<SignupRequest>(requestBody);
+
+                    if (signupData != null)
+                    {
+                        string result = LoginManager.RegisterUser(signupData);
+
+                        if (result == "Signup successful!")
+                        {
+                            return Results.Ok(result);
+                        }
+                        else
+                        {
+                            return Results.Problem(result);
+                        }
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("Signup")
+            .WithOpenApi();
+
             endpoints.MapPost("/updateplayerlist", async (HttpContext context) =>
             {
                 try

@@ -7,156 +7,167 @@ using FantasyLCS.DataObjects;
 using static StorageManager;
 using static StaticMethods;
 using System.Xml.Linq;
+using System.Numerics;
 
 public class DataManager
 {
     public static void UpdateMatchData()
     {
-        List<Match> existingMatchData = new List<Match>();
-        List<Match> updatedMatchData = new List<Match>();
-        List<Player> existingPlayers = ReadData<Player>();
-
-        if (ShouldRefreshData<Match>())
+        using (var context = new AppDbContext())
         {
-            GolGGScraper controller = new GolGGScraper();
-
-            controller.URL = SeasonInfo.MatchListURL.DOMAIN;
-            List<int> matchIDs = controller.GetMatchIDs();
-
-            // todo: add functionality to handle for playoffs/championship BO5
-            foreach (int matchID in matchIDs)
+            if (ShouldRefreshData<Match>(context))
             {
-                controller.URL = SeasonInfo.GameURL.DOMAIN + matchID + SeasonInfo.GameURL.FILTER;
+                GolGGScraper controller = new GolGGScraper();
 
-                Match match = new Match();
-                match.ID = matchID;
-                match.FullStats = controller.GetMatchFullStats(matchID);
+                controller.URL = SeasonInfo.MatchListURL.DOMAIN;
+                List<int> matchIDs = controller.GetMatchIDs();
 
-                foreach (var fullStat in match.FullStats)
+                // todo: add functionality to handle for playoffs/championship BO5
+                foreach (int matchID in matchIDs)
                 {
-                    Player matchPlayer = existingPlayers.Where(player => player.Name.ToLower().Equals(fullStat.Name.ToLower())).Single();
-                    fullStat.PlayerID = matchPlayer.ID;
+                    controller.URL = SeasonInfo.GameURL.DOMAIN + matchID + SeasonInfo.GameURL.FILTER;
+
+                    Match match = new Match();
+                    match.ID = matchID;
+                    match.FullStats = controller.GetMatchFullStats(matchID);
+
+                    foreach (var fullStat in match.FullStats)
+                    {
+                        Player matchPlayer = context.Players.Find(fullStat.Name);
+                        fullStat.PlayerID = matchPlayer.ID;
+                    }
+
+                    context.Matches.Add(match);
                 }
 
-                updatedMatchData.Add(match);
+                context.SaveChanges();
             }
-
-            UpdateData(updatedMatchData);
         }
     }
 
     public static void UpdatePlayerList()
-    { 
-        List<Player> existingPlayerData = new List<Player>();
-        List<Player> updatedPlayerData = new List<Player>();
-        
-        if (ShouldRefreshData<Player>())
+    {
+        using (var context = new AppDbContext())
         {
-            GolGGScraper controller = new GolGGScraper();
-
-            controller.URL = SeasonInfo.TeamListURL.DOMAIN;
-            List<int> teamIDs = controller.GetTeamIDs();
-
-            foreach (int teamID in teamIDs)
+            if (ShouldRefreshData<Player>(context))
             {
-                controller.URL = SeasonInfo.TeamStatsURL.DOMAIN + teamID + SeasonInfo.TeamStatsURL.FILTER;
+                GolGGScraper controller = new GolGGScraper();
 
-                List<int> playerIDs = controller.GetPlayerIDs(teamID);
+                controller.URL = SeasonInfo.TeamListURL.DOMAIN;
+                List<int> teamIDs = controller.GetTeamIDs();
 
-                foreach (int playerID in playerIDs)
+                foreach (int teamID in teamIDs)
                 {
-                    controller.URL = SeasonInfo.PlayerStatsURL.DOMAIN + playerID + SeasonInfo.PlayerStatsURL.FILTER;
-                    updatedPlayerData.Add(controller.GetPlayer(playerID));
-                }
-            }
+                    controller.URL = SeasonInfo.TeamStatsURL.DOMAIN + teamID + SeasonInfo.TeamStatsURL.FILTER;
 
-            UpdateData(updatedPlayerData);
-        } 
+                    List<int> playerIDs = controller.GetPlayerIDs(teamID);
+
+                    foreach (int playerID in playerIDs)
+                    {
+                        controller.URL = SeasonInfo.PlayerStatsURL.DOMAIN + playerID + SeasonInfo.PlayerStatsURL.FILTER;
+                        context.Players.Add(controller.GetPlayer(playerID));
+                    }
+                }
+
+                context.SaveChanges();
+            }
+        }
     }
 
     public static void CreateTeam(string name, string logoUrl, string username)
     {
-        List<Team> teams = ReadData<Team>();
-
-        int uniqueID = CreateUniqueIdFromString(name);
-        Team team = teams.Where(team => team.ID == uniqueID).SingleOrDefault();
-
-        if (team != null)
+        using (var context = new AppDbContext())
         {
-            throw new Exception("A team with that name already exists, you dummy!");
+            if (context.Teams.Any(team => team.Name == name))
+            {
+                throw new Exception("A team with that name already exists.");
+            }
+
+            var newTeam = new Team
+            {
+                Name = name,
+                OwnerName = username,
+                LogoUrl = logoUrl,
+            };
+
+            context.Teams.Add(newTeam);
+            context.SaveChanges();
         }
-
-        teams.Add(new Team
-        {
-            ID = uniqueID,
-            Name = name,
-            OwnerName = username,
-            LogoUrl = logoUrl,
-            Wins = 0,
-            Losses = 0,
-            PlayerIDs = new List<int>(),
-            SubIDs = new List<int>(),
-        });
-
-        WriteData(teams);
     }
 
     public static void DeleteTeam(string teamName, string ownerName)
     {
-        List<Team> teams = ReadData<Team>();
-
-        Team team = teams.Where(team => team.Name == teamName && team.OwnerName == ownerName).SingleOrDefault();
-
-        if (team == null)
+        using (var context = new AppDbContext())
         {
-            throw new Exception("No team found with that team name and owner name.");
+            var team = context.Teams.SingleOrDefault(team => team.Name == teamName && team.OwnerName == ownerName);
+
+            if (team == null)
+            {
+                throw new Exception("No team found with that team name and owner name.");
+            }
+
+            context.Teams.Remove(team);
+            context.SaveChanges();
         }
-
-        teams.Remove(team);
-
-        WriteData(teams);
     }
 
     public static Team GetTeamByUsername(string username)
     {
-        List<Team> teams = ReadData<Team>();
-
-        return teams.Where(team => team.OwnerName == username).SingleOrDefault();
+        using (var context = new AppDbContext())
+        {
+            return context.Teams.FirstOrDefault(team => team.OwnerName == username);
+        }
     }
+
 
     public static void AddPlayerToTeam(int teamID, int playerID)
     {
-        Team team = Get<Team>(teamID);
-        Player player = Get<Player>(playerID);
+        using (var context = new AppDbContext())
+        {
+            var team = context.Teams.Find(teamID);
+            var player = context.Players.Find(playerID);
 
-        team.PlayerIDs.Add(playerID);
-        player.TeamID = teamID;
+            if (team != null && player != null)
+            {
+                team.PlayerIDs.Add(playerID);
+                player.TeamID = teamID;
 
-        UpdateData(team);
-        UpdateData(player);
+                context.SaveChanges();
+            }
+        }
     }
 
     public static void RemovePlayerFromTeam(int teamID, int playerID)
     {
-        Team team = Get<Team>(teamID);
-        Player player = Get<Player>(playerID);
+        using (var context = new AppDbContext())
+        {
+            var team = context.Teams.Find(teamID);
+            var player = context.Players.Find(playerID);
 
-        team.PlayerIDs.Remove(playerID);
-        player.TeamID = 0;
+            if (team != null && player != null)
+            {
+                team.PlayerIDs.Remove(playerID);
+                player.TeamID = 0;
 
-        UpdateData(team);
-        UpdateData(player);
+                context.SaveChanges();
+            }
+        }
     }
 
     public static List<Player> GetAvailablePlayers()
     {
-        List<Player> players = ReadData<Player>();
-        return players.Where(player => player.TeamID == 0).ToList();
+        using (var context = new AppDbContext())
+        {
+            return context.Players.Where(player => player.TeamID == 0).ToList();
+        }
     }
 
     public static int GetTeamID(string name)
     {
-        List<Team> teams = ReadData<Team>();
-        return teams.FirstOrDefault(team => team.Name.Equals(name)).ID;
+        using (var context = new AppDbContext())
+        {
+            var team = context.Teams.FirstOrDefault(team => team.Name.Equals(name));
+            return team?.ID ?? 0;
+        }
     }
 }

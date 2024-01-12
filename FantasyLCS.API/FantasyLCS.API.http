@@ -1,6 +1,0 @@
-@FantasyLCS.API_HostAddress = http://localhost:5031
-
-GET {{FantasyLCS.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
