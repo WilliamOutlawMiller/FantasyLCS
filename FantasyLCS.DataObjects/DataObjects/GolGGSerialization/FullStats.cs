@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 
+namespace FantasyLCS.DataObjects;
 public class FullStats
 {
     public int ID { get; set; }

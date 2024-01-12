@@ -1,6 +1,6 @@
 ﻿using FantasyLCS.DataObjects;
 using Microsoft.EntityFrameworkCore;
-using PlayerStats;
+using FantasyLCS.DataObjects.PlayerStats;
 
 public class AppDbContext : DbContext
 {
@@ -51,10 +51,10 @@ public class AppDbContext : DbContext
 
         // Configure ChampionStats with ChampionID as the primary key
         modelBuilder.Entity<ChampionStats>()
-            .HasKey(c => c.ChampionID);
+            .HasKey(cs => new { cs.ChampionID, cs.PlayerID });
 
         modelBuilder.Entity<User>()
-        .HasKey(u => u.ID);
+            .HasKey(u => u.ID);
 
         modelBuilder.Entity<User>()
             .Property(u => u.ID)

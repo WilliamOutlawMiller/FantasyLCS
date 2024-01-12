@@ -13,9 +13,14 @@ public class Program
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
-            webBuilder.UseKestrel(options =>
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
-                options.Listen(System.Net.IPAddress.Loopback, 5000);  // Listen on localhost and port 5000
-            });
+                // Use Kestrel only in the Development environment for local debugging.
+                webBuilder.UseKestrel(options =>
+                {
+                    options.Listen(System.Net.IPAddress.Loopback, 5000); // Listen on localhost and port 5000
+                });
+            }
         });
 }

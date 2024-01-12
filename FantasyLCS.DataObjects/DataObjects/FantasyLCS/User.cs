@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+namespace FantasyLCS.DataObjects;
+
 public class User
 {
     public int ID { get; set; }

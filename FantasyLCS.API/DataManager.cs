@@ -4,7 +4,6 @@ using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 
 using FantasyLCS.DataObjects;
-using static StorageManager;
 using static StaticMethods;
 using System.Xml.Linq;
 using System.Numerics;
@@ -146,4 +145,15 @@ public class DataManager
         }
     }
 
+    public static bool ShouldRefreshData<T>(AppDbContext context)
+    {
+        string dataType = typeof(T).Name;
+        var lastUpdate = context.DataUpdateLogs
+                                 .Where(log => log.DataType == dataType)
+                                 .OrderByDescending(log => log.LastUpdated)
+                                 .Select(log => log.LastUpdated)
+                                 .FirstOrDefault();
+
+        return DateTime.Now - lastUpdate >= TimeSpan.FromDays(7);
+    }
 }

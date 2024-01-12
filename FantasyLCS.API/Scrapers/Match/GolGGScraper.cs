@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Reflection;
 using System.Security.Cryptography;
 using FantasyLCS.DataObjects;
-using PlayerStats;
+using FantasyLCS.DataObjects.PlayerStats;
 using System.Text;
 
 public class GolGGScraper : StatsScraper
@@ -113,7 +113,7 @@ public class GolGGScraper : StatsScraper
                 if (scrapedDictionary == null)
                     continue;
 
-                objectType = Type.GetType("PlayerStats." + dataType);
+                objectType = Type.GetType("FantasyLCS.DataObjects.PlayerStats." + dataType + ", FantasyLCS.DataObjects");
                 property = typeof(Player).GetProperty(dataType);
                 var deserializedObject = Deserialize(scrapedDictionary, objectType);
 
