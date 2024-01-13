@@ -1,5 +1,5 @@
 ﻿@page
-@model FantasyLCS.WebApp.Models.LoginModel
+@model FantasyLCS.WebApp.Pages.LoginModel
 @{
     ViewData["Title"] = "Login page";
 }
@@ -69,26 +69,26 @@
 
 <div class="login-container">
     <div class="col">
-        <form method="post" asp-action="Login">
-                <h3>Login</h3>
-                <input type="text" asp-for="Input.Username" placeholder="Username" required>
-                <input type="password" asp-for="Input.Password" placeholder="Password" required>
-                <input type="submit" value="Login">
-                <a href="#" class="google btn">
-                    <i class="fa fa-google fa-fw">
-                    </i> Login with Google
-                </a>
+        <form asp-page-handler="login" method="post">
+            <h3>Login</h3>
+            <input type="text" asp-for="Input.Username" placeholder="Username" required>
+            <input type="password" asp-for="Input.Password" placeholder="Password" required>
+            <input type="submit" value="Login">
+            <a href="#" class="google btn">
+                <i class="fa fa-google fa-fw">
+                </i> Login with Google
+            </a>
         </form>
     </div>
     <div class="col">
-        <form method="post" asp-action="Signup">
+        <form asp-page-handler="signup" method="post">
                 <h3>Signup</h3>
                 <input type="text" asp-for="NewUser.Username" placeholder="New Username" required>
                 <input type="password" asp-for="NewUser.Password" placeholder="New Password" required>
                 <input type="submit" value="Signup">
         </form>
     </div>
-</div>
+<div>
     <div>
         <div class="bottom-container">
             <a href="#" style="color:white; background-color: #666;" class="btn">Forgot password?</a>
