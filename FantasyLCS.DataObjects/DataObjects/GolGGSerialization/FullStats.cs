@@ -4,7 +4,9 @@ using System.Text.Json.Serialization;
 namespace FantasyLCS.DataObjects;
 public class FullStats
 {
-    public int ID { get; set; }
+    public int MatchID { get; set; }
+
+    public Match Match { get; set; }
 
     public int PlayerID { get; set; }
 

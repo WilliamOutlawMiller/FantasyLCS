@@ -2,7 +2,7 @@ using HtmlAgilityPack;
 using Constants;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using FantasyLCS.DataObjects;
 using static StaticMethods;
 using System.Xml.Linq;
@@ -26,17 +26,42 @@ public class DataManager
                 {
                     controller.URL = SeasonInfo.GameURL.DOMAIN + matchID + SeasonInfo.GameURL.FILTER;
 
+                    Match existingMatch = context.Matches.FirstOrDefault(m => m.ID == matchID);
                     Match match = new Match();
                     match.ID = matchID;
                     match.FullStats = controller.GetMatchFullStats(matchID);
-
+                    
                     foreach (var fullStat in match.FullStats)
                     {
-                        Player matchPlayer = context.Players.Find(fullStat.Name);
-                        fullStat.PlayerID = matchPlayer.ID;
+                        fullStat.PlayerID = context.Players.FirstOrDefault(p => p.Name.Equals(fullStat.Name)).ID;
                     }
 
-                    context.Matches.Add(match);
+                    // Map existing FullStats to Players
+                    if (existingMatch != null)
+                    {
+                        foreach (var fullStat in match.FullStats)
+                        {
+                            // Check if a FullStats entry with the same MatchID and PlayerID already exists
+                            var existingFullStat = context.FullStats.FirstOrDefault(e => e.MatchID == fullStat.MatchID && e.PlayerID == fullStat.PlayerID);
+
+                            if (existingFullStat != null)
+                            {
+                                // Update the existing entry
+                                context.Entry(existingFullStat).CurrentValues.SetValues(fullStat);
+                            }
+                            else
+                            {
+                                // Add a new entry if it doesn't exist
+                                context.FullStats.Add(fullStat);
+                            }
+                        }
+
+                        context.Entry(existingMatch).CurrentValues.SetValues(match);
+                    }
+                    else
+                    {
+                        context.Matches.Add(match);
+                    }
                 }
 
                 context.SaveChanges();
@@ -63,8 +88,44 @@ public class DataManager
 
                     foreach (int playerID in playerIDs)
                     {
+                        Player existingPlayer = context.Players
+                            .Include(p => p.GeneralStats)
+                            .Include(p => p.AggressionStats)
+                            .Include(p => p.EarlyGameStats)
+                            .Include(p => p.ChampionStats)
+                            .Include(p => p.VisionStats)
+                            .FirstOrDefault(player => player.ID == playerID);
+
                         controller.URL = SeasonInfo.PlayerStatsURL.DOMAIN + playerID + SeasonInfo.PlayerStatsURL.FILTER;
-                        context.Players.Add(controller.GetPlayer(playerID));
+                        Player currentPlayer = controller.GetPlayer(playerID);
+
+                        if (existingPlayer != null)
+                        {
+                            context.Entry(existingPlayer).CurrentValues.SetValues(currentPlayer);
+                            context.Entry(existingPlayer.GeneralStats).CurrentValues.SetValues(currentPlayer.GeneralStats);
+                            context.Entry(existingPlayer.AggressionStats).CurrentValues.SetValues(currentPlayer.AggressionStats);
+                            context.Entry(existingPlayer.EarlyGameStats).CurrentValues.SetValues(currentPlayer.EarlyGameStats);
+                            context.Entry(existingPlayer.VisionStats).CurrentValues.SetValues(currentPlayer.VisionStats);
+
+                            foreach (var currentChampionStat in currentPlayer.ChampionStats)
+                            {
+                                var existingChampionStat = existingPlayer.ChampionStats.FirstOrDefault(cs =>
+                                    cs.ChampionID == currentChampionStat.ChampionID);
+
+                                if (existingChampionStat != null)
+                                {
+                                    context.Entry(existingChampionStat).CurrentValues.SetValues(currentChampionStat);
+                                }
+                                else
+                                {
+                                    existingPlayer.ChampionStats.Add(currentChampionStat);
+                                }
+                            }
+
+
+                        }
+                        else
+                            context.Add(currentPlayer);
                     }
                 }
 

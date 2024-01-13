@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
 
+    public DbSet<FullStats> FullStats { get; set; }
     public DbSet<GeneralStats> GeneralStats { get; set; }
     public DbSet<ChampionStats> ChampionStats { get; set; }
     public DbSet<AggressionStats> AggressionStats { get; set; }
@@ -49,9 +50,17 @@ public class AppDbContext : DbContext
             .WithOne(c => c.Player)
             .HasForeignKey(c => c.PlayerID);
 
+        modelBuilder.Entity<Match>()
+            .HasMany(m => m.FullStats)
+            .WithOne(fs => fs.Match)
+            .HasForeignKey(fs => fs.MatchID);
+
         // Configure ChampionStats with ChampionID as the primary key
         modelBuilder.Entity<ChampionStats>()
             .HasKey(cs => new { cs.ChampionID, cs.PlayerID });
+
+        modelBuilder.Entity<FullStats>()
+                .HasKey(fs => new { fs.MatchID, fs.PlayerID });
 
         modelBuilder.Entity<User>()
             .HasKey(u => u.ID);

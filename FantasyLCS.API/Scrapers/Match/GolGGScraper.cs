@@ -78,7 +78,7 @@ public class GolGGScraper : StatsScraper
             }
 
             foreach (var fullStat in fullStats)
-                fullStat.ID = matchID;
+                fullStat.MatchID = matchID;
                 
             return fullStats;
         }
