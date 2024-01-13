@@ -80,17 +80,14 @@ public class Startup
             {
                 try
                 {
-                    Log.Information("1");
                     using var reader = new StreamReader(context.Request.Body);
                     var requestBody = await reader.ReadToEndAsync();
                     var signupData = JsonSerializer.Deserialize<SignupRequest>(requestBody);
 
                     if (signupData != null)
                     {
-                        Log.Information("2");
                         string result = LoginManager.RegisterUser(signupData);
 
-                        Log.Information("8");
                         if (result == "Signup successful!")
                         {
                             return Results.Ok(result);
