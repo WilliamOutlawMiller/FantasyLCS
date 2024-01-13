@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FantasyLCS.DataObjects;
 using System.Security.Cryptography;
+using Serilog;
 
 namespace FantasyLCS.API;
 public static class LoginManager
@@ -22,20 +23,25 @@ public static class LoginManager
     {
         using (var context = new AppDbContext())
         {
+            Log.Information("3");
             if (context.Users.Any(u => u.Username == signupData.Username))
             {
                 return "User already exists.";
             }
 
+            Log.Information("4");
             string hashedPassword = HashPassword(signupData.Password);
 
+            Log.Information("5");
             var newUser = new User
             {
                 Username = signupData.Username,
                 Password = hashedPassword
             };
 
+            Log.Information("6");
             context.Users.Add(newUser);
+            Log.Information("7");
             context.SaveChanges();
 
             return "Signup successful!";

@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+                    .WriteTo.File("app.log") // Specify the file path here
+                    .CreateLogger();
+
         CreateHostBuilder(args).Build().Run();
     }
 

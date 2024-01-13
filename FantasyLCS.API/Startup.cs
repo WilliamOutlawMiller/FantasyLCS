@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -79,14 +80,17 @@ public class Startup
             {
                 try
                 {
+                    Log.Information("1");
                     using var reader = new StreamReader(context.Request.Body);
                     var requestBody = await reader.ReadToEndAsync();
                     var signupData = JsonSerializer.Deserialize<SignupRequest>(requestBody);
 
                     if (signupData != null)
                     {
+                        Log.Information("2");
                         string result = LoginManager.RegisterUser(signupData);
 
+                        Log.Information("8");
                         if (result == "Signup successful!")
                         {
                             return Results.Ok(result);
