@@ -1,3 +1,4 @@
+using FantasyLCS.DataObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -28,10 +29,11 @@ namespace FantasyLCS.WebApp.Pages
             try
             {
                 // Prepare the data for creating a team
-                var teamData = new
+                CreateTeamRequest teamData = new CreateTeamRequest
                 {
-                    TeamName = TeamName,
-                    TeamLogoURL = TeamLogoURL
+                    Name = TeamName,
+                    Username = User.Identity.Name,
+                    LogoUrl = TeamLogoURL
                 };
 
                 // Serialize the data to JSON
@@ -41,7 +43,7 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the create team API endpoint
-                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/createteam", content);
+                var response = await _httpClient.PostAsync("https://localhost:7273/createteam", content);
 
                 if (response.IsSuccessStatusCode)
                 {
