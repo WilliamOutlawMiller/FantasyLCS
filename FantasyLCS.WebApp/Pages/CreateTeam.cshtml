@@ -1,0 +1,91 @@
+﻿@page
+@model FantasyLCS.WebApp.Pages.CreateTeamModel
+@{
+    ViewData["Title"] = "Create Team";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .createteam-container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input,
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        margin: 5px 0;
+        opacity: 0.85;
+        display: inline-block;
+        font-size: 17px;
+        line-height: 20px;
+        text-decoration: none;
+    }
+
+    input:hover,
+    .btn:hover {
+    opacity: 1;
+    }
+
+    input[type="submit"], .btn {
+    background-color: mediumseagreen;
+    color: white;
+    cursor: pointer;
+    }
+
+    input[type="submit"]:hover, .btn:hover {
+        background-color: mediumaquamarine;
+    }
+
+    .google {
+        background-color: #dd4b39;
+        color: white;
+    }
+
+    .bottom-container {
+        text-align: center;
+        border-radius: 12px;
+        background-color: #666;
+        color: white;
+        padding: 10px 0;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="createteam-container">
+    <h1>Create Team</h1>
+
+    <form method="post">
+        <div class="col">
+            <input type="text" asp-for="TeamName" placeholder="Team Name" required>
+            <input type="text" asp-for="TeamLogoURL" placeholder="Team Logo URL" required>
+            <button class="btn" type="submit">Create Team</button>
+        </div>
+    </form>
+</div>
+
+<div class="validation-summary">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+</div>
