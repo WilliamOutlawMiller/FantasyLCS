@@ -43,7 +43,7 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the create team API endpoint
-                var response = await _httpClient.PostAsync("https://localhost:7273/createteam", content);
+                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/createteam", content);
 
                 if (response.IsSuccessStatusCode)
                 {
