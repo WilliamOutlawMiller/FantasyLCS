@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -12,9 +15,9 @@ namespace FantasyLCS.WebApp.Pages
     {
         private readonly HttpClient _httpClient;
 
-        public LoginModel(IHttpClientFactory httpClientFactory)
+        public LoginModel(HttpClient httpClient)
         {
-            _httpClient = httpClientFactory.CreateClient();
+            _httpClient = httpClient;
         }
 
         [BindProperty]
@@ -47,13 +50,36 @@ namespace FantasyLCS.WebApp.Pages
                 // Check if the request was successful (you can customize this based on your API response format)
                 if (response.IsSuccessStatusCode)
                 {
-                    // Redirect to a success page or perform other actions as needed
-                    return RedirectToPage("/SuccessPage"); // Replace with your success page
+                    // Create claims for the authenticated user
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, Input.Username),
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
+
+                    return RedirectToPage("/Home"); // Replace with your success page
                 }
                 else
                 {
-                    // Handle the login failure, display an error message, or perform other actions
-                    ModelState.AddModelError(string.Empty, "Login failed. Please try again.");
+                    // Handle the login failure
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+
+                    // Check if the response contains an error message
+                    if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        ModelState.AddModelError("Error: ", errorMessage);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Login failed. Please try again.");
+                    }
+
                     return Page();
                 }
             }
@@ -86,16 +112,39 @@ namespace FantasyLCS.WebApp.Pages
                 // Send a POST request to the signup API endpoint
                 var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/signup", content);
 
-                // Check if the request was successful (you can customize this based on your API response format)
                 if (response.IsSuccessStatusCode)
                 {
+                    // Create claims for the authenticated user
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, NewUser.Username),
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
+
                     // Redirect to a success page or perform other actions as needed
-                    return RedirectToPage("/SuccessPage"); // Replace with your success page
+                    return RedirectToPage("/Home"); // Replace with your success page
                 }
                 else
                 {
-                    // Handle the signup failure, display an error message, or perform other actions
-                    ModelState.AddModelError(string.Empty, "Signup failed. Please try again.");
+                    // Handle the login failure
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+
+                    // Check if the response contains an error message
+                    if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        ModelState.AddModelError("Error: ", errorMessage);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Signup failed. Please try again.");
+                    }
+
                     return Page();
                 }
             }

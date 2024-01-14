@@ -1,0 +1,75 @@
+﻿@page
+@model FantasyLCS.WebApp.Pages.HomeModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .home-container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+    }
+
+    .user-info, .other-info {
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    .btn {
+        background-color: mediumseagreen;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: mediumaquamarine;
+    }
+</style>
+
+<div class="home-container">
+    <div class="user-info">
+        @if (Model.UserTeam != null)
+        {
+            <h2>Your Team Information</h2>
+            <p>Team Name: @Model.UserTeam.Name</p>
+            <p>Team Logo: <img src="@Model.UserTeam.LogoUrl" alt="Team Logo" /></p>
+            <p>Owner Name: @Model.UserTeam.OwnerName</p>
+            <p>Wins: @Model.UserTeam.Wins</p>
+            <p>Losses: @Model.UserTeam.Losses</p>
+            <!-- Display other team information as needed -->
+        }
+        else
+        {
+            <h2>Create Your Team</h2>
+            <p>You don't have a team yet. Click the button below to create your team.</p>
+            <a class="btn" asp-page="/CreateTeam">Create Team</a>
+        }
+    </div>
+    <div class="other-info">
+        <!-- Other information content goes here -->
+        <h2>Other Information</h2>
+        <!-- Place your other information content here -->
+    </div>
+</div>

@@ -7,7 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.API", "FantasyLC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.DataObjects", "FantasyLCS.DataObjects\FantasyLCS.DataObjects.csproj", "{7D3D6DB3-5327-4D64-A0FF-1D789D522972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyLCS.WebApp", "FantasyLCS.WebApp\FantasyLCS.WebApp.csproj", "{DAA362FA-57EF-40D6-8D97-625E9E28C36F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyLCS.WebApp", "FantasyLCS.WebApp\FantasyLCS.WebApp.csproj", "{DAA362FA-57EF-40D6-8D97-625E9E28C36F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D3D6DB3-5327-4D64-A0FF-1D789D522972} = {7D3D6DB3-5327-4D64-A0FF-1D789D522972}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

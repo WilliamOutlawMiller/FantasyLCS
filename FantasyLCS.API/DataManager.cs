@@ -148,6 +148,9 @@ public class DataManager
                 Name = name,
                 OwnerName = username,
                 LogoUrl = logoUrl,
+                Wins = 0,
+                Losses = 0,
+                PlayerIDs = new List<int>()
             };
 
             context.Teams.Add(newTeam);
