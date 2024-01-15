@@ -66,5 +66,35 @@ namespace FantasyLCS.WebApp.Pages
                 return Page();
             }
         }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Check if the user already has a team
+                if (await UserAlreadyHasTeam())
+                {
+                    // Redirect to home page or a relevant page
+                    return RedirectToPage("/Home");
+                }
+            }
+            else
+            {
+                // If user is not authenticated, redirect to login page
+                return RedirectToPage("/Login");
+            }
+
+            return Page();
+        }
+
+        private async Task<bool> UserAlreadyHasTeam()
+        {
+            var username = User.Identity.Name;
+
+            // Make a request to check if the user has a team
+            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

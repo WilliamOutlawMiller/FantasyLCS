@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http;
 using FantasyLCS.DataObjects;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FantasyLCS.WebApp.Pages;
 
@@ -19,26 +20,35 @@ public class HomeModel : PageModel
         _httpClient = httpClient;
     }
 
-    public async Task OnGet()
+    public async Task<IActionResult> OnGet()
     {
-        // Replace "username" with the actual username
-        var username = User.Identity.Name;
-
-        // Make a request to check if the user has a team
-        var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
-
-        if (response.IsSuccessStatusCode)
+        if (User.Identity.IsAuthenticated)
         {
-            // User has a team associated with their username
-            HasTeam = true;
+            var username = User.Identity.Name;
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            UserTeam = JsonSerializer.Deserialize<Team>(responseBody);
+            // Make a request to check if the user has a team
+            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                // User has a team associated with their username
+                HasTeam = true;
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                UserTeam = JsonSerializer.Deserialize<Team>(responseBody);
+            }
+            else
+            {
+                // User does not have a team
+                HasTeam = false;
+            }
         }
         else
         {
-            // User does not have a team
-            HasTeam = false;
+            // If user is not authenticated, redirect to login page
+            return RedirectToPage("/Login");
         }
+
+        return Page();
     }
 }

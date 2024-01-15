@@ -32,7 +32,7 @@ namespace FantasyLCS.WebApp.Pages
             try
             {
                 // Prepare the login request data
-                var loginData = new
+                LoginRequest loginData = new LoginRequest
                 {
                     Username = Input.Username,
                     Password = Input.Password
@@ -97,7 +97,7 @@ namespace FantasyLCS.WebApp.Pages
             try
             {
                 // Prepare the signup request data
-                var signupData = new
+                SignupRequest signupData = new SignupRequest
                 {
                     Username = NewUser.Username,
                     Password = NewUser.Password

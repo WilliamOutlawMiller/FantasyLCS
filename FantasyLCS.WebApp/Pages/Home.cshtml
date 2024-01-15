@@ -11,17 +11,44 @@
 
     .home-container {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between; /* Adjust space between columns */
         padding: 20px;
-        background-color: #f2f2f2;
-        border-radius: 10px;
+        align-items: stretch;
     }
 
-    .user-info, .other-info {
-        padding: 20px;
+    .card, .buttons-container {
         background-color: #ffffff;
         border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-top: 15px;
+        padding: 20px;
+    }
+
+    .card {
+        flex-basis: 20%; /* Initial size of the card */
+        margin-right: 20px; /* Space between the two columns */
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-grow: 1; /* Allow the container to grow */
+    }
+
+    .team-logo-container {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 10px auto 20px; /* Add bottom margin */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .team-info {
+        text-align: left;
     }
 
     h2 {
@@ -31,6 +58,10 @@
 
     p {
         font-size: 18px;
+    }
+
+    .buttons-container .btn {
+        width: 200px;
     }
 
     .btn {
@@ -49,16 +80,16 @@
 </style>
 
 <div class="home-container">
-    <div class="user-info">
+    <div class="card user-info">
         @if (Model.UserTeam != null)
         {
-            <h2>Your Team Information</h2>
-            <p>Team Name: @Model.UserTeam.Name</p>
-            <p>Team Logo: <img src="@Model.UserTeam.LogoUrl" alt="Team Logo" /></p>
-            <p>Owner Name: @Model.UserTeam.OwnerName</p>
-            <p>Wins: @Model.UserTeam.Wins</p>
-            <p>Losses: @Model.UserTeam.Losses</p>
-            <!-- Display other team information as needed -->
+            <div class="team-logo-container" style="background-image: url('@Model.UserTeam.LogoUrl');"></div>
+            <div class="team-info">
+                <p>Team Name: @Model.UserTeam.Name</p>
+                <p>Coach: @Model.UserTeam.OwnerName</p>
+                <p>Wins: @Model.UserTeam.Wins</p>
+                <p>Losses: @Model.UserTeam.Losses</p>
+            </div>
         }
         else
         {
@@ -67,9 +98,16 @@
             <a class="btn" asp-page="/CreateTeam">Create Team</a>
         }
     </div>
-    <div class="other-info">
-        <!-- Other information content goes here -->
-        <h2>Other Information</h2>
-        <!-- Place your other information content here -->
+
+    <div class="buttons-container">
+        <a class="btn" asp-page="/CreateLeague">Create a League</a>
+        <a class="btn" asp-page="/JoinLeague">Join a League</a>
+        <!-- Add more buttons as needed -->
     </div>
+</div>
+
+<div class="other-info">
+    <!-- Other information content goes here -->
+    <h2>Other Information</h2>
+    <!-- Place your other information content here -->
 </div>
