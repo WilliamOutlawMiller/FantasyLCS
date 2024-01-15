@@ -254,6 +254,34 @@ public class Startup
             .WithName("RemovePlayerFromTeam")
             .WithOpenApi();
 
+            endpoints.MapPost("/createleague", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+
+                    // Deserialize the JSON data to get the name and username
+                    var requestData = JsonSerializer.Deserialize<CreateTeamRequest>(requestBody);
+
+                    if (requestData != null)
+                    {
+                        DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("CreateTeam")
+            .WithOpenApi();
+
             endpoints.MapGet("/getallplayers", async () =>
             {
                 try
