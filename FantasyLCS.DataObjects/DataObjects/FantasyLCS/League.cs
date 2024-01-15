@@ -8,5 +8,5 @@ public class League
 
     public string Owner { get; set; }
 
-    public List<User> Users { get; set; }
+    public List<int> UserIDs { get; set; }
 }

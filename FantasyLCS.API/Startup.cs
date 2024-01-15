@@ -283,6 +283,28 @@ public class Startup
             .WithName("CreateLeague")
             .WithOpenApi();
 
+            endpoints.MapPost("/removeuserfromleague/{username}", async (string username) =>
+            {
+                try
+                {
+                    if (username != null)
+                    {
+                        DataManager.RemoveUserFromLeague(username);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("No username sent.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("RemoveUserFromLeague")
+            .WithOpenApi();
+
             endpoints.MapGet("/getallplayers", async () =>
             {
                 try
@@ -405,7 +427,7 @@ public class Startup
                 try
                 {
                     using var dbContext = new AppDbContext();
-                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName == username);
+                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName.Equals(username));
 
                     if (team != null)
                     {
@@ -422,6 +444,32 @@ public class Startup
                 }
             })
             .WithName("GetTeamByUsername")
+            .WithOpenApi();
+
+            endpoints.MapGet("/getleaguebyusername/{username}", async (string username) =>
+            {
+                try
+                {
+                    using var dbContext = new AppDbContext();
+
+                    User user = dbContext.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username));
+                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+                    if (league != null)
+                    {
+                        return Results.Ok(league);
+                    }
+                    else
+                    {
+                        return Results.NotFound("No league found for the username.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("An error occurred: " + ex.Message);
+                }
+            })
+            .WithName("GetLeagueByUsername")
             .WithOpenApi();
 
             endpoints.MapGet("/getteamid/{name}", async (string name) =>

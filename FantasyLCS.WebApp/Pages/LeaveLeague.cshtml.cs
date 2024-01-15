@@ -7,38 +7,25 @@ using FantasyLCS.DataObjects.DataObjects.RequestData;
 
 namespace FantasyLCS.WebApp.Pages;
 
-public class CreateLeagueModel : PageModel
+public class LeaveLeagueModel : PageModel
 {
     private readonly HttpClient _httpClient;
 
-    public CreateLeagueModel(HttpClient httpClient)
+    public LeaveLeagueModel(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
-    [BindProperty]
-    public string LeagueName { get; set; }
+    public League League { get; private set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
         try
         {
             string username = User.Identity.Name;
-            // Prepare the data for creating a team
-            CreateLeagueRequest leagueData = new CreateLeagueRequest
-            {
-                Name = LeagueName,
-                LeagueOwner = username
-            };
-
-            // Serialize the data to JSON
-            var jsonRequest = JsonSerializer.Serialize(leagueData);
-
-            // Create a request content with JSON data
-            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
             // Send a POST request to the create team API endpoint
-            var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/createleague", content);
+            var response = await _httpClient.PostAsync($"https://api.fantasy-lcs.com/removeuserfromleague/{username}", null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -50,7 +37,7 @@ public class CreateLeagueModel : PageModel
                 var errorMessage = await response.Content.ReadAsStringAsync();
 
                 // Add the error message to the ModelState
-                ModelState.AddModelError(string.Empty, $"Create league failed: {errorMessage}");
+                ModelState.AddModelError(string.Empty, $"Leave league failed: {errorMessage}");
                 return Page();
             }
         }
@@ -66,10 +53,22 @@ public class CreateLeagueModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
-            // Check if the user already has a league
-            if (await UserAlreadyHasLeague())
+            var username = User.Identity.Name;
+
+            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getleaguebyusername/{username}");
+
+            if (response.IsSuccessStatusCode)
             {
-                // Redirect to home page or a relevant page
+                var leagueJson = await response.Content.ReadAsStringAsync();
+                var league = JsonSerializer.Deserialize<League>(leagueJson, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                League = league;
+            }
+            else
+            {
                 return RedirectToPage("/Home");
             }
         }
@@ -80,14 +79,5 @@ public class CreateLeagueModel : PageModel
         }
 
         return Page();
-    }
-
-    private async Task<bool> UserAlreadyHasLeague()
-    {
-        var username = User.Identity.Name;
-
-        // Make a request to check if the user has a team
-        var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getleaguebyusername/{username}");
-        return response.IsSuccessStatusCode;
     }
 }

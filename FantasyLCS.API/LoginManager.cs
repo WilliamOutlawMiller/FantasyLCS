@@ -33,7 +33,7 @@ public static class LoginManager
             var newUser = new User
             {
                 Username = signupData.Username,
-                Password = hashedPassword
+                Password = hashedPassword,
             };
 
             context.Users.Add(newUser);

@@ -1,6 +1,7 @@
 ﻿using FantasyLCS.DataObjects;
 using Microsoft.EntityFrameworkCore;
 using FantasyLCS.DataObjects.PlayerStats;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 public class AppDbContext : DbContext
 {
@@ -61,16 +62,31 @@ public class AppDbContext : DbContext
             .HasKey(cs => new { cs.ChampionID, cs.PlayerID });
 
         modelBuilder.Entity<FullStats>()
-                .HasKey(fs => new { fs.MatchID, fs.PlayerID });
+            .HasKey(fs => new { fs.MatchID, fs.PlayerID });
 
         modelBuilder.Entity<User>()
-            .HasKey(u => u.ID);
+            .HasOne<Team>()
+            .WithOne()
+            .HasForeignKey<User>(u => u.TeamID)
+            .IsRequired(false);
 
+        // Configure the foreign key relationship between User and League
         modelBuilder.Entity<User>()
-            .Property(u => u.ID)
-            .ValueGeneratedOnAdd();
+            .HasOne<League>()
+            .WithMany()
+            .HasForeignKey(u => u.LeagueID)
+            .IsRequired(false);
 
         modelBuilder.Entity<League>()
-            .HasKey(l => l.ID);
+        .Property(l => l.UserIDs)
+        // convert the List<int> to a comma-separated string when saving to the database, and back to a List<int> when reading from the database.
+        .HasConversion(
+            v => string.Join(",", v),
+            v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                  .Select(int.Parse).ToList())
+        .Metadata.SetValueComparer(new ValueComparer<List<int>>(
+            (c1, c2) => c1.SequenceEqual(c2),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => c.ToList()));
     }
 }
