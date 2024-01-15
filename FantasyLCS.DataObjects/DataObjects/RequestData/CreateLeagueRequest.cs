@@ -11,5 +11,8 @@ namespace FantasyLCS.DataObjects.DataObjects.RequestData
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("leagueOwner")]
+        public string LeagueOwner { get; set; }
     }
 }

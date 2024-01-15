@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<Match> Matches { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<League> Leagues { get; set; }
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
 
     public DbSet<FullStats> FullStats { get; set; }
@@ -68,5 +69,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.ID)
             .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<League>()
+            .HasKey(l => l.ID);
     }
 }

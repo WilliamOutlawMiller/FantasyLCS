@@ -174,6 +174,31 @@ public class DataManager
         }
     }
 
+    public static void CreateLeague(string leagueName, string leagueOwner)
+    {
+        using (var context = new AppDbContext())
+        {
+            if (context.Leagues.Any(league => league.Name.Equals(leagueName)))
+            {
+                throw new Exception("A team with that name already exists.");
+            }
+
+            if (context.Leagues.Any(league => league.Owner.Equals(leagueOwner)))
+            {
+                throw new Exception("This user already owns a league.");
+            }
+
+            var newLeague = new League
+            {
+                Name = leagueName,
+                Owner = leagueOwner,
+                Users = new List<User>()
+            };
+
+            context.Leagues.Add(newLeague);
+            context.SaveChanges();
+        }
+    }
 
     public static void AddPlayerToTeam(int teamID, int playerID)
     {

@@ -1,5 +1,6 @@
 using FantasyLCS.API;
 using FantasyLCS.DataObjects;
+using FantasyLCS.DataObjects.DataObjects.RequestData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -262,11 +263,11 @@ public class Startup
                     var requestBody = await reader.ReadToEndAsync();
 
                     // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<CreateTeamRequest>(requestBody);
+                    var requestData = JsonSerializer.Deserialize<CreateLeagueRequest>(requestBody);
 
                     if (requestData != null)
                     {
-                        DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
+                        DataManager.CreateLeague(requestData.Name, requestData.LeagueOwner);
                         return Results.Ok("Success!");
                     }
                     else
@@ -279,7 +280,7 @@ public class Startup
                     return Results.Problem("Failure: " + ex.Message);
                 }
             })
-            .WithName("CreateTeam")
+            .WithName("CreateLeague")
             .WithOpenApi();
 
             endpoints.MapGet("/getallplayers", async () =>
