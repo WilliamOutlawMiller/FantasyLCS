@@ -66,8 +66,15 @@ public class CreateLeagueModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
+            // Check if user has team
+            if (!await UserHasTeam())
+            {
+                // Redirect to home page or a relevant page
+                return RedirectToPage("/Home");
+            }
+
             // Check if the user already has a league
-            if (await UserAlreadyHasLeague())
+            if (await UserHasLeague())
             {
                 // Redirect to home page or a relevant page
                 return RedirectToPage("/Home");
@@ -82,12 +89,21 @@ public class CreateLeagueModel : PageModel
         return Page();
     }
 
-    private async Task<bool> UserAlreadyHasLeague()
+    private async Task<bool> UserHasLeague()
     {
         var username = User.Identity.Name;
 
         // Make a request to check if the user has a team
         var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getleaguebyusername/{username}");
+        return response.IsSuccessStatusCode;
+    }
+
+    private async Task<bool> UserHasTeam()
+    {
+        var username = User.Identity.Name;
+
+        // Make a request to check if the user has a team
+        var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
         return response.IsSuccessStatusCode;
     }
 }

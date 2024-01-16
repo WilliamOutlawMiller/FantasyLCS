@@ -283,6 +283,34 @@ public class Startup
             .WithName("CreateLeague")
             .WithOpenApi();
 
+            endpoints.MapPost("/joinleague", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+
+                    // Deserialize the JSON data to get the name and username
+                    var requestData = JsonSerializer.Deserialize<JoinLeagueRequest>(requestBody);
+
+                    if (requestData != null)
+                    {
+                        DataManager.JoinLeague(requestData.Username, requestData.JoinCode);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("JoinLeague")
+            .WithOpenApi();
+
             endpoints.MapPost("/removeuserfromleague/{username}", async (string username) =>
             {
                 try
@@ -452,7 +480,7 @@ public class Startup
                 {
                     using var dbContext = new AppDbContext();
 
-                    User user = dbContext.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username));
+                    User user = dbContext.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
                     League league = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
 
                     if (league != null)
@@ -470,6 +498,47 @@ public class Startup
                 }
             })
             .WithName("GetLeagueByUsername")
+            .WithOpenApi();
+
+            endpoints.MapGet("/getteamsbyleagueid/{id}", async (int id) =>
+            {
+                try
+                {
+                    using var dbContext = new AppDbContext();
+
+                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+
+                    if (league == null)
+                        return Results.Problem("Invalid League... Maybe clear your cookies?");
+
+                    List<User> users = dbContext.Users.Where(user => league.UserIDs.Contains(user.ID)).ToList();
+
+                    if (users == null)
+                        return Results.Problem("League has no players... Maybe clear your cookies?");
+
+                    List<int?> teamIDs = users.Select(user => user.TeamID).ToList();
+
+                    if (teamIDs == null || teamIDs.Count == 0)
+                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
+
+                    List<Team> teams = dbContext.Teams.Where(team => teamIDs.Contains(team.ID)).ToList();
+
+                    if (teams != null && teams.Count > 0)
+                    {
+                        teams.OrderByDescending(team => team.Wins);
+                        return Results.Ok(teams);
+                    }
+                    else
+                    {
+                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("An error occurred: " + ex.Message);
+                }
+            })
+            .WithName("GetTeamsByLeagueID")
             .WithOpenApi();
 
             endpoints.MapGet("/getteamid/{name}", async (string name) =>
