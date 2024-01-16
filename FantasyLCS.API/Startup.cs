@@ -1,8 +1,10 @@
 using FantasyLCS.API;
 using FantasyLCS.DataObjects;
+using FantasyLCS.DataObjects.DataObjects.RequestData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -108,6 +110,54 @@ public class Startup
                 }
             })
             .WithName("Signup")
+            .WithOpenApi();
+
+            endpoints.MapGet("/gethomepage/{username}", async (string username) =>
+            {
+                try
+                {
+                    using var context = new AppDbContext();
+
+                    List<User> leagueUsers = new List<User>();
+                    List<int?> leagueTeamIDs = new List<int?>();
+                    List<Team> teams = context.Teams.ToList();
+                    List<Team> leagueTeams = new List<Team>();
+
+                    User user = context.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+                    Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
+
+                    if (user == null)
+                        return Results.Problem("User not found. Try deleting cookies?");
+
+                    League userLeague = context.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+                    if (userLeague != null)
+                    {
+                        leagueUsers = context.Users.Where(user => userLeague.UserIDs.Contains(user.ID)).ToList();
+
+                        leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
+
+                        leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
+                    }
+
+                    // Create an instance of HomePageData and populate its properties
+                    var homePage = new HomePage
+                    {
+                        User = user,
+                        UserTeam = userTeam,
+                        UserLeague = userLeague,
+                        LeagueTeams = teams
+                    };
+
+                    // Serialize the HomePageData object to JSON and return it
+                    return Results.Ok(homePage);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("GetHomePage")
             .WithOpenApi();
 
             endpoints.MapPost("/updateplayerlist", async (HttpContext context) =>
@@ -262,11 +312,11 @@ public class Startup
                     var requestBody = await reader.ReadToEndAsync();
 
                     // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<CreateTeamRequest>(requestBody);
+                    var requestData = JsonSerializer.Deserialize<CreateLeagueRequest>(requestBody);
 
                     if (requestData != null)
                     {
-                        DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
+                        DataManager.CreateLeague(requestData.Name, requestData.LeagueOwner);
                         return Results.Ok("Success!");
                     }
                     else
@@ -279,7 +329,57 @@ public class Startup
                     return Results.Problem("Failure: " + ex.Message);
                 }
             })
-            .WithName("CreateTeam")
+            .WithName("CreateLeague")
+            .WithOpenApi();
+
+            endpoints.MapPost("/joinleague", async (HttpContext context) =>
+            {
+                try
+                {
+                    using var reader = new StreamReader(context.Request.Body);
+                    var requestBody = await reader.ReadToEndAsync();
+
+                    // Deserialize the JSON data to get the name and username
+                    var requestData = JsonSerializer.Deserialize<JoinLeagueRequest>(requestBody);
+
+                    if (requestData != null)
+                    {
+                        DataManager.JoinLeague(requestData.Username, requestData.JoinCode);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("Invalid JSON data.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("JoinLeague")
+            .WithOpenApi();
+
+            endpoints.MapPost("/removeuserfromleague/{username}", async (string username) =>
+            {
+                try
+                {
+                    if (username != null)
+                    {
+                        DataManager.RemoveUserFromLeague(username);
+                        return Results.Ok("Success!");
+                    }
+                    else
+                    {
+                        return Results.Problem("No username sent.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("RemoveUserFromLeague")
             .WithOpenApi();
 
             endpoints.MapGet("/getallplayers", async () =>
@@ -404,7 +504,7 @@ public class Startup
                 try
                 {
                     using var dbContext = new AppDbContext();
-                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName == username);
+                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName.Equals(username));
 
                     if (team != null)
                     {
@@ -421,6 +521,73 @@ public class Startup
                 }
             })
             .WithName("GetTeamByUsername")
+            .WithOpenApi();
+
+            endpoints.MapGet("/getleaguebyusername/{username}", async (string username) =>
+            {
+                try
+                {
+                    using var dbContext = new AppDbContext();
+
+                    User user = dbContext.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+                    if (league != null)
+                    {
+                        return Results.Ok(league);
+                    }
+                    else
+                    {
+                        return Results.NotFound("No league found for the username.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("An error occurred: " + ex.Message);
+                }
+            })
+            .WithName("GetLeagueByUsername")
+            .WithOpenApi();
+
+            endpoints.MapGet("/getteamsbyleagueid/{id}", async (int id) =>
+            {
+                try
+                {
+                    using var dbContext = new AppDbContext();
+
+                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+
+                    if (league == null)
+                        return Results.Problem("Invalid League... Maybe clear your cookies?");
+
+                    List<User> users = dbContext.Users.Where(user => league.UserIDs.Contains(user.ID)).ToList();
+
+                    if (users == null)
+                        return Results.Problem("League has no players... Maybe clear your cookies?");
+
+                    List<int?> teamIDs = users.Select(user => user.TeamID).ToList();
+
+                    if (teamIDs == null || teamIDs.Count == 0)
+                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
+
+                    List<Team> teams = dbContext.Teams.Where(team => teamIDs.Contains(team.ID)).ToList();
+
+                    if (teams != null && teams.Count > 0)
+                    {
+                        teams.OrderByDescending(team => team.Wins);
+                        return Results.Ok(teams);
+                    }
+                    else
+                    {
+                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("An error occurred: " + ex.Message);
+                }
+            })
+            .WithName("GetTeamsByLeagueID")
             .WithOpenApi();
 
             endpoints.MapGet("/getteamid/{name}", async (string name) =>

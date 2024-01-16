@@ -7,6 +7,7 @@ using FantasyLCS.DataObjects;
 using static StaticMethods;
 using System.Xml.Linq;
 using System.Numerics;
+using System.Linq;
 
 public class DataManager
 {
@@ -138,9 +139,21 @@ public class DataManager
     {
         using (var context = new AppDbContext())
         {
+            User user = context.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+
+            if (user == null)
+            {
+                throw new Exception("User not found.");
+            }
+
             if (context.Teams.Any(team => team.Name == name))
             {
                 throw new Exception("A team with that name already exists.");
+            }
+            
+            if ((user.TeamID != null && user.TeamID > 0) || context.Teams.Any(team => team.OwnerName.ToLower().Equals(username.ToLower())))
+            {
+                throw new Exception("User already has a team.");
             }
 
             var newTeam = new Team
@@ -154,6 +167,9 @@ public class DataManager
             };
 
             context.Teams.Add(newTeam);
+            context.SaveChanges();
+
+            user.TeamID = newTeam.ID;
             context.SaveChanges();
         }
     }
@@ -174,6 +190,106 @@ public class DataManager
         }
     }
 
+    public static void CreateLeague(string leagueName, string leagueOwner)
+    {
+        using (var context = new AppDbContext())
+        {
+            User user = context.Users.SingleOrDefault(user => user.Username.ToLower().Equals(leagueOwner.ToLower()));
+            List<League> leagues = context.Leagues.ToList();
+
+            if (leagues.Any(league => league.Name.Equals(leagueName)))
+            {
+                throw new Exception("A team with that name already exists.");
+            }
+
+            if (leagues.Any(league => league.UserIDs.Contains(user.ID)))
+            {
+                throw new Exception("This user is already in a league.");
+            }
+
+            string joinCode = GenerateUniqueCode(context.Leagues);
+
+            var newLeague = new League
+            {
+                Name = leagueName,
+                Owner = leagueOwner,
+                JoinCode = joinCode,
+                UserIDs = new List<int> { user.ID },
+                LeagueStatus = LeagueStatus.NotStarted
+            };
+
+            context.Leagues.Add(newLeague);
+            context.SaveChanges();
+
+            user.LeagueID = newLeague.ID;
+            context.SaveChanges();
+        }
+    }
+
+    private static string GenerateUniqueCode(DbSet<League> leagues)
+    {
+        var random = new Random();
+        var uniqueCode = "";
+        do
+        {
+            uniqueCode = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 5)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        while (leagues.Any(league => league.JoinCode == uniqueCode));
+
+        return uniqueCode;
+    }
+
+    public static void JoinLeague(string username, string joinCode)
+    {
+        using (var context = new AppDbContext())
+        {
+            User user = context.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+            List<League> leagues = context.Leagues.ToList();
+            League league = leagues.SingleOrDefault(league => league.JoinCode.ToLower().Equals(joinCode.ToLower()));
+
+            if (league == null)
+            {
+                throw new Exception("Invalid join code.");
+            }
+
+            if (leagues.Any(league => league.UserIDs.Contains(user.ID)))
+            {
+                throw new Exception("This user is already in a league.");
+            }
+
+            league.UserIDs.Add(user.ID);
+            context.SaveChanges();
+
+            user.LeagueID = league.ID;
+            context.SaveChanges();
+        }
+    }
+
+    public static void RemoveUserFromLeague(string username)
+    {
+        using var context = new AppDbContext();
+
+        User user = context.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+        League league = context.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+        if (user == null)
+        {
+            throw new Exception("User not found.");
+        }
+        if (league == null)
+        {
+            throw new Exception("League not found.");
+        }
+
+        user.LeagueID = null;
+        league.UserIDs.Remove(user.ID);
+
+        if (league.UserIDs.Count == 0)
+            context.Leagues.Remove(league);
+
+        context.SaveChanges();
+    }
 
     public static void AddPlayerToTeam(int teamID, int playerID)
     {

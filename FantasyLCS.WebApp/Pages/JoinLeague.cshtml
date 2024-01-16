@@ -1,0 +1,59 @@
+﻿@page
+@model FantasyLCS.WebApp.Pages.JoinLeagueModel
+@{
+    ViewData["Title"] = "Join League";
+}
+
+<style>
+    /* Reuse the same styles from Home page */
+    .join-league-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 15px;
+        width: 300px; /* Fixed width for the form */
+    }
+
+    .form-field, .btn {
+        width: 100%; /* Full width of the form container */
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn {
+        background-color: mediumseagreen;
+        color: white;
+        border: none;
+    }
+
+    .btn:hover {
+        background-color: mediumaquamarine;
+    }
+</style>
+
+<div class="join-league-container">
+    <div class="form-container">
+        <form method="post">
+            <label for="LeagueCode"><strong>League Code:</strong></label>
+            <input type="text" id="LeagueCode" name="LeagueCode" class="form-field" placeholder="Enter league code">
+
+            <button type="submit" class="btn">Join League</button>
+        </form>
+    </div>
+</div>
+
+<div class="validation-summary">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+</div>

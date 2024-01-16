@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240115175333_AddLeague")]
+    partial class AddLeague
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -559,9 +562,6 @@ namespace FantasyLCS.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TeamID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -570,9 +570,6 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("LeagueID");
 
-                    b.HasIndex("TeamID")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
@@ -580,31 +577,15 @@ namespace FantasyLCS.API.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    b.Property<string>("JoinCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "joinCode");
-
-                    b.Property<int>("LeagueStatus")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "name");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Owner")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "owner");
-
-                    b.Property<string>("UserIDs")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "userIDs");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
@@ -720,12 +701,8 @@ namespace FantasyLCS.API.Migrations
             modelBuilder.Entity("FantasyLCS.DataObjects.User", b =>
                 {
                     b.HasOne("League", null)
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("LeagueID");
-
-                    b.HasOne("Team", null)
-                        .WithOne()
-                        .HasForeignKey("FantasyLCS.DataObjects.User", "TeamID");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Match", b =>
@@ -748,6 +725,11 @@ namespace FantasyLCS.API.Migrations
 
                     b.Navigation("VisionStats")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("League", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

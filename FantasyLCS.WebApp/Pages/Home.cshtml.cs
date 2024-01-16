@@ -10,10 +10,7 @@ public class HomeModel : PageModel
 {
     private readonly HttpClient _httpClient;
 
-    // Add a property to store the team status
-    public bool HasTeam { get; private set; }
-
-    public Team UserTeam { get; private set; }
+    public HomePage HomePage { get; set; }
 
     public HomeModel(HttpClient httpClient)
     {
@@ -22,33 +19,26 @@ public class HomeModel : PageModel
 
     public async Task<IActionResult> OnGet()
     {
+        // todo: we can update the API with an endpoint called LoadHomePage that returns all the info we need in one request.
+
         if (User.Identity.IsAuthenticated)
         {
             var username = User.Identity.Name;
 
-            // Make a request to check if the user has a team
-            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
+            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/gethomepage/{username}");
 
             if (response.IsSuccessStatusCode)
             {
-                // User has a team associated with their username
-                HasTeam = true;
-
                 var responseBody = await response.Content.ReadAsStringAsync();
-                UserTeam = JsonSerializer.Deserialize<Team>(responseBody);
+                HomePage = JsonSerializer.Deserialize<HomePage>(responseBody);
             }
-            else
-            {
-                // User does not have a team
-                HasTeam = false;
-            }
+
+            return Page();
         }
         else
         {
             // If user is not authenticated, redirect to login page
             return RedirectToPage("/Login");
         }
-
-        return Page();
     }
 }
