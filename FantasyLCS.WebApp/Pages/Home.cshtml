@@ -156,24 +156,25 @@
 
     p {
         font-size: 18px;
+        text-align: center;
     }
 </style>
 
 <div class="validation-summary">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 </div>
 
 <div class="home-container">
     <!-- Team Info Section -->
     <div class="section team-info">
-        @if (Model.UserTeam != null)
+        @if (Model.HomePage.UserTeam != null)
         {
-            <div class="team-logo-container" style="background-image: url('@Model.UserTeam.LogoUrl');"></div>
+            <div class="team-logo-container" style="background-image: url('@Model.HomePage.UserTeam.LogoUrl');"></div>
             <div class="team-info">
-                <p><strong>Team Name:</strong><span class="info-value">@Model.UserTeam.Name</span></p>
-                <p><strong>Coach:</strong><span class="info-value">@Model.UserTeam.OwnerName</span></p>
-                <p><strong>Wins:</strong><span class="info-value">@Model.UserTeam.Wins</span></p>
-                <p><strong>Losses:</strong><span class="info-value">@Model.UserTeam.Losses</span></p>
+                <p><strong>Team Name:</strong><span class="info-value">@Model.HomePage.UserTeam.Name</span></p>
+                <p><strong>Coach:</strong><span class="info-value">@Model.HomePage.UserTeam.OwnerName</span></p>
+                <p><strong>Wins:</strong><span class="info-value">@Model.HomePage.UserTeam.Wins</span></p>
+                <p><strong>Losses:</strong><span class="info-value">@Model.HomePage.UserTeam.Losses</span></p>
             </div>
         }
         else
@@ -185,28 +186,23 @@
     </div>
 
     <div class="section league-info-section">
-        @if (Model.UserLeague != null)
+        @if (Model.HomePage.UserLeague != null)
         {
-            <h2>League Information</h2>
-            <p><strong>League Name:</strong> @Model.UserLeague.Name</p>
-            <p><strong>Owner:</strong> @Model.UserLeague.Owner</p>
-            <p><strong>Join Code:</strong> @Model.UserLeague.JoinCode</p>
-
             <!-- Leaderboard for Teams -->
             <h3>Leaderboard</h3>
             <div class="leaderboard">
                 <div class="leaderboard-column">
                     @for (int i = 0; i < 4; i++)
                     {
-                        <div class="@((i < Model.LeagueTeams.Count) ? "team-entry" : "team-empty")">
-                            @if (i < Model.LeagueTeams.Count)
+                        <div class="@((i < Model.HomePage.LeagueTeams.Count) ? "team-entry" : "team-empty")">
+                            @if (i < Model.HomePage.LeagueTeams.Count)
                             {
-                                <div class="team-logo-container" style="background-image: url('@Model.LeagueTeams[i].LogoUrl');"></div>
+                                <div class="team-logo-container" style="background-image: url('@Model.HomePage.LeagueTeams[i].LogoUrl');"></div>
                                 <div class="team-details">
-                                    <p><strong>@Model.LeagueTeams[i].Name</strong></p>
-                                    <p>Coach: @Model.LeagueTeams[i].OwnerName</p>
+                                    <p><strong>@Model.HomePage.LeagueTeams[i].Name</strong></p>
+                                    <p>Coach: @Model.HomePage.LeagueTeams[i].OwnerName</p>
                                     <p>
-                                        Wins: @Model.LeagueTeams[i].Wins, Losses: @Model.LeagueTeams[i].Losses
+                                        Wins: @Model.HomePage.LeagueTeams[i].Wins, Losses: @Model.HomePage.LeagueTeams[i].Losses
                                     </p>
                                 </div>
                             }
@@ -220,14 +216,14 @@
                 <div class="leaderboard-column">
                     @for (int i = 4; i < 8; i++)
                     {
-                        <div class="@((i < Model.LeagueTeams.Count) ? "team-entry" : "team-empty")">
-                            @if (i < Model.LeagueTeams.Count)
+                        <div class="@((i < Model.HomePage.LeagueTeams.Count) ? "team-entry" : "team-empty")">
+                            @if (i < Model.HomePage.LeagueTeams.Count)
                             {
-                                <div class="team-logo-container" style="background-image: url('@Model.LeagueTeams[i].LogoUrl');"></div>
+                                <div class="team-logo-container" style="background-image: url('@Model.HomePage.LeagueTeams[i].LogoUrl');"></div>
                                 <div class="team-details">
-                                    <p><strong>@Model.LeagueTeams[i].Name</strong></p>
-                                    <p>Coach: @Model.LeagueTeams[i].OwnerName</p>
-                                    <p>Wins: @Model.LeagueTeams[i].Wins, Losses: @Model.LeagueTeams[i].Losses</p>
+                                    <p><strong>@Model.HomePage.LeagueTeams[i].Name</strong></p>
+                                    <p>Coach: @Model.HomePage.LeagueTeams[i].OwnerName</p>
+                                    <p>Wins: @Model.HomePage.LeagueTeams[i].Wins, Losses: @Model.HomePage.LeagueTeams[i].Losses</p>
                                 </div>
                             }
                             else
@@ -238,6 +234,12 @@
                     }
                 </div>
             </div>
+
+            <h3>League Information</h3>
+            <p><strong>League Name:</strong> @Model.HomePage.UserLeague.Name</p>
+            <p><strong>Owner:</strong> @Model.HomePage.UserLeague.Owner</p>
+            <p><strong>Join Code:</strong> @Model.HomePage.UserLeague.JoinCode</p>
+
         }
         else
         {
@@ -248,10 +250,10 @@
 
     <!-- Buttons Section -->
     <div class="section buttons-section">
-        <a class="btn @(Model.UserTeam != null && Model.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
-        <a class="btn @(Model.UserTeam != null && Model.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
-        <a class="btn @(Model.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
-        <a class="btn @(Model.UserLeague != null && Model.LeagueTeams.Count == 8 && Model.UserLeague.LeagueStatus == LeagueStatus.NotStarted ? "" : "btn-disabled")" asp-page="/Draft">Start Draft</a>
+        <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
+        <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
+        <a class="btn @(Model.HomePage.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
+        <a class="btn @(Model.HomePage.UserLeague != null && Model.HomePage.LeagueTeams.Count == 8 && Model.HomePage.UserLeague.LeagueStatus == LeagueStatus.NotStarted ? "" : "btn-disabled")" asp-page="/Draft">Start Draft</a>
         <!-- Additional buttons can be added here -->
     </div>
 </div>

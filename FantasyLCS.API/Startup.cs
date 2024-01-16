@@ -4,6 +4,7 @@ using FantasyLCS.DataObjects.DataObjects.RequestData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -109,6 +110,54 @@ public class Startup
                 }
             })
             .WithName("Signup")
+            .WithOpenApi();
+
+            endpoints.MapGet("/gethomepage/{username}", async (string username) =>
+            {
+                try
+                {
+                    using var context = new AppDbContext();
+
+                    List<User> leagueUsers = new List<User>();
+                    List<int?> leagueTeamIDs = new List<int?>();
+                    List<Team> teams = context.Teams.ToList();
+                    List<Team> leagueTeams = new List<Team>();
+
+                    User user = context.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+                    Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
+
+                    if (user == null)
+                        return Results.Problem("User not found. Try deleting cookies?");
+
+                    League userLeague = context.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+                    if (userLeague != null)
+                    {
+                        leagueUsers = context.Users.Where(user => userLeague.UserIDs.Contains(user.ID)).ToList();
+
+                        leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
+
+                        leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
+                    }
+
+                    // Create an instance of HomePageData and populate its properties
+                    var homePage = new HomePage
+                    {
+                        User = user,
+                        UserTeam = userTeam,
+                        UserLeague = userLeague,
+                        LeagueTeams = teams
+                    };
+
+                    // Serialize the HomePageData object to JSON and return it
+                    return Results.Ok(homePage);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem("Failure: " + ex.Message);
+                }
+            })
+            .WithName("GetHomePage")
             .WithOpenApi();
 
             endpoints.MapPost("/updateplayerlist", async (HttpContext context) =>

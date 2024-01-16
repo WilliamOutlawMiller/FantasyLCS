@@ -33,7 +33,6 @@ public class AppDbContext : DbContext
             .HasForeignKey<AggressionStats>(a => a.PlayerID)
             .IsRequired();
 
-
         modelBuilder.Entity<AggressionStats>()
             .HasKey(a => a.PlayerID);
 
