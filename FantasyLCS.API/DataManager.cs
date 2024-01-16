@@ -135,7 +135,7 @@ public class DataManager
         }
     }
 
-    public static void CreateTeam(string name, string logoUrl, string username)
+    public static Team CreateTeam(string name, string logoUrl, string username)
     {
         using (var context = new AppDbContext())
         {
@@ -171,6 +171,8 @@ public class DataManager
 
             user.TeamID = newTeam.ID;
             context.SaveChanges();
+
+            return newTeam;
         }
     }
 
@@ -190,7 +192,7 @@ public class DataManager
         }
     }
 
-    public static void CreateLeague(string leagueName, string leagueOwner)
+    public static League CreateLeague(string leagueName, string leagueOwner)
     {
         using (var context = new AppDbContext())
         {
@@ -223,6 +225,8 @@ public class DataManager
 
             user.LeagueID = newLeague.ID;
             context.SaveChanges();
+
+            return newLeague;
         }
     }
 
@@ -240,7 +244,7 @@ public class DataManager
         return uniqueCode;
     }
 
-    public static void JoinLeague(string username, string joinCode)
+    public static League JoinLeague(string username, string joinCode)
     {
         using (var context = new AppDbContext())
         {
@@ -263,6 +267,8 @@ public class DataManager
 
             user.LeagueID = league.ID;
             context.SaveChanges();
+
+            return league;
         }
     }
 

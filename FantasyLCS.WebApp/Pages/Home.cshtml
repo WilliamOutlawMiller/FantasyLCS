@@ -41,6 +41,22 @@
         display: block;
     }
 
+    .team-creation-prompt {
+        text-align: center; /* Center align the content */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .team-creation-prompt h3 {
+        margin-bottom: 20px;
+    }
+
+    .team-creation-prompt p {
+        margin-bottom: 30px;
+    }
+
     .info-value {
         display: block;
     }
@@ -179,9 +195,11 @@
         }
         else
         {
-            <h2>Create Your Team</h2>
-            <p>You don't have a team yet. Click the button below to create your team.</p>
-            <a class="btn" asp-page="/CreateTeam">Create Team</a>
+            <div class="team-creation-prompt">
+                <h3>Create Your Team</h3>
+                <p>You don't have a team yet. Click the button below to create your team.</p>
+                <a class="btn" asp-page="/CreateTeam">Create Team</a>
+            </div>
         }
     </div>
 
