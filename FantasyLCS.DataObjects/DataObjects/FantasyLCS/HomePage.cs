@@ -8,9 +8,6 @@ using FantasyLCS.DataObjects;
 
 public class HomePage
 {
-    [JsonPropertyName("user")]
-    public User User { get; set; }
-
     [JsonPropertyName("userTeam")]
     public Team UserTeam { get; set; }
 

@@ -36,8 +36,6 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
-
         app.UseRouting();
 
         app.UseEndpoints(endpoints =>
@@ -143,7 +141,6 @@ public class Startup
                     // Create an instance of HomePageData and populate its properties
                     var homePage = new HomePage
                     {
-                        User = user,
                         UserTeam = userTeam,
                         UserLeague = userLeague,
                         LeagueTeams = teams

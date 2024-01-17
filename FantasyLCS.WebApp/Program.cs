@@ -2,6 +2,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    // Configure Kestrel server
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        // Listen on all network interfaces and port 5001
+        serverOptions.Listen(System.Net.IPAddress.Loopback, 5001);
+    });
+}
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.WebHost.UseStaticWebAssets();
@@ -29,7 +39,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -15,6 +15,8 @@ public class HomeModel : PageModel
 
     public HomePage HomePage { get; set; }
 
+    public bool IsRefreshAllowed { get; set; }
+
     public HomeModel(HttpClient httpClient, IMemoryCache memoryCache, IConfiguration configuration)
     {
         _httpClient = httpClient;
@@ -49,6 +51,19 @@ public class HomeModel : PageModel
                 }
             }
 
+            string timestampKey = $"RefreshTimestamp-{username}";
+            DateTime lastRefresh;
+
+            if (_cache.TryGetValue(timestampKey, out lastRefresh))
+            {
+                IsRefreshAllowed = DateTime.Now - lastRefresh > TimeSpan.FromMinutes(1);
+            }
+            else
+            {
+                // If no timestamp in cache, allow refresh
+                IsRefreshAllowed = true;
+            }
+
             HomePage = cachedHomePage;
 
             return Page();
@@ -58,5 +73,35 @@ public class HomeModel : PageModel
             // If user is not authenticated, redirect to login page
             return RedirectToPage("/Login");
         }
+    }
+
+    public async Task<IActionResult> OnPostRefresh()
+    {
+        var username = User.Identity.Name;
+        string cacheKey = $"HomePageData-{username}";
+        string timestampKey = $"RefreshTimestamp-{username}";
+        DateTime lastRefresh;
+
+        if (_cache.TryGetValue(timestampKey, out lastRefresh) && DateTime.Now - lastRefresh <= TimeSpan.FromMinutes(1))
+        {
+            // If less than a minute has passed since the last refresh, do not refresh and redirect back to the page
+            return RedirectToPage();
+        }
+
+        var response = await _httpClient.GetAsync(_apiUrl + $"/gethomepage/{username}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseBody = await response.Content.ReadAsStringAsync();
+            HomePage = JsonSerializer.Deserialize<HomePage>(responseBody);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(30));
+
+            _cache.Set(cacheKey, HomePage, cacheEntryOptions);
+            _cache.Set(timestampKey, DateTime.Now, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(30)));
+        }
+
+        return RedirectToPage();
     }
 }
