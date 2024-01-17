@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FantasyLCS.WebApp.Pages
 
@@ -11,10 +12,14 @@ namespace FantasyLCS.WebApp.Pages
     public class JoinLeagueModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly IMemoryCache _cache;
+        private readonly string _apiUrl;
 
-        public JoinLeagueModel(HttpClient httpClient)
+        public JoinLeagueModel(HttpClient httpClient, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _cache = memoryCache;
+            _apiUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         [BindProperty]
@@ -39,16 +44,41 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the create team API endpoint
-                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/joinleague", content);
+                var leagueResponse = await _httpClient.PostAsync(_apiUrl + "/joinleague", content);
 
-                if (response.IsSuccessStatusCode)
+                if (leagueResponse.IsSuccessStatusCode)
                 {
+                    var leagueResponseBody = await leagueResponse.Content.ReadAsStringAsync();
+                    League userLeague = JsonSerializer.Deserialize<League>(leagueResponseBody);
+
+                    List<Team> teams = new List<Team>();
+
+                    var teamsResponse = await _httpClient.GetAsync(_apiUrl + $"/getteamsbyleagueid/{userLeague.ID}");
+                    if (teamsResponse.IsSuccessStatusCode)
+                    {
+                        var teamsResponseBody = await teamsResponse.Content.ReadAsStringAsync();
+                        teams = JsonSerializer.Deserialize<List<Team>>(teamsResponseBody);
+                    }
+
+                    string cacheKey = $"HomePageData-{username}";
+                    HomePage cachedHomePage;
+
+                    if (_cache.TryGetValue(cacheKey, out cachedHomePage))
+                    {
+                        // Update the UserTeam property with the new team details.
+                        cachedHomePage.UserLeague = userLeague;
+                        cachedHomePage.LeagueTeams = teams;
+
+                        // Set the updated object back into the cache with the same key.
+                        _cache.Set(cacheKey, cachedHomePage);
+                    }
+
                     return RedirectToPage("/Home");
                 }
                 else
                 {
                     // Read the response content as a string
-                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    var errorMessage = await leagueResponse.Content.ReadAsStringAsync();
 
                     // Add the error message to the ModelState
                     ModelState.AddModelError(string.Empty, $"Create league failed: {errorMessage}");
@@ -67,19 +97,18 @@ namespace FantasyLCS.WebApp.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                // Check if user has team
-                if (!await UserHasTeam())
-                {
-                    // Redirect to home page or a relevant page
-                    return RedirectToPage("/Home");
-                }
+                string cacheKey = $"HomePageData-{User.Identity.Name}";
+                HomePage cachedHomePage;
 
-                // Check if the user already has a league
-                if (await UserHasLeague())
+                if (_cache.TryGetValue(cacheKey, out cachedHomePage))
                 {
-                    // Redirect to home page or a relevant page
-                    return RedirectToPage("/Home");
+                    if (cachedHomePage.UserTeam == null)
+                        return RedirectToPage("/Home");
+                    if (cachedHomePage.UserLeague != null)
+                        return RedirectToPage("/Home");
                 }
+                else
+                    return RedirectToPage("/Home");
             }
             else
             {
@@ -88,24 +117,6 @@ namespace FantasyLCS.WebApp.Pages
             }
 
             return Page();
-        }
-
-        private async Task<bool> UserHasLeague()
-        {
-            var username = User.Identity.Name;
-
-            // Make a request to check if the user has a team
-            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getleaguebyusername/{username}");
-            return response.IsSuccessStatusCode;
-        }
-
-        private async Task<bool> UserHasTeam()
-        {
-            var username = User.Identity.Name;
-
-            // Make a request to check if the user has a team
-            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
-            return response.IsSuccessStatusCode;
         }
     }
 }

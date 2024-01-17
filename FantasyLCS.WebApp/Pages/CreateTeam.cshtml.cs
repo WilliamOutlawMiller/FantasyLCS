@@ -1,6 +1,7 @@
 using FantasyLCS.DataObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -12,10 +13,14 @@ namespace FantasyLCS.WebApp.Pages
     public class CreateTeamModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly IMemoryCache _cache;
+        private readonly string _apiUrl;
 
-        public CreateTeamModel(HttpClient httpClient)
+        public CreateTeamModel(HttpClient httpClient, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _cache = memoryCache;
+            _apiUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         [BindProperty]
@@ -28,11 +33,12 @@ namespace FantasyLCS.WebApp.Pages
         {
             try
             {
+                string username = User.Identity.Name;
                 // Prepare the data for creating a team
                 CreateTeamRequest teamData = new CreateTeamRequest
                 {
                     Name = TeamName,
-                    Username = User.Identity.Name,
+                    Username = username,
                     LogoUrl = TeamLogoURL
                 };
 
@@ -43,10 +49,25 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the create team API endpoint
-                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/createteam", content);
+                var response = await _httpClient.PostAsync(_apiUrl + "/createteam", content);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Team userTeam = JsonSerializer.Deserialize<Team>(responseBody);
+
+                    string cacheKey = $"HomePageData-{username}";
+                    HomePage cachedHomePage;
+
+                    if (_cache.TryGetValue(cacheKey, out cachedHomePage))
+                    {
+                        // Update the UserTeam property with the new team details.
+                        cachedHomePage.UserTeam = userTeam;
+
+                        // Set the updated object back into the cache with the same key.
+                        _cache.Set(cacheKey, cachedHomePage);
+                    }
+
                     return RedirectToPage("/Home");
                 }
                 else
@@ -71,12 +92,16 @@ namespace FantasyLCS.WebApp.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                // Check if the user already has a team
-                if (await UserAlreadyHasTeam())
+                string cacheKey = $"HomePageData-{User.Identity.Name}";
+                HomePage cachedHomePage;
+
+                if (_cache.TryGetValue(cacheKey, out cachedHomePage))
                 {
-                    // Redirect to home page or a relevant page
-                    return RedirectToPage("/Home");
+                    if (cachedHomePage.UserTeam != null)
+                        return RedirectToPage("/Home");
                 }
+                else
+                    return RedirectToPage("/Home");
             }
             else
             {
@@ -86,15 +111,5 @@ namespace FantasyLCS.WebApp.Pages
 
             return Page();
         }
-
-        private async Task<bool> UserAlreadyHasTeam()
-        {
-            var username = User.Identity.Name;
-
-            // Make a request to check if the user has a team
-            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getteambyusername/{username}");
-            return response.IsSuccessStatusCode;
-        }
-
     }
 }

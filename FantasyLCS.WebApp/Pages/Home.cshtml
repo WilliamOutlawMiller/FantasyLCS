@@ -41,6 +41,22 @@
         display: block;
     }
 
+    .team-creation-prompt {
+        text-align: center; /* Center align the content */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .team-creation-prompt h3 {
+        margin-bottom: 20px;
+    }
+
+    .team-creation-prompt p {
+        margin-bottom: 30px;
+    }
+
     .info-value {
         display: block;
     }
@@ -179,9 +195,11 @@
         }
         else
         {
-            <h2>Create Your Team</h2>
-            <p>You don't have a team yet. Click the button below to create your team.</p>
-            <a class="btn" asp-page="/CreateTeam">Create Team</a>
+            <div class="team-creation-prompt">
+                <h3>Create Your Team</h3>
+                <p>You don't have a team yet. Click the button below to create your team.</p>
+                <a class="btn" asp-page="/CreateTeam">Create Team</a>
+            </div>
         }
     </div>
 
@@ -253,7 +271,15 @@
         <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
         <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
         <a class="btn @(Model.HomePage.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
-        <a class="btn @(Model.HomePage.UserLeague != null && Model.HomePage.LeagueTeams.Count == 8 && Model.HomePage.UserLeague.LeagueStatus == LeagueStatus.NotStarted ? "" : "btn-disabled")" asp-page="/Draft">Start Draft</a>
+        <a class="btn @(Model.HomePage.UserLeague != null 
+            && Model.HomePage.LeagueTeams.Count == 8 
+            && Model.HomePage.UserLeague.LeagueStatus == LeagueStatus.NotStarted 
+            && Model.HomePage.UserLeague.Owner.Equals(User.Identity.Name) ? "" : "btn-disabled")" asp-page="/Draft">Start Draft</a>
+        <div class="refresh-button-container">
+            <form method="post">
+                <button class ="btn @(Model.IsRefreshAllowed != true ? "btn-disabled" : "")" type="submit" asp-page-handler="Refresh" class="btn btn-refresh">Refresh Data</button>
+            </form>
+        </div>
         <!-- Additional buttons can be added here -->
     </div>
 </div>

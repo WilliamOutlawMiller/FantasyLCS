@@ -4,16 +4,21 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text;
 using FantasyLCS.DataObjects.DataObjects.RequestData;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FantasyLCS.WebApp.Pages;
 
 public class LeaveLeagueModel : PageModel
 {
     private readonly HttpClient _httpClient;
+    private readonly IMemoryCache _cache;
+    private readonly string _apiUrl;
 
-    public LeaveLeagueModel(HttpClient httpClient)
+    public LeaveLeagueModel(HttpClient httpClient, IMemoryCache memoryCache, IConfiguration configuration)
     {
         _httpClient = httpClient;
+        _cache = memoryCache;
+        _apiUrl = configuration["ApiSettings:BaseUrl"];
     }
 
     public League League { get; private set; }
@@ -25,10 +30,23 @@ public class LeaveLeagueModel : PageModel
             string username = User.Identity.Name;
 
             // Send a POST request to the create team API endpoint
-            var response = await _httpClient.PostAsync($"https://api.fantasy-lcs.com/removeuserfromleague/{username}", null);
+            var response = await _httpClient.PostAsync(_apiUrl + $"/removeuserfromleague/{username}", null);
 
             if (response.IsSuccessStatusCode)
             {
+                string cacheKey = $"HomePageData-{username}";
+                HomePage cachedHomePage;
+
+                if (_cache.TryGetValue(cacheKey, out cachedHomePage))
+                {
+                    // Update the UserTeam property with the new team details.
+                    cachedHomePage.UserLeague = null;
+                    cachedHomePage.LeagueTeams = null;
+
+                    // Set the updated object back into the cache with the same key.
+                    _cache.Set(cacheKey, cachedHomePage);
+                }
+
                 return RedirectToPage("/Home");
             }
             else
@@ -53,24 +71,18 @@ public class LeaveLeagueModel : PageModel
     {
         if (User.Identity.IsAuthenticated)
         {
-            var username = User.Identity.Name;
+            string cacheKey = $"HomePageData-{User.Identity.Name}";
+            HomePage cachedHomePage;
 
-            var response = await _httpClient.GetAsync($"https://api.fantasy-lcs.com/getleaguebyusername/{username}");
-
-            if (response.IsSuccessStatusCode)
+            if (_cache.TryGetValue(cacheKey, out cachedHomePage))
             {
-                var leagueJson = await response.Content.ReadAsStringAsync();
-                var league = JsonSerializer.Deserialize<League>(leagueJson, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-                League = league;
+                if (cachedHomePage.UserLeague == null)
+                    return RedirectToPage("/Home");
             }
             else
-            {
                 return RedirectToPage("/Home");
-            }
+
+            League = cachedHomePage.UserLeague;
         }
         else
         {

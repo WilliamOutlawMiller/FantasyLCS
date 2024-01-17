@@ -14,10 +14,12 @@ namespace FantasyLCS.WebApp.Pages
     public class LoginModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly string _apiUrl;
 
-        public LoginModel(HttpClient httpClient)
+        public LoginModel(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _apiUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         [BindProperty]
@@ -45,7 +47,7 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the login API endpoint
-                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/login", content);
+                var response = await _httpClient.PostAsync(_apiUrl + "/login", content);
 
                 // Check if the request was successful (you can customize this based on your API response format)
                 if (response.IsSuccessStatusCode)
@@ -110,7 +112,7 @@ namespace FantasyLCS.WebApp.Pages
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 // Send a POST request to the signup API endpoint
-                var response = await _httpClient.PostAsync("https://api.fantasy-lcs.com/signup", content);
+                var response = await _httpClient.PostAsync(_apiUrl + "/signup", content);
 
                 if (response.IsSuccessStatusCode)
                 {

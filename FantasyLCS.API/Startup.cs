@@ -36,8 +36,6 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
-
         app.UseRouting();
 
         app.UseEndpoints(endpoints =>
@@ -143,7 +141,6 @@ public class Startup
                     // Create an instance of HomePageData and populate its properties
                     var homePage = new HomePage
                     {
-                        User = user,
                         UserTeam = userTeam,
                         UserLeague = userLeague,
                         LeagueTeams = teams
@@ -204,8 +201,8 @@ public class Startup
 
                     if (requestData != null)
                     {
-                        DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
-                        return Results.Ok("Success!");
+                        Team team = DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
+                        return Results.Ok(team);
                     }
                     else
                     {
@@ -316,8 +313,8 @@ public class Startup
 
                     if (requestData != null)
                     {
-                        DataManager.CreateLeague(requestData.Name, requestData.LeagueOwner);
-                        return Results.Ok("Success!");
+                        League league = DataManager.CreateLeague(requestData.Name, requestData.LeagueOwner);
+                        return Results.Ok(league);
                     }
                     else
                     {
@@ -344,8 +341,8 @@ public class Startup
 
                     if (requestData != null)
                     {
-                        DataManager.JoinLeague(requestData.Username, requestData.JoinCode);
-                        return Results.Ok("Success!");
+                        League league = DataManager.JoinLeague(requestData.Username, requestData.JoinCode);
+                        return Results.Ok(league);
                     }
                     else
                     {

@@ -21,10 +21,9 @@ public class Program
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
-                // Use Kestrel only in the Development environment for local debugging.
                 webBuilder.UseKestrel(options =>
                 {
-                    options.Listen(System.Net.IPAddress.Loopback, 5000); // Listen on localhost and port 5000
+                    options.Listen(System.Net.IPAddress.Loopback, 5000);
                 });
             }
         });
