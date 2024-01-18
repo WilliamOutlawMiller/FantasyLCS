@@ -45,7 +45,7 @@ public class Startup
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                    builder.WithOrigins("http://localhost:7184") // The client URL
+                    builder.WithOrigins("https://localhost:7184") // The client URL
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials());

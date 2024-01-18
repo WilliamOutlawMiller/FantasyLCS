@@ -12,14 +12,54 @@
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
+        connection.start().then(() => {
+            console.log("Connected to hub");
+            connection.invoke("JoinGroup", @Model.League.ID)
+                .then(() => {
+                    console.log("Joined group");
+                    // Fetch the current draft state
+                    connection.invoke("GetCurrentDraftState", @Model.League.ID);
+                })
+                .catch(err => console.error(err));
+        }).catch(function (err) {
+            console.error("Error establishing connection:", err.toString());
+        });
+
+        connection.on("UpdateDraftState", function (draftState) {
+            console.log("UpdateDraftState hit")
+            console.log(draftState.leagueStatus)
+            if (draftState.leagueStatus === 1) {
+                console.log("Page updated with current draft state")
+
+                updateDraftUI();
+                console.log("Draft UI updated")
+
+                updateCurrentTeamUI(draftState.currentTeam);
+                console.log("Team UI updated")
+
+
+                // Grey out drafted players
+                draftState.draftedPlayerIDs.forEach(id => {
+                    const draftedPlayerCard = document.getElementById(`player-card-${id}`);
+                    if (draftedPlayerCard) {
+                        draftedPlayerCard.classList.add('drafted');
+                        draftedPlayerCard.onclick = null; // Remove click event
+                    }
+                });
+
+                // Additional logic for handling available players can be added here
+            }
+        });
+
         connection.on("DraftStarted", function () {
             // Logic to update UI when draft starts
             updateDraftUI();
         });
 
-        connection.on("PlayerDrafted", function (draftPlayer) {
+        connection.on("PlayerDrafted", function (draftUpdate) {
             // Logic to handle a player being drafted
-            playerDrafted(draftPlayer);
+            playerDrafted(draftUpdate.draftPlayerID);
+            updateCurrentTeamUI(draftUpdate.nextTeam);
         });
 
         connection.on("UpdateCurrentTeam", function (currentTeam) {
@@ -31,46 +71,41 @@
         });
 
         function updateDraftUI() {
+            // Hide the 'Start Draft' button and show the 'Confirm Pick' button
+            document.getElementById('startDraftButton').style.display = 'none';
+            document.getElementById('confirmPickButton').style.display = 'block';
+
             const teamLogoContainer = document.querySelector('.team-logo-container');
             const teamDetails = document.querySelector('.team-details');
 
-            // Update the team info
-            if (currentTeam) {
-                teamLogoContainer.style.backgroundImage = `url('${currentTeam.LogoUrl}')`;
-                teamDetails.innerHTML = `
-                    <p><strong>${currentTeam.Name}</strong></p>
-                    <p>Coach: ${currentTeam.OwnerName}</p>
-                    <p>Wins: ${currentTeam.Wins}, Losses: ${currentTeam.Losses}</p>
-                `;
-            }
+            // Show the team logo and details containers
+            teamLogoContainer.style.display = 'block';
+            teamDetails.style.display = 'block';
+
+            // Show the player section
+            document.querySelector('.player-section').style.display = 'block';
         }
 
         function updateCurrentTeamUI(currentTeam) {
-            // Check if currentTeam data is available
             if (!currentTeam) {
                 console.error('Current team data is not available');
                 return;
             }
 
-            // Update the team logo and details
             const teamLogoContainer = document.querySelector('.team-logo-container');
             const teamDetails = document.querySelector('.team-details');
 
-            if (teamLogoContainer && teamDetails) {
-                teamLogoContainer.style.backgroundImage = `url('${currentTeam.LogoUrl}')`;
-                teamDetails.innerHTML = `
-                    <p><strong>${currentTeam.Name}</strong></p>
-                    <p>Coach: ${currentTeam.OwnerName}</p>
-                    <p>Wins: ${currentTeam.Wins}, Losses: ${currentTeam.Losses}</p>
-                `;
-            } else {
-                console.error('Team logo container or team details element not found');
-            }
+            teamLogoContainer.style.backgroundImage = `url('${currentTeam.LogoUrl}')`;
+            teamDetails.innerHTML = `
+                <p><strong>${currentTeam.Name}</strong></p>
+                <p>Coach: ${currentTeam.OwnerName}</p>
+                <p>Wins: ${currentTeam.Wins}, Losses: ${currentTeam.Losses}</p>
+            `;
         }
 
-        function playerDrafted(draftPlayer) {
+        function playerDrafted(draftPlayerID) {
             // Grey out the player's card and prevent further clicks
-            const draftedPlayerCard = document.getElementById(`player-card-${draftPlayer.ID}`);
+            const draftedPlayerCard = document.getElementById(`player-card-${draftPlayerID}`);
             if (draftedPlayerCard) {
                 draftedPlayerCard.classList.add('drafted');
                 draftedPlayerCard.onclick = null; // Remove click event
@@ -78,12 +113,14 @@
         }
 
         async function startDraft() {
-            console.log("Start draft clicked. League ID:", @Model.League.ID);
-            try {
-                await connection.invoke("StartDraft", @Model.League.ID);
-                console.log("Start draft invoked");
-            } catch (err) {
-                console.error("Error in startDraft:", err);
+            if (connection.state === signalR.HubConnectionState.Connected) {
+                try {
+                    await connection.invoke("StartDraft", @Model.League.ID);
+                } catch (err) {
+                    console.error("Error in startDraft:", err);
+                }
+            } else {
+                console.error("Connection not established");
             }
         }
 
@@ -212,52 +249,30 @@
 </div>
 
 <div class="teaminfo-section">
-    @if (Model.CurrentTeam == null)
-    {
-        <div class="team-placeholder">
-            <form method="post">
-                <button class="btn @(Model.League.LeagueStatus == LeagueStatus.NotStarted
-                        && Model.League.Owner.ToLower().Equals(User.Identity.Name.ToLower()) ? "" : "btn-disabled")"
-                        onclick="startDraft()" type="button">
-                        Start Draft
-                </button>
-            </form>
-        </div>
-    }
-    else
-    {
-        <div class="team-logo-container" style="background-image: url('@Model.CurrentTeam.LogoUrl');"></div>
-        <div class="team-details">
-            <p><strong>@Model.CurrentTeam.Name</strong></p>
-            <p>Coach: @Model.CurrentTeam.OwnerName</p>
-            <p>Wins: @Model.CurrentTeam.Wins, Losses: @Model.CurrentTeam.Losses</p>
-        </div>
-
-        <button class="btn btn-disabled" id="confirmPickButton" onclick="confirmDraftPick()" disabled>Confirm Pick</button>
-    } 
+    <div class="team-placeholder">
+        <button class="btn" onclick="startDraft()" type="button" id="startDraftButton">
+            Start Draft
+        </button>
+    </div>
+    <div class="team-logo-container" style="display: none;"></div>
+    <div class="team-details" style="display: none;"></div>
+    <button class="btn btn-disabled" id="confirmPickButton" onclick="confirmDraftPick()" disabled style="display: none;">Confirm Pick</button>
 </div>
 
-<div class="player-section">
-    @if (Model.League.LeagueStatus != LeagueStatus.DraftInProgress)
+
+<div class="player-section" style="display: none;">
+    <!-- Initially hidden -->
+    @foreach (var position in Enum.GetValues(typeof(Position)))
     {
-        <div class="player-placeholder">
+        <div class="player-group">
+            <h3>@position</h3>
+            @foreach (var player in Model.DraftPlayers.Where(p => p.Position.Equals(position)))
+            {
+                <div class="player-card" id="player-card-@player.ID" onclick="selectPlayer(@player.ID)">
+                    <img path="@player.ImagePath" alt="@player.Name" />
+                    <p>@player.Name</p>
+                </div>
+            }
         </div>
     }
-    else
-    {
-        @foreach (var position in Enum.GetValues(typeof(Position)))
-        {
-            <div class="player-group">
-                <h3>@position</h3>
-                @foreach (var player in Model.DraftPlayers.Where(p => p.Position.Equals(position)))
-                {
-                    <div class="player-card" id="player-card-@player.ID" onclick="selectPlayer(@player.ID)">
-                        <img src="@player.ImagePath" alt="@player.Name" />
-                        <p>@player.Name</p>
-                    </div>
-                }
-            </div>
-        }
-    }
-</div>
-                        
+</div>           

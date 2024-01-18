@@ -24,9 +24,8 @@ public class DraftPlayer
     { 
         get
         {
-            return Name + ".webp";
+            return "/headshots/" + Name + ".webp";
         }
-            
     }
 }
 public enum Position
