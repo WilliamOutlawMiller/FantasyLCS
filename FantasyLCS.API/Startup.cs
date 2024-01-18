@@ -26,6 +26,32 @@ public class Startup
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddSignalR();
+        services.AddDbContextFactory<AppDbContext>();
+
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.WithOrigins("http://localhost:5001") // The client URL
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials());
+            });
+        }
+        else
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.WithOrigins("https://localhost:7184") // The client URL
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials());
+            });
+        }
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,603 +62,126 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.UseCors("CorsPolicy");
+
+        var dbContextFactory = app.ApplicationServices.GetRequiredService<IDbContextFactory<AppDbContext>>();
+
         app.UseRouting();
 
         app.UseEndpoints(endpoints =>
         {
+
+            endpoints.MapHub<DraftHub>("/draftHub");
+
             endpoints.MapPost("/login", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get username and password
-                    var loginData = JsonSerializer.Deserialize<LoginRequest>(requestBody);
-
-                    if (loginData != null)
-                    {
-                        bool isAuthenticated = LoginManager.ValidateLogin(loginData.Username, loginData.Password);
-
-                        if (isAuthenticated)
-                        {
-                            return Results.Ok("Login successful!");
-                        }
-                        else
-                        {
-                            return Results.Unauthorized();
-                        }
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("Login")
-            .WithOpenApi();
+                { return await ApiEndpoints.Login(context, dbContextFactory.CreateDbContext()); })
+                .WithName("Login")
+                .WithOpenApi();
 
             endpoints.MapPost("/signup", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-                    var signupData = JsonSerializer.Deserialize<SignupRequest>(requestBody);
-
-                    if (signupData != null)
-                    {
-                        string result = LoginManager.RegisterUser(signupData);
-
-                        if (result == "Signup successful!")
-                        {
-                            return Results.Ok(result);
-                        }
-                        else
-                        {
-                            return Results.Problem(result);
-                        }
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("Signup")
-            .WithOpenApi();
-
-            endpoints.MapGet("/gethomepage/{username}", async (string username) =>
-            {
-                try
-                {
-                    using var context = new AppDbContext();
-
-                    List<User> leagueUsers = new List<User>();
-                    List<int?> leagueTeamIDs = new List<int?>();
-                    List<Team> teams = context.Teams.ToList();
-                    List<Team> leagueTeams = new List<Team>();
-
-                    User user = context.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
-                    Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
-
-                    if (user == null)
-                        return Results.Problem("User not found. Try deleting cookies?");
-
-                    League userLeague = context.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
-
-                    if (userLeague != null)
-                    {
-                        leagueUsers = context.Users.Where(user => userLeague.UserIDs.Contains(user.ID)).ToList();
-
-                        leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
-
-                        leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
-                    }
-
-                    // Create an instance of HomePageData and populate its properties
-                    var homePage = new HomePage
-                    {
-                        UserTeam = userTeam,
-                        UserLeague = userLeague,
-                        LeagueTeams = teams
-                    };
-
-                    // Serialize the HomePageData object to JSON and return it
-                    return Results.Ok(homePage);
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("GetHomePage")
-            .WithOpenApi();
+                { return await ApiEndpoints.Signup(context, dbContextFactory.CreateDbContext()); })
+                .WithName("Signup")
+                .WithOpenApi();
 
             endpoints.MapPost("/updateplayerlist", async (HttpContext context) =>
-            {
-                try
-                {
-                    // Implement logic to update player list
-                    DataManager.UpdatePlayerList();
-                    return Results.Ok("Success!");
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("UpdatePlayerList")
-            .WithOpenApi();
+                { return await ApiEndpoints.UpdatePlayerList(context, dbContextFactory.CreateDbContext()); })
+                .WithName("UpdatePlayerList")
+                .WithOpenApi();
 
             endpoints.MapPost("/updatematchdata", async (HttpContext context) =>
-            {
-                try
-                {
-                    // Implement logic to update match data
-                    DataManager.UpdateMatchData();
-                    return Results.Ok("Success!");
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("UpdateMatchData")
-            .WithOpenApi();
+                { return await ApiEndpoints.UpdateMatchData(context, dbContextFactory.CreateDbContext()); })
+                .WithName("UpdateMatchData")
+                .WithOpenApi();
 
             endpoints.MapPost("/createteam", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<CreateTeamRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        Team team = DataManager.CreateTeam(requestData.Name, requestData.LogoUrl, requestData.Username);
-                        return Results.Ok(team);
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("CreateTeam")
-            .WithOpenApi();
+                { return await ApiEndpoints.CreateTeam(context, dbContextFactory.CreateDbContext()); })
+                .WithName("CreateTeam")
+                .WithOpenApi();
 
             endpoints.MapPost("/deleteteam", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<DeleteTeamRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        DataManager.DeleteTeam(requestData.Name, requestData.OwnerName);
-                        return Results.Ok("Success!");
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("DeleteTeam")
-            .WithOpenApi();
+                { return await ApiEndpoints.DeleteTeam(context, dbContextFactory.CreateDbContext()); })
+                .WithName("DeleteTeam")
+                .WithOpenApi();
 
             endpoints.MapPost("/addplayertoteam", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get teamID and playerID
-                    var requestData = JsonSerializer.Deserialize<AddPlayerToTeamRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        DataManager.AddPlayerToTeam(requestData.TeamID, requestData.PlayerID);
-                        return Results.Ok("Success!");
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("AddPlayerToTeam")
-            .WithOpenApi();
+                { return await ApiEndpoints.AddPlayerToTeam(context, dbContextFactory.CreateDbContext()); })
+                .WithName("AddPlayerToTeam")
+                .WithOpenApi();
 
             endpoints.MapPost("/removeplayerfromteam", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get teamID and playerID
-                    var requestData = JsonSerializer.Deserialize<RemovePlayerFromTeamRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        DataManager.RemovePlayerFromTeam(requestData.TeamID, requestData.PlayerID);
-                        return Results.Ok("Success!");
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("RemovePlayerFromTeam")
-            .WithOpenApi();
+                { return await ApiEndpoints.RemovePlayerFromTeam(context, dbContextFactory.CreateDbContext()); })
+                .WithName("RemovePlayerFromTeam")
+                .WithOpenApi();
 
             endpoints.MapPost("/createleague", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<CreateLeagueRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        League league = DataManager.CreateLeague(requestData.Name, requestData.LeagueOwner);
-                        return Results.Ok(league);
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("CreateLeague")
-            .WithOpenApi();
+                { return await ApiEndpoints.CreateLeague(context, dbContextFactory.CreateDbContext()); })
+                .WithName("CreateLeague")
+                .WithOpenApi();
 
             endpoints.MapPost("/joinleague", async (HttpContext context) =>
-            {
-                try
-                {
-                    using var reader = new StreamReader(context.Request.Body);
-                    var requestBody = await reader.ReadToEndAsync();
-
-                    // Deserialize the JSON data to get the name and username
-                    var requestData = JsonSerializer.Deserialize<JoinLeagueRequest>(requestBody);
-
-                    if (requestData != null)
-                    {
-                        League league = DataManager.JoinLeague(requestData.Username, requestData.JoinCode);
-                        return Results.Ok(league);
-                    }
-                    else
-                    {
-                        return Results.Problem("Invalid JSON data.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("JoinLeague")
-            .WithOpenApi();
+                { return await ApiEndpoints.JoinLeague(context, dbContextFactory.CreateDbContext()); })
+                .WithName("JoinLeague")
+                .WithOpenApi();
 
             endpoints.MapPost("/removeuserfromleague/{username}", async (string username) =>
-            {
-                try
-                {
-                    if (username != null)
-                    {
-                        DataManager.RemoveUserFromLeague(username);
-                        return Results.Ok("Success!");
-                    }
-                    else
-                    {
-                        return Results.Problem("No username sent.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("Failure: " + ex.Message);
-                }
-            })
-            .WithName("RemoveUserFromLeague")
-            .WithOpenApi();
+                { return await ApiEndpoints.RemoveUserFromLeague(username, dbContextFactory.CreateDbContext()); })
+                .WithName("RemoveUserFromLeague")
+                .WithOpenApi();
+
+            endpoints.MapGet("/gethomepage/{username}", async (string username) =>
+                { return await ApiEndpoints.GetHomePage(username, dbContextFactory.CreateDbContext()); })
+                .WithName("GetHomePage")
+                .WithOpenApi();
+
+            endpoints.MapGet("/getallteams", async () =>
+                { return await ApiEndpoints.GetAllTeams(dbContextFactory.CreateDbContext()); })
+                .WithName("GetAllTeams")
+                .WithOpenApi();
 
             endpoints.MapGet("/getallplayers", async () =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var players = dbContext.Players.ToList();
+                { return await ApiEndpoints.GetAllPlayers(dbContextFactory.CreateDbContext()); })
+                .WithName("GetAllPlayers")
+                .WithOpenApi();
 
-                    if (players != null)
-                    {
-                        return Results.Ok(players);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Player list not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetAllPlayers")
-            .WithOpenApi();
-
-            endpoints.MapGet("/getavailableplayers", () =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var players = dbContext.Players.Where(player => player.TeamID == 0).ToList();
-
-                    if (players != null)
-                    {
-                        return Results.Ok(players);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Players not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetAvailablePlayers")
-            .WithOpenApi();
+            endpoints.MapGet("/getavailableplayers", async () =>
+                { return await ApiEndpoints.GetAvailablePlayers(dbContextFactory.CreateDbContext()); })
+                .WithName("GetAvailablePlayers")
+                .WithOpenApi();
 
             endpoints.MapGet("/getplayer/{id}", async (int id) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var player = dbContext.Players.FirstOrDefault(player => player.ID == id);
-                    if (player != null)
-                    {
-                        return Results.Ok(player);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Player not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetPlayer")
-            .WithOpenApi();
+                { return await ApiEndpoints.GetPlayer(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetPlayer")
+                .WithOpenApi();
 
             endpoints.MapGet("/getmatch/{id}", async (int id) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var match = dbContext.Matches.FirstOrDefault(match => match.ID == id);
-                    if (match != null)
-                    {
-                        return Results.Ok(match);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Match not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetMatch")
-            .WithOpenApi();
-
-            endpoints.MapGet("/getteam/{id}", async (int id) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var team = dbContext.Teams.FirstOrDefault(team => team.ID == id);
-                    if (team != null)
-                    {
-                        return Results.Ok(team);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Team not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetTeam")
-            .WithOpenApi();
-
-            endpoints.MapGet("/getteambyusername/{username}", async (string username) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var team = dbContext.Teams.FirstOrDefault(team => team.OwnerName.Equals(username));
-
-                    if (team != null)
-                    {
-                        return Results.Ok(team);
-                    }
-                    else
-                    {
-                        return Results.NotFound("No team found for the username.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetTeamByUsername")
-            .WithOpenApi();
+                { return await ApiEndpoints.GetMatch(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetMatch")
+                .WithOpenApi();
 
             endpoints.MapGet("/getleaguebyusername/{username}", async (string username) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
+                { return await ApiEndpoints.GetLeagueByUsername(username, dbContextFactory.CreateDbContext()); })
+                .WithName("GetLeagueByUsername")
+                .WithOpenApi();
 
-                    User user = dbContext.Users.SingleOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
-                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+            endpoints.MapGet("/getteam/{id}", async (int id) =>
+                { return await ApiEndpoints.GetTeam(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetTeam")
+                .WithOpenApi();
 
-                    if (league != null)
-                    {
-                        return Results.Ok(league);
-                    }
-                    else
-                    {
-                        return Results.NotFound("No league found for the username.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetLeagueByUsername")
-            .WithOpenApi();
+            endpoints.MapGet("/getteambyusername/{username}", async (string username) =>
+                { return await ApiEndpoints.GetTeamByUsername(username, dbContextFactory.CreateDbContext()); })
+                .WithName("GetTeamByUsername")
+                .WithOpenApi();
 
             endpoints.MapGet("/getteamsbyleagueid/{id}", async (int id) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-
-                    League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
-
-                    if (league == null)
-                        return Results.Problem("Invalid League... Maybe clear your cookies?");
-
-                    List<User> users = dbContext.Users.Where(user => league.UserIDs.Contains(user.ID)).ToList();
-
-                    if (users == null)
-                        return Results.Problem("League has no players... Maybe clear your cookies?");
-
-                    List<int?> teamIDs = users.Select(user => user.TeamID).ToList();
-
-                    if (teamIDs == null || teamIDs.Count == 0)
-                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
-
-                    List<Team> teams = dbContext.Teams.Where(team => teamIDs.Contains(team.ID)).ToList();
-
-                    if (teams != null && teams.Count > 0)
-                    {
-                        teams.OrderByDescending(team => team.Wins);
-                        return Results.Ok(teams);
-                    }
-                    else
-                    {
-                        return Results.Problem("No teams associated with league players... Maybe clear your cookies?");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetTeamsByLeagueID")
-            .WithOpenApi();
+                { return await ApiEndpoints.GetTeamsByLeagueID(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetTeamsByLeagueID")
+                .WithOpenApi();
 
             endpoints.MapGet("/getteamid/{name}", async (string name) =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var team = dbContext.Teams.FirstOrDefault(team => team.Name.Equals(name));
-
-                    if (team.ID != 0)
-                    {
-                        return Results.Ok(team.ID);
-                    }
-                    else
-                    {
-                        return Results.NotFound("Team not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetTeamID")
-            .WithOpenApi();
-
-            endpoints.MapGet("/getallteams", () =>
-            {
-                try
-                {
-                    using var dbContext = new AppDbContext();
-                    var teams = dbContext.Teams.ToList();
-                    if (teams.Count > 0)
-                    {
-                        return Results.Ok(teams);
-                    }
-                    else
-                    {
-                        return Results.NotFound("No teams were returned.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem("An error occurred: " + ex.Message);
-                }
-            })
-            .WithName("GetAllTeams")
-            .WithOpenApi();
+                { return await ApiEndpoints.GetTeamID(name, dbContextFactory.CreateDbContext()); })
+                .WithName("GetTeamID")
+                .WithOpenApi();          
         });
     }
 }

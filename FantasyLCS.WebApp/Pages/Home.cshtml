@@ -268,13 +268,12 @@
 
     <!-- Buttons Section -->
     <div class="section buttons-section">
-        <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
-        <a class="btn @(Model.HomePage.UserTeam != null && Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
+        <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
+        <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
         <a class="btn @(Model.HomePage.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
         <a class="btn @(Model.HomePage.UserLeague != null 
             && Model.HomePage.LeagueTeams.Count == 8 
-            && Model.HomePage.UserLeague.LeagueStatus == LeagueStatus.NotStarted 
-            && Model.HomePage.UserLeague.Owner.Equals(User.Identity.Name) ? "" : "btn-disabled")" asp-page="/Draft">Start Draft</a>
+            && Model.HomePage.UserLeague.LeagueStatus == LeagueStatus.NotStarted ? "" : "btn-disabled")" asp-page="/Draft">Draft</a>
         <div class="refresh-button-container">
             <form method="post">
                 <button class ="btn @(Model.IsRefreshAllowed != true ? "btn-disabled" : "")" type="submit" asp-page-handler="Refresh" class="btn btn-refresh">Refresh Data</button>
