@@ -10,6 +10,8 @@ public class AppDbContext : DbContext
     public DbSet<Match> Matches { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<League> Leagues { get; set; }
+    public DbSet<Draft> Drafts { get; set; }
+    public DbSet<DraftPlayer> DraftPlayers { get; set; }
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
 
     public DbSet<FullStats> FullStats { get; set; }
@@ -87,5 +89,10 @@ public class AppDbContext : DbContext
             (c1, c2) => c1.SequenceEqual(c2),
             c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
             c => c.ToList()));
+
+        modelBuilder.Entity<Draft>()
+            .HasMany(d => d.DraftPlayers)
+            .WithOne(dp => dp.Draft)
+            .HasForeignKey(dp => dp.DraftID);
     }
 }

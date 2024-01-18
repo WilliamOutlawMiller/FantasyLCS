@@ -41,12 +41,18 @@
     .btn:hover {
         background-color: mediumaquamarine;
     }
+
+    .form-label {
+        text-align: center;
+    }
 </style>
 
 <div class="join-league-container">
     <div class="form-container">
         <form method="post">
-            <label for="LeagueCode"><strong>League Code:</strong></label>
+            <div class="form-label">
+                <label for="LeagueCode"><strong>League Code:</strong></label>
+            </div>
             <input type="text" id="LeagueCode" name="LeagueCode" class="form-field" placeholder="Enter league code">
 
             <button type="submit" class="btn">Join League</button>

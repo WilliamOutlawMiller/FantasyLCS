@@ -6,42 +6,36 @@ using Serilog;
 namespace FantasyLCS.API;
 public static class LoginManager
 {
-    public static bool ValidateLogin(string username, string password)
+    public static bool ValidateLogin(string username, string password, AppDbContext context)
     {
-        using (var context = new AppDbContext())
+        var user = context.Users.FirstOrDefault(u => u.Username == username);
+        if (user != null)
         {
-            var user = context.Users.FirstOrDefault(u => u.Username == username);
-            if (user != null)
-            {
-                return VerifyPasswordHash(password, user.Password);
-            }
-            return false;
+            return VerifyPasswordHash(password, user.Password);
         }
+        return false;
     }
 
-    public static string RegisterUser(SignupRequest signupData)
+    public static string RegisterUser(SignupRequest signupData, AppDbContext context)
     {
-        using (var context = new AppDbContext())
+        if (context.Users.Any(u => u.Username == signupData.Username))
         {
-            if (context.Users.Any(u => u.Username == signupData.Username))
-            {
-                return "User already exists.";
-            }
-
-            string hashedPassword = HashPassword(signupData.Password);
-
-            var newUser = new User
-            {
-                Username = signupData.Username,
-                Password = hashedPassword,
-            };
-
-            context.Users.Add(newUser);
-
-            context.SaveChanges();
-
-            return "Signup successful!";
+            return "User already exists.";
         }
+
+        string hashedPassword = HashPassword(signupData.Password);
+
+        var newUser = new User
+        {
+            Username = signupData.Username,
+            Password = hashedPassword,
+        };
+
+        context.Users.Add(newUser);
+
+        context.SaveChanges();
+
+        return "Signup successful!";
     }
 
     private static bool VerifyPasswordHash(string password, string storedHash)
