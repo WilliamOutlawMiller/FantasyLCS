@@ -36,7 +36,61 @@ namespace Constants
         }
     }
 
-    
+    public class DraftPlayerConstants
+    {
+        public static readonly List<DraftPlayer> DraftPlayers = new List<DraftPlayer>
+        {
+            // Top Players
+            new DraftPlayer { ID = 1, Name = "Sniper", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 2, Name = "Fudge", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 3, Name = "Rich", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 4, Name = "Bwipo", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 5, Name = "Castle", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 6, Name = "Dhokla", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 7, Name = "FakeGod", Position = Position.Top, Drafted = false },
+            new DraftPlayer { ID = 8, Name = "Impact", Position = Position.Top, Drafted = false },
+
+            // Jungle Players
+            new DraftPlayer { ID = 9, Name = "River", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 10, Name = "Blaber", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 11, Name = "eXyu", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 12, Name = "Inspired", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 13, Name = "Armao", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 14, Name = "Contractz", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 15, Name = "Bugi", Position = Position.Jungle, Drafted = false },
+            new DraftPlayer { ID = 16, Name = "UmTi", Position = Position.Jungle, Drafted = false },
+            
+            // Mid Players
+            new DraftPlayer { ID = 17, Name = "Quid", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 18, Name = "jojopyun", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 19, Name = "Dove", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 20, Name = "Jensen", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 21, Name = "Mask", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 22, Name = "Palafox", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 23, Name = "Insanity", Position = Position.Mid, Drafted = false },
+            new DraftPlayer { ID = 24, Name = "APA", Position = Position.Mid, Drafted = false },
+        
+            // Bot Players
+            new DraftPlayer { ID = 25, Name = "Meech", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 26, Name = "Berserker", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 27, Name = "Tomo", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 28, Name = "Massu", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 29, Name = "Tactical", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 30, Name = "FBI", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 31, Name = "Bvoy", Position = Position.Bot, Drafted = false },
+            new DraftPlayer { ID = 32, Name = "Yeon", Position = Position.Bot, Drafted = false },
+        
+            // Support Players
+            new DraftPlayer { ID = 33, Name = "Eyla", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 34, Name = "VULCAN", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 35, Name = "Isles", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 36, Name = "Busio", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 37, Name = "Olleh", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 38, Name = "huhi", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 39, Name = "Zeyzal", Position = Position.Support, Drafted = false },
+            new DraftPlayer { ID = 40, Name = "CoreJJ", Position = Position.Support, Drafted = false },
+        };
+    }
 }
 
 public class GolGGConstants

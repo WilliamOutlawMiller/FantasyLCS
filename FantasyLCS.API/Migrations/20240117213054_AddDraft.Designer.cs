@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240117213054_AddDraft")]
+    partial class AddDraft
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -40,6 +43,14 @@ namespace FantasyLCS.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AvailablePlayerIds")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChosenPlayerIds")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("CurrentPickIndex")
                         .HasColumnType("INTEGER");
 
@@ -56,32 +67,6 @@ namespace FantasyLCS.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Drafts");
-                });
-
-            modelBuilder.Entity("DraftPlayer", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DraftID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Drafted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("DraftID");
-
-                    b.ToTable("DraftPlayers");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.FullStats", b =>
@@ -701,17 +686,6 @@ namespace FantasyLCS.API.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("DraftPlayer", b =>
-                {
-                    b.HasOne("Draft", "Draft")
-                        .WithMany("DraftPlayers")
-                        .HasForeignKey("DraftID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Draft");
-                });
-
             modelBuilder.Entity("FantasyLCS.DataObjects.FullStats", b =>
                 {
                     b.HasOne("FantasyLCS.DataObjects.Match", "Match")
@@ -787,11 +761,6 @@ namespace FantasyLCS.API.Migrations
                     b.HasOne("Team", null)
                         .WithOne()
                         .HasForeignKey("FantasyLCS.DataObjects.User", "TeamID");
-                });
-
-            modelBuilder.Entity("Draft", b =>
-                {
-                    b.Navigation("DraftPlayers");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Match", b =>
