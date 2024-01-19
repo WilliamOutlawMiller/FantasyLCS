@@ -23,9 +23,9 @@ namespace FantasyLCS.WebApp.Pages
             _apiUrl = configuration["ApiSettings:BaseUrl"];
         }
 
-        public Team CurrentTeam { get; set; }
+        public string Username { get; set; }
 
-        public List<Team> Teams { get; set; }
+        public string LeagueOwner { get; set; }
 
         public League League { get; set; }
 
@@ -51,7 +51,8 @@ namespace FantasyLCS.WebApp.Pages
                         return RedirectToPage("/Home");
 
                     League = cachedHomePage.UserLeague;
-                    Teams = cachedHomePage.LeagueTeams;
+                    Username = cachedHomePage.UserTeam.OwnerName.ToLower();
+                    LeagueOwner = cachedHomePage.UserLeague.Owner.ToLower();
                     DraftPlayers = DraftPlayerConstants.DraftPlayers;
                 }
                 else
@@ -64,6 +65,12 @@ namespace FantasyLCS.WebApp.Pages
             }
 
             return Page();
+        }
+
+        public string GetPositionName(Position position)
+        {
+            // Assuming you have a method that maps enum values to string names
+            return position.ToString().ToUpper(); // Or your custom mapping method
         }
     }
 }
