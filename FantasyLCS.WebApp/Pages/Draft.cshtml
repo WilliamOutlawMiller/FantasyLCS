@@ -7,73 +7,163 @@
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.10/signalr.min.js"></script>
     <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://localhost:5000/draftHub") // URL of the DraftHub
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
+        // Define connection in the global scope
+        let connection;
+        let draftedPositions = {
+            Top: false,
+            Jungle: false,
+            Mid: false,
+            Bot: false,
+            Support: false
+        };
+        let currentUser;
+        let localUser = '@Model.Username';
+        let leagueOwner = '@Model.LeagueOwner';
 
-        connection.start().then(() => {
-            console.log("Connected to hub");
-            connection.invoke("JoinGroup", @Model.League.ID)
-                .then(() => {
-                    console.log("Joined group");
-                    // Fetch the current draft state
-                    connection.invoke("GetCurrentDraftState", @Model.League.ID);
-                })
-                .catch(err => console.error(err));
-        }).catch(function (err) {
-            console.error("Error establishing connection:", err.toString());
-        });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const mainContent = document.getElementById('mainContent');
+            const startDraftButton = document.getElementById('startDraftButton'); // Get the start draft button
 
-        connection.on("UpdateDraftState", function (draftState) {
-            console.log("UpdateDraftState hit")
-            console.log(draftState.leagueStatus)
-            if (draftState.leagueStatus === 1) {
-                console.log("Page updated with current draft state")
-
-                updateDraftUI();
-                console.log("Draft UI updated")
-
-                updateCurrentTeamUI(draftState.currentTeam);
-                console.log("Team UI updated")
+            mainContent.style.display = 'none'; // Hide content initially
+            startDraftButton.disabled = true; // Disable the button initially
 
 
-                // Grey out drafted players
-                draftState.draftedPlayerIDs.forEach(id => {
-                    const draftedPlayerCard = document.getElementById(`player-card-${id}`);
-                    if (draftedPlayerCard) {
-                        draftedPlayerCard.classList.add('drafted');
-                        draftedPlayerCard.onclick = null; // Remove click event
-                    }
-                });
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("http://localhost:5000/draftHub")
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
 
-                // Additional logic for handling available players can be added here
-            }
-        });
+            // Setup event handlers
+            connection.on("DraftStarted", function () {
+                return connection.invoke("GetCurrentDraftState", @Model.League.ID);
+            });
 
-        connection.on("DraftStarted", function () {
-            // Logic to update UI when draft starts
-            updateDraftUI();
-        });
+            connection.on("PlayerDrafted", function (draftUpdate) {
+                currentUser = draftUpdate.nextTeam.ownerName;
 
-        connection.on("PlayerDrafted", function (draftUpdate) {
-            // Logic to handle a player being drafted
-            playerDrafted(draftUpdate.draftPlayerID);
-            updateCurrentTeamUI(draftUpdate.nextTeam);
-        });
+                console.log("Received PlayerDrafted event:", draftUpdate);
 
-        connection.on("UpdateCurrentTeam", function (currentTeam) {
-            updateCurrentTeamUI(currentTeam);
-        });
+                // Log the entire draftUpdate object
+                console.log("Complete draftUpdate object:", draftUpdate);
 
-        connection.start().catch(function (err) {
-            return console.error(err.toString());
+                // Handle a player being drafted
+                playerDrafted(draftUpdate.draftPlayerID, draftUpdate.teamLogoUrl);
+
+                // Log the next team's information
+                console.log("Next Team Info:", draftUpdate.nextTeam);
+
+                // Update the next team's information and the roster of players that have been drafted by them
+                updateCurrentTeamUI(draftUpdate.nextTeam);
+
+                if (draftUpdate.nextTeam && draftUpdate.nextTeam.draftedPlayerTeamLogos) {
+                    console.log("Drafted Player Team Logos:", draftUpdate.draftedPlayerTeamLogos);
+
+                    draftUpdate.draftedPlayerTeamLogos
+                        .filter(draftPlayerInfo => draftPlayerInfo.id !== draftUpdate.draftPlayerID)
+                        .forEach(draftPlayerInfo => {
+                            console.log(`Processing drafted player: ${draftPlayerInfo.id}, Team logo: ${draftPlayerInfo.teamLogoUrl}`);
+                            const playerCard = document.getElementById(`player-card-${draftPlayerInfo.id}`);
+                            if (playerCard) {
+                                updatePlayerCardLogo(playerCard, draftPlayerInfo.teamLogoUrl);
+                            }
+                        });
+                } else {
+                    console.error("draftUpdate.nextTeam.draftedPlayerTeamLogos is not available or not an array");
+                }
+            });
+
+            // Start connection and join group
+            connection.start().then(() => {
+                console.log("Connected to hub");
+                startDraftButton.disabled = false; // Enable the button after connection is established
+                return connection.invoke("JoinGroup", @Model.League.ID);
+            })
+            .then(() => {
+                console.log("Joined group");
+                // Fetch the current draft state
+                return connection.invoke("GetCurrentDraftState", @Model.League.ID);
+            })
+            .then(() => {
+                // All setup is complete
+                console.log("Setup complete");
+            })
+            .catch(err => {
+                console.error("Error during connection setup:", err);
+            });
+
+            connection.on("UpdateDraftState", function (draftState) {
+                console.log("Received UpdateDraftState event:", draftState);
+
+                // Log the entire draftState object
+                console.log("Complete draftState object:", draftState);
+
+                // Log specific properties
+                console.log("Current Team Info:", draftState.currentTeam);
+                console.log("Drafted Player Logos:", draftState.draftedPlayerTeamLogos);
+
+                // Hide or show the start draft placeholder and button based on league status
+                const startDraftPlaceholder = document.getElementById('startDraftPlaceholder');
+                const startDraftButton = document.getElementById('startDraftButton');
+
+                if (localUser === leagueOwner) {
+                    startDraftButton.disabled = false;
+                }
+
+                console.log(localUser, leagueOwner);
+                startDraftPlaceholder.style.display = draftState.leagueStatus === 0 ? 'flex' : 'none';
+                startDraftButton.disabled = draftState.leagueStatus !== 0;
+                startDraftButton.disabled = localUser !== leagueOwner;
+
+                if (draftState.leagueStatus === 1) {
+                    currentUser = draftState.currentTeam.ownerName;
+
+                    console.log("Draft is in progress, updating UI");
+                    updateDraftUI();
+                    updateCurrentTeamUI(draftState.currentTeam);
+                    console.log("Done updating draft and team UIs")
+
+                    draftState.draftedPlayerTeamLogos.forEach(draftPlayerInfo => {
+                        console.log(`Processing drafted player: ${draftPlayerInfo.id}, Team logo: ${draftPlayerInfo.teamLogoUrl}`);
+                        const playerCard = document.getElementById(`player-card-${draftPlayerInfo.id}`);
+                        if (playerCard) {
+                            playerCard.classList.add('drafted');
+                            playerCard.onclick = null; // Remove click event handler
+
+                            let logoImg = playerCard.querySelector('.team-logo');
+                            if (!logoImg) {
+                                logoImg = document.createElement('img');
+                                logoImg.classList.add('team-logo');
+                                playerCard.appendChild(logoImg);
+                            }
+                            logoImg.src = draftPlayerInfo.teamLogoUrl;
+                            logoImg.style.display = 'block';
+
+                            // Add click event listener to select the player
+                            playerCard.addEventListener('click', function () {
+                                selectPlayer(player.id, getPositionName(player.position));
+                            });
+                        }
+                    });
+
+
+                    const rosterSectionContainer = document.querySelector('.roster-section');
+                    rosterSectionContainer.style.display = 'flex';
+                }
+
+                mainContent.style.display = 'block'; // Show the main content              
+            });
+
         });
 
         function updateDraftUI() {
-            // Hide the 'Start Draft' button and show the 'Confirm Pick' button
+            console.log("Updating Draft UI."); // Debugging line
             document.getElementById('startDraftButton').style.display = 'none';
-            document.getElementById('confirmPickButton').style.display = 'block';
+            const confirmPickButton = document.getElementById('confirmPickButton');
+            if (confirmPickButton) {
+                confirmPickButton.style.display = 'block';
+            } else {
+                console.error("Confirm pick button not found."); // Debugging line
+            }
 
             const teamLogoContainer = document.querySelector('.team-logo-container');
             const teamDetails = document.querySelector('.team-details');
@@ -81,39 +171,144 @@
             // Show the team logo and details containers
             teamLogoContainer.style.display = 'block';
             teamDetails.style.display = 'block';
-
-            // Show the player section
-            document.querySelector('.player-section').style.display = 'block';
         }
 
         function updateCurrentTeamUI(currentTeam) {
-            if (!currentTeam) {
-                console.error('Current team data is not available');
-                return;
-            }
+            console.log("Updating UI for Current Team:", currentTeam);
 
             const teamLogoContainer = document.querySelector('.team-logo-container');
             const teamDetails = document.querySelector('.team-details');
-
-            teamLogoContainer.style.backgroundImage = `url('${currentTeam.LogoUrl}')`;
+            teamLogoContainer.style.backgroundImage = `url('${currentTeam.logoUrl}')`;
             teamDetails.innerHTML = `
-                <p><strong>${currentTeam.Name}</strong></p>
-                <p>Coach: ${currentTeam.OwnerName}</p>
-                <p>Wins: ${currentTeam.Wins}, Losses: ${currentTeam.Losses}</p>
+                <p><strong>${currentTeam.name}</strong></p>
+                <p>Coach: ${currentTeam.ownerName}</p>
             `;
+
+            // Clear previous player cards
+            const rosterContainers = document.querySelectorAll('.roster-players-container');
+            rosterContainers.forEach(container => {
+                container.innerHTML = ''; // Clear the container of previous player cards
+            });
+
+            // Reset drafted positions
+            for (let position in draftedPositions) {
+                draftedPositions[position] = false;
+            }
+
+            // Update drafted positions based on the current team's roster
+            currentTeam.draftedPlayerTeamLogos.forEach(player => {
+                const positionName = getPositionName(player.position);
+                draftedPositions[positionName] = true;
+                createPlayerCard(player, positionName);
+            });
+
+            // Disable selection for drafted positions
+            for (let position in draftedPositions) {
+                if (draftedPositions[position]) {
+                    disablePositionSelection(position);
+                }
+            }
         }
 
-        function playerDrafted(draftPlayerID) {
-            // Grey out the player's card and prevent further clicks
+        function disablePositionSelection(position) {
+            const playerCards = document.querySelectorAll(`.player-section .player-card[data-position="${position}"]`);
+            playerCards.forEach(card => {
+                card.classList.add('drafted');
+                card.onclick = null;
+            });
+        }
+
+        function createPlayerCard(player, positionName) {
+            console.log("Creating player card for player:", player);
+            const playerCard = document.createElement('div');
+            playerCard.classList.add('player-card', 'roster-player');
+
+            // Set the data-position attribute to the player card for identifying its position
+            playerCard.setAttribute('data-position', positionName);
+
+            // Append '-roster' to the ID to make it unique for the roster section
+            playerCard.id = `player-card-${player.id}-roster`;
+
+            playerCard.dataset.position = positionName;
+
+            const headshot = document.createElement('img');
+            headshot.classList.add('headshot');
+            headshot.src = player.imagePath;
+            headshot.alt = player.name;
+            playerCard.appendChild(headshot);
+
+            const name = document.createElement('p');
+            name.textContent = player.name;
+            playerCard.appendChild(name);
+
+            // Use the position to find the right container
+            const containerId = `roster-${positionName}`;
+            const container = document.getElementById(containerId);
+
+            // Add the player card to its respective container
+            if (container) {
+                container.appendChild(playerCard);
+            } else {
+                console.error(`Container not found for position: ${positionName}`);
+            }
+
+            // Add the position name as data to the player card for access during selection
+            playerCard.dataset.position = positionName;
+        }
+
+
+        function getPositionName(positionValue) {
+            switch (positionValue) {
+                case 0: return 'TOP';
+                case 1: return 'JUNGLE';
+                case 2: return 'MID';
+                case 3: return 'BOT';
+                case 4: return 'SUPPORT';
+                default: return 'Unknown';
+            }
+        }
+
+        function updatePlayerCardLogo(playerCard, teamLogoUrl) {
+            let logoImg = playerCard.querySelector('.team-logo');
+            if (!logoImg) {
+                logoImg = document.createElement('img');
+                logoImg.classList.add('team-logo');
+                playerCard.appendChild(logoImg);
+            }
+            logoImg.src = teamLogoUrl;
+            logoImg.style.display = 'block';
+        }
+
+        function playerDrafted(draftPlayerID, teamLogoUrl) {
             const draftedPlayerCard = document.getElementById(`player-card-${draftPlayerID}`);
             if (draftedPlayerCard) {
+                const playerPosition = draftedPlayerCard.dataset.position;
+
+                // Update the draftedPositions object
+                draftedPositions[playerPosition] = true;
+
+                // Update the drafted player card
                 draftedPlayerCard.classList.add('drafted');
-                draftedPlayerCard.onclick = null; // Remove click event
+                draftedPlayerCard.onclick = null;
+
+                let logoImg = draftedPlayerCard.querySelector('.team-logo');
+                if (!logoImg) {
+                    logoImg = document.createElement('img');
+                    logoImg.classList.add('team-logo');
+                    draftedPlayerCard.appendChild(logoImg);
+                }
+                logoImg.src = teamLogoUrl;
+                logoImg.style.display = 'block';
+
+                // Disable selection for all player cards of this position in the player-section
+                disablePositionSelection(playerPosition);
+            } else {
+                console.error(`Player card not found for ID: ${draftPlayerID}`);
             }
         }
 
         async function startDraft() {
-            if (connection.state === signalR.HubConnectionState.Connected) {
+            if (connection && connection.state === signalR.HubConnectionState.Connected) {
                 try {
                     await connection.invoke("StartDraft", @Model.League.ID);
                 } catch (err) {
@@ -124,17 +319,29 @@
             }
         }
 
-        let selectedPlayerId = null;
+        function selectPlayer(playerId, playerPosition) {
+            if (currentUser != localUser) { 
+                return;
+            }
 
-        function selectPlayer(playerId) {
-            selectedPlayerId = playerId;
-            document.getElementById("confirmPickButton").disabled = false;
+            // Convert position to uppercase for comparison
+            playerPosition = playerPosition.toUpperCase();
 
-            // Add visual indication for the selected player card
+            // Check if the position has already been drafted
+            if (draftedPositions[playerPosition]) {
+                alert(`You have already selected a player for the ${playerPosition} position.`);
+                return;
+
+            }
+
+            // Remove selected class from all player cards before adding to the new selection
             const playerCards = document.querySelectorAll('.player-card');
             playerCards.forEach(card => {
                 card.classList.remove('selected');
             });
+
+            selectedPlayerId = playerId;
+            document.getElementById("confirmPickButton").disabled = false;
             document.getElementById(`player-card-${playerId}`).classList.add('selected');
         }
 
@@ -142,6 +349,8 @@
             if (selectedPlayerId) {
                 try {
                     await connection.invoke("PlayerDrafted", @Model.League.ID, selectedPlayerId);
+                    // Remove the selected class after the player is drafted
+                    document.querySelectorAll('.player-card').forEach(card => card.classList.remove('selected'));
                     selectedPlayerId = null;
                     document.getElementById("confirmPickButton").disabled = true;
                 } catch (err) {
@@ -155,73 +364,173 @@
 <style>
     /* Include only the relevant styles from home.cshtml */
     .teaminfo-section {
+        display: flex;
+        justify-content: space-between; /* Arrange children side by side */
+        align-items: flex-start; /* Align children to the top */
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 20px;
         margin-top: 15px;
-    }
-
-    .team-details p {
-        margin: 5px 0;
-        color: #ffffff; /* Text color for placeholder */
-    }
-
-    .team-details strong {
-        color: #ffffff;
+        position: relative;
     }
 
     .team-logo-container {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: left;
+        width: 200px; /* Fixed width */
+        height: 200px; /* Fixed height */
+        background-size: contain;
         background-repeat: no-repeat;
-        margin: 10px auto;
+        background-position: center;
+        margin-bottom: 20px; /* Space below the logo */
+
     }
 
-    .team-placeholder {
+    .team-info-left {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center; /* Align items to the start of the flex container */
     }
 
-    .team-details {
+    .team-info-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Space between items vertically */
+        align-items: flex-end; /* Align items to the right */
+        padding: 20px;
+        position: relative; /* This will be the anchor for the absolute positioning of children */
+        flex-grow: 1; /* If you want this section to fill the available space */
+    }
+
+    #confirmPickButton {
+        position: absolute; /* Position the button absolutely within the team-info-right */
+        bottom: 20px; /* 20px from the bottom of the team-info-right */
+        right: 20px; /* 20px from the right of the team-info-right */
+        width: 200px; /* Match the width of the button */
+        margin-top: auto; /* Push the button to the bottom */
+        margin-right: 0; /* Align to the right */
+    }
+
+    /* This will ensure that the roster section itself is laid out horizontally */
+    .roster-section {
+        justify-content: space-around; /* This will distribute space around each position group evenly */
+        align-items: flex-start; /* Align items to the start */
+        flex-wrap: nowrap; /* Prevents wrapping */
+        width: 100%; /* Full width to accommodate all groups */
+    }
+
+    /* This will ensure that each position group takes up equal space and is laid out horizontally */
+    .roster-position-group {
+        display: flex;
+        flex-direction: column; /* Stack the header and the container */
+        align-items: center; /* Center-align items horizontally */
+        flex: 1; /* Allow each group to grow to fill the space */
+        min-width: 120px; /* Minimum width for each position group */
+    }
+
+    .roster-position-header {
+        font-size: 1.5rem;
+        margin-bottom: 10px; /* Space between header and cards */
+        text-align: center; /* Center-align the header text */
+    }
+
+    /* This will ensure that player cards within each position are laid out horizontally */
+    .roster-players-container {
+        display: flex;
+        justify-content: center; /* Center the cards horizontally */
+        align-items: flex-start; /* Align the cards vertically */
+        flex-wrap: nowrap; /* Prevent wrapping */
+        min-width: 120px; /* Minimum width for the players container */
+        width: 100%; /* Take up full width of the parent */
+        gap: 10px; /* Space between player cards */
+    }
+
+    .player-section {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-wrap: nowrap; /* Prevent wrapping to ensure horizontal layout */
+        width: 100%;
+        gap: 10px; /* This replaces margin-right and is supported in modern browsers */
+        margin-top: 30px; /* Adds space between the teaminfo section and the player section */
+    }
+
+    .player-group {
+        width: 18%; /* This should be adjusted based on the total number of groups */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px; /* Adds padding around each player group */
+        background: #f7f7f7; /* A light grey background for each group */
+        border-radius: 8px; /* Rounded corners for the group containers */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
+    }
+
+    .player-group h3 {
         text-align: center;
+        font-size: 1.25rem; /* Adjusts the font size */
+        color: #333; /* Dark grey color for the position titles */
+        margin-bottom: 20px; /* Space between the title and the cards */
     }
 
-    .team-details p {
-        margin: 5px 0;
-    }
-
-    .team-details strong {
-        font-weight: 600;
+    .player-group:last-child {
+        margin-right: 0; /* Removes margin for the last group to fit in row */
     }
 
     .player-card {
-        cursor: pointer;
-        border: 1px solid #ddd;
+        position: relative; /* Ensure positioning context for absolute elements */
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 10px; /* Space between cards */
+        min-width: 120px; /* Minimum width for player cards */
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
         padding: 10px;
-        margin: 5px;
-        text-align: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Ensures nothing spills out of the card boundaries */
     }
 
-    .player-card img {
-        width: 100px; /* Adjust as needed */
-        height: 100px; /* Adjust as needed */
+    .player-card .headshot {
+        width: 60px; /* Sets a fixed width */
+        height: 60px; /* Sets a fixed height */
         border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
     }
+
+    .player-card .team-logo {
+        display: block; /* Change to block to ensure it displays */
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute; /* Position it relative to the player card */
+        top: 10px; /* Adjust as needed */
+        right: 10px; /* Adjust as needed */
+    }
+
+    .player-card p {
+        margin: 0; /* Removes default margin */
+        font-weight: bold;
+        font-size: 1rem; /* Adjusts the font size */
+        flex-grow: 1; /* Allows the name to take up remaining space */
+    }
+
 
     .player-card.selected {
         border-color: mediumseagreen;
+        box-shadow: 0 0 10px mediumseagreen; /* Highlight selected player with a green glow */
     }
 
     .player-card.drafted {
-        background-color: #cccccc; /* Or any color indicating the player is drafted */
+        background-color: #e0e0e0; /* A grey indicating the player is drafted */
         cursor: default;
     }
 
-    .btn {
+    .btn, .btn:disabled {
         background-color: mediumseagreen;
         color: white;
         padding: 12px 20px;
@@ -232,47 +541,87 @@
         cursor: pointer;
     }
 
-    .btn:not(.btn-disabled):hover {
+    .btn:disabled {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+    }
+
+    .btn:not(.btn-disabled), .btn:not(:disabled) {
+        background-color: mediumseagreen;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        width: 200px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .btn:not(:disabled):hover {
         background-color: mediumaquamarine;
     }
 
-    .btn-disabled {
+    .btn-disabled, .btn:disabled {
         background-color: #cccccc;
         color: #666666;
-        cursor: default;
+        cursor: not-allowed;
     }
 
 </style>
 
-<div class="validation-summary">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-</div>
-
-<div class="teaminfo-section">
-    <div class="team-placeholder">
-        <button class="btn" onclick="startDraft()" type="button" id="startDraftButton">
-            Start Draft
-        </button>
+<div id="mainContent" style="display: none;">
+    <div class="validation-summary">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     </div>
-    <div class="team-logo-container" style="display: none;"></div>
-    <div class="team-details" style="display: none;"></div>
-    <button class="btn btn-disabled" id="confirmPickButton" onclick="confirmDraftPick()" disabled style="display: none;">Confirm Pick</button>
-</div>
 
-
-<div class="player-section" style="display: none;">
-    <!-- Initially hidden -->
-    @foreach (var position in Enum.GetValues(typeof(Position)))
-    {
-        <div class="player-group">
-            <h3>@position</h3>
-            @foreach (var player in Model.DraftPlayers.Where(p => p.Position.Equals(position)))
-            {
-                <div class="player-card" id="player-card-@player.ID" onclick="selectPlayer(@player.ID)">
-                    <img path="@player.ImagePath" alt="@player.Name" />
-                    <p>@player.Name</p>
-                </div>
-            }
+    <div class="teaminfo-section">
+        <div class="team-info-left">
+            <div class="team-logo-container" style="display: none;"></div>
+            <div class="team-details" style="display: none;"></div>
         </div>
-    }
-</div>           
+        <div class="team-info-right">
+            <!-- Include the Start Draft button -->
+            <div class="team-placeholder" style="display: none;" id="startDraftPlaceholder">
+                <button class="btn" onclick="startDraft()" type="button" id="startDraftButton">
+                    Start Draft
+                </button>
+            </div>
+            <div class="roster-section" style="display: none;">
+                @foreach (var position in Enum.GetValues(typeof(Position)))
+                {
+                    <div class="roster-position-group">
+                        <!-- Convert enum integer value to string name for display -->
+                        <h3 class="roster-position-header">@Model.GetPositionName((Position)position)</h3>
+                        <!-- Use string name for id as well -->
+                        <div class="roster-players-container" id="roster-@Model.GetPositionName((Position)position)">
+                            <!-- Player cards will be appended here by the script -->
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button class="btn btn-disabled" id="confirmPickButton" onclick="confirmDraftPick()" disabled style="display: none;">Confirm Pick</button>
+    </div>
+
+
+
+    <div class="player-section">
+        @foreach (var position in Enum.GetValues(typeof(Position)))
+        {
+            <div class="player-group">
+                <h3>@position</h3>
+                @foreach (var player in Model.DraftPlayers.Where(p => p.Position.Equals(position)))
+                {
+                    <div class="player-card" id="player-card-@player.ID"
+                         onclick="selectPlayer(@player.ID, '@position')">
+                        <img class="headshot" src="@player.ImagePath" alt="@player.Name" />
+                        <p>@player.Name</p>
+                        <img class="team-logo" src="" alt="Team Logo" style="display: none;" />
+                    </div>
+                }
+            </div>
+        }
+    </div>      
+</div>
