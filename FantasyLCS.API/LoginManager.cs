@@ -2,13 +2,14 @@
 using FantasyLCS.DataObjects;
 using System.Security.Cryptography;
 using Serilog;
+using System.Text.RegularExpressions;
 
 namespace FantasyLCS.API;
 public static class LoginManager
 {
     public static bool ValidateLogin(string username, string password, AppDbContext context)
     {
-        var user = context.Users.FirstOrDefault(u => u.Username == username);
+        var user = context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower()));
         if (user != null)
         {
             return VerifyPasswordHash(password, user.Password);
@@ -18,7 +19,14 @@ public static class LoginManager
 
     public static string RegisterUser(SignupRequest signupData, AppDbContext context)
     {
-        if (context.Users.Any(u => u.Username == signupData.Username))
+        string usernameRegex = @"^[a-zA-Z0-9_-]+$";
+
+        if (!Regex.IsMatch(signupData.Username, usernameRegex))
+        {
+            return "Username is invalid. It must only contain alphanumeric characters, underscores, or hyphens.";
+        }
+
+        if (context.Users.Any(u => u.Username.ToLower().Equals(signupData.Username.ToLower())))
         {
             return "User already exists.";
         }

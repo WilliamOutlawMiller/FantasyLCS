@@ -45,10 +45,7 @@ public class DraftHub : Hub
             _context.Drafts.Add(draft);
             await _context.SaveChangesAsync();
 
-            var firstTeam = _context.Teams.Find(draft.DraftOrder[0]);
-
             await Clients.Group(leagueId.ToString()).SendAsync("DraftStarted");
-            await Clients.Group(leagueId.ToString()).SendAsync("UpdateCurrentTeam", firstTeam);
         }
     }
 
@@ -61,28 +58,59 @@ public class DraftHub : Hub
 
     public async Task PlayerDrafted(int leagueId, int playerId)
     {
-        var draft = _context.Drafts.FirstOrDefault(d => d.LeagueID == leagueId);
-        var draftPlayers = _context.DraftPlayers.Where(dp => dp.DraftID == draft.ID).ToList();
+        var draft = _context.Drafts
+            .Include(d => d.DraftPlayers)
+            .FirstOrDefault(d => d.LeagueID == leagueId);
+
         if (draft != null)
         {
-            var draftPlayer = draftPlayers.FirstOrDefault(dp => dp.ID == playerId);
+            var draftPlayer = draft.DraftPlayers.FirstOrDefault(dp => dp.ID == playerId);
             if (draftPlayer != null && !draftPlayer.Drafted)
             {
+                var currentTeam = _context.Teams.Find(draft.DraftOrder[draft.CurrentPickIndex]);
+
                 draftPlayer.Drafted = true;
+                draftPlayer.TeamID = currentTeam.ID;
 
                 // Update current pick and round
                 UpdateDraftTurn(draft);
 
-                _context.Update(draft);
                 await _context.SaveChangesAsync();
 
                 var nextTeam = _context.Teams.Find(draft.DraftOrder[draft.CurrentPickIndex]);
-                var playerDrafted = new
+                var nextTeamDraftedPlayers = draft.DraftPlayers
+                    .Where(dp => dp.Drafted && dp.TeamID == nextTeam.ID)
+                    .Select(dp => new { dp.ID, dp.Name, dp.Position, dp.ImagePath })
+                    .ToList();
+
+                var draftedPlayerTeamLogos = draft.DraftPlayers
+                    .Where(dp => dp.Drafted)
+                    .Select(dp => new {
+                        dp.ID,
+                        dp.Position,
+                        TeamLogoUrl = _context.Teams
+                            .Where(t => t.ID == dp.TeamID)
+                            .Select(t => t.LogoUrl)
+                            .FirstOrDefault(),
+                    })
+                    .ToList();
+
+                var playerDraftedUpdate = new
                 {
-                    draftPlayerID = draftPlayer.ID,
-                    nextTeam = nextTeam
+                    DraftPlayerID = draftPlayer.ID,
+                    DraftedPlayerTeamLogos = draftedPlayerTeamLogos,
+                    TeamLogoUrl = currentTeam.LogoUrl, // Logo of the team that just picked
+                    NextTeam = new
+                    {
+                        ID = nextTeam.ID,
+                        Name = nextTeam.Name,
+                        LogoUrl = nextTeam.LogoUrl,
+                        OwnerName = nextTeam.OwnerName.ToLower(),
+                        DraftedPlayerTeamLogos = nextTeamDraftedPlayers // All drafted players' logos for the next team
+                    }
                 };
-                await Clients.Group(leagueId.ToString()).SendAsync("PlayerDrafted", playerDrafted);
+
+                await Clients.Group(leagueId.ToString()).SendAsync("PlayerDrafted", playerDraftedUpdate);
             }
         }
     }
@@ -110,23 +138,55 @@ public class DraftHub : Hub
         var league = _context.Leagues.Find(leagueId);
         if (league != null)
         {
-            var draft = _context.Drafts.FirstOrDefault(d => d.LeagueID == leagueId);
+            var draft = _context.Drafts
+                .Include(d => d.DraftPlayers)
+                .FirstOrDefault(d => d.LeagueID == leagueId);
+
             if (draft != null)
             {
-                var draftPlayers = _context.DraftPlayers.Where(dp => dp.DraftID == draft.ID).ToList();
-                var currentTeam = _context.Teams.Find(draft.DraftOrder[draft.CurrentPickIndex]);
-                List<int> draftedPlayerIDs = draftPlayers.Where(dp => dp.Drafted).Select(dp => dp.ID).ToList();
+                var currentTeamId = draft.DraftOrder[draft.CurrentPickIndex];
+                var currentTeam = _context.Teams.Find(currentTeamId);
+                var currentTeamDraftedPlayers = draft.DraftPlayers
+                    .Where(dp => dp.Drafted && dp.TeamID == currentTeamId)
+                    .Select(dp => new { dp.ID, dp.Name, dp.Position, dp.ImagePath })
+                    .ToList();
+
+                var draftedPlayerTeamLogos = draft.DraftPlayers
+                    .Where(dp => dp.Drafted)
+                    .Select(dp => new {
+                        dp.ID,
+                        dp.Name,
+                        dp.Position,
+                        TeamLogoUrl = _context.Teams
+                            .Where(t => t.ID == dp.TeamID)
+                            .Select(t => t.LogoUrl)
+                            .FirstOrDefault()
+                    })
+                    .ToList();
+
                 var draftStatus = new
                 {
                     LeagueStatus = league.LeagueStatus,
-                    CurrentTeam = currentTeam,
-                    DraftedPlayerIDs = draftedPlayerIDs
+                    DraftedPlayerTeamLogos = draftedPlayerTeamLogos,
+                    CurrentTeam = new
+                    {
+                        ID = currentTeam.ID,
+                        Name = currentTeam.Name,
+                        LogoUrl = currentTeam.LogoUrl,
+                        OwnerName = currentTeam.OwnerName.ToLower(),
+                        DraftedPlayerTeamLogos = currentTeamDraftedPlayers // Roster for the current team
+                    }
                 };
 
                 await Clients.Caller.SendAsync("UpdateDraftState", draftStatus);
             }
+            else
+            {
+                await Clients.Caller.SendAsync("UpdateDraftState", new { LeagueStatus = league.LeagueStatus });
+            }
         }
     }
+
 
     public async Task JoinGroup(int leagueID)
     {

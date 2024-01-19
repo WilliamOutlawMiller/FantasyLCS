@@ -14,20 +14,21 @@ public class DraftPlayer
 
     public Position Position { get; set; }
 
-    // Foreign Key for Draft
-    public int DraftID { get; set; }
+    public int DraftID { get; set; } 
 
-    // Navigation Property for Draft
-    public Draft Draft { get; set; }
+    public Draft Draft { get; set; } 
 
-    public string ImagePath 
-    { 
+    public int? TeamID { get; set; } 
+
+    public string ImagePath
+    {
         get
         {
             return "/headshots/" + Name + ".webp";
         }
     }
 }
+
 public enum Position
 {
     Top,
