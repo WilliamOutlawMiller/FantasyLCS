@@ -1,0 +1,94 @@
+﻿@page
+@model FantasyLCS.WebApp.Pages.MatchesModel
+@{
+    ViewData["Title"] = "Matches";
+}
+
+<style>
+    /* Matches page container and layout styles */
+    .matches-container {
+        display: flex;
+        flex-direction: column; /* Stack match entries vertically */
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .match-section {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* Match entry styles */
+    .match-entry {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Space between team logos and match info */
+        padding: 15px;
+        border-bottom: 1px solid #eee; /* Separate match entries */
+    }
+
+    /* Last child shouldn't have a border-bottom */
+    .match-entry:last-child {
+        border-bottom: none;
+    }
+
+    .match-logo-container {
+        /* Keep the styles from team-logo-container */
+    }
+
+    .match-info {
+        flex-grow: 1; /* Allows match info to fill available space */
+        padding: 0 20px; /* Spacing between logos and match info */
+    }
+
+    .match-info p {
+        margin: 0; /* Remove margin for alignment */
+        font-size: 16px; /* Adjust font size as needed */
+    }
+
+    .match-date {
+        font-weight: 600; /* Highlight match date */
+        margin-bottom: 5px; /* Space between date and other info */
+    }
+
+    /* Button styles can remain the same if they are used on the Matches page */
+
+    /* Typography styles can be adjusted to fit the Matches page context */
+    h2, h3 {
+        font-size: 20px; /* Adjusted for visual hierarchy */
+        margin: 15px 0; /* Space above and below headings */
+    }
+
+    p {
+        font-size: 16px; /* Adjusted for readability */
+    }
+</style>
+
+<div class="home-container">
+    <section class="league-info-section">
+        <h2>@Model.HomePage.UserLeague.Name League Matches</h2>
+        <div class="matches-container">
+            @foreach (var team in Model.HomePage.LeagueTeams)
+            {
+                <div class="match-section">
+                    <div class="match-entry">
+                        <div class="match-logo-container" style="background-image: url('@team.LogoUrl');"></div>
+                        <div class="match-info">
+                            <p class="match-date">Next Match Date: [Date Here]</p>
+                            <p><strong>@team.Name</strong></p>
+                            <p>Owner: @team.OwnerName</p>
+                            <p>Wins: @team.Wins - Losses: @team.Losses</p>
+                        </div>
+                        <!-- Add additional match details here -->
+                    </div>
+                    <!-- Other matches can be listed here -->
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Other sections such as user's team info can be added here -->
+</div>
