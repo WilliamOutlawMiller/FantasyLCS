@@ -163,6 +163,11 @@ public class Startup
                 .WithName("GetLeagueByUsername")
                 .WithOpenApi();
 
+            endpoints.MapGet("/getleaguematches/{id}", async (int id) =>
+            { return await ApiEndpoints.GetLeagueMatches(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetLeagueMatches")
+                .WithOpenApi();
+
             endpoints.MapGet("/getteam/{id}", async (int id) =>
                 { return await ApiEndpoints.GetTeam(id, dbContextFactory.CreateDbContext()); })
                 .WithName("GetTeam")

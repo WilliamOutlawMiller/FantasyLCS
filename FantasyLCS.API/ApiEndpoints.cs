@@ -470,6 +470,29 @@ public class ApiEndpoints
         }
     }
 
+    public static async Task<IResult> GetLeagueMatches(int id, AppDbContext dbContext)
+    {
+        try
+        {
+            League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+
+            if (league == null)
+                return Results.Problem("Invalid League... Maybe clear your cookies?");
+
+            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches.Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
+
+            if (leagueMatches == null || leagueMatches.Count == 0)
+                return Results.Problem("League has no matches created.");
+
+            return Results.Ok(leagueMatches);
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem("An error occurred: " + ex.Message);
+        }
+    }
+
     public static async Task<IResult> GetTeamsByLeagueID(int id, AppDbContext dbContext)
     {
         try
