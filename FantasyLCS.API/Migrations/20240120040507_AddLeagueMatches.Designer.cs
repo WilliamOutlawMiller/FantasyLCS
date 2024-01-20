@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120040507_AddLeagueMatches")]
+    partial class AddLeagueMatches
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -691,8 +694,6 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("LeagueID");
-
                     b.HasIndex("TeamOneID");
 
                     b.HasIndex("TeamTwoID");
@@ -830,12 +831,6 @@ namespace FantasyLCS.API.Migrations
 
             modelBuilder.Entity("LeagueMatch", b =>
                 {
-                    b.HasOne("League", "League")
-                        .WithMany()
-                        .HasForeignKey("LeagueID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Team", "TeamOne")
                         .WithMany()
                         .HasForeignKey("TeamOneID")
@@ -847,8 +842,6 @@ namespace FantasyLCS.API.Migrations
                         .HasForeignKey("TeamTwoID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("League");
 
                     b.Navigation("TeamOne");
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120041947_UpdateLeagueMatchObject")]
+    partial class UpdateLeagueMatchObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -676,6 +679,9 @@ namespace FantasyLCS.API.Migrations
                     b.Property<DateTime>("MatchDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MatchID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("TeamOneID")
                         .HasColumnType("INTEGER");
 
@@ -692,6 +698,8 @@ namespace FantasyLCS.API.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("LeagueID");
+
+                    b.HasIndex("MatchID");
 
                     b.HasIndex("TeamOneID");
 
@@ -836,6 +844,12 @@ namespace FantasyLCS.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FantasyLCS.DataObjects.Match", "Match")
+                        .WithMany()
+                        .HasForeignKey("MatchID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Team", "TeamOne")
                         .WithMany()
                         .HasForeignKey("TeamOneID")
@@ -849,6 +863,8 @@ namespace FantasyLCS.API.Migrations
                         .IsRequired();
 
                     b.Navigation("League");
+
+                    b.Navigation("Match");
 
                     b.Navigation("TeamOne");
 
