@@ -39,11 +39,7 @@
             });
 
             connection.on("DraftEnded", function () {
-                console.log("Draft has ended. Updating UI...");
 
-                // Invoke GetCurrentDraftState to update the UI with the final state of the draft
-                connection.invoke("GetCurrentDraftState", @Model.League.ID)
-                    .catch(err => console.error(err));
             });
 
             connection.on("PlayerDrafted", function (draftUpdate) {
@@ -117,7 +113,6 @@
                     startDraftButton.disabled = false;
                 }
 
-                console.log(localUser, leagueOwner);
                 startDraftPlaceholder.style.display = draftState.leagueStatus === 0 ? 'flex' : 'none';
                 startDraftButton.disabled = draftState.leagueStatus !== 0;
                 startDraftButton.disabled = localUser !== leagueOwner;
