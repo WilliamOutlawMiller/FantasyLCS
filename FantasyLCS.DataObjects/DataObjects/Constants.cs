@@ -91,6 +91,27 @@ namespace Constants
             new DraftPlayer { ID = 40, Name = "CoreJJ", Position = Position.Support, Drafted = false },
         };
     }
+
+    public class MatchScheduleConstants
+    {
+        public static Dictionary<int, Tuple<Tuple<string,string>,DateTime>> MatchSchedule = new Dictionary<int, Tuple<Tuple<string, string>, DateTime>>
+        {
+            { 0, new (new ("Week 1", "Day 1"), new DateTime(2024, 1, 20)) },
+            { 1, new (new ("Week 1", "Day 2"), new DateTime(2024, 1, 21)) },
+            { 2, new (new ("Week 2", "Day 1"), new DateTime(2024, 1, 27)) },
+            { 3, new (new ("Week 2", "Day 2"), new DateTime(2024, 1, 28)) },
+            { 4, new (new ("Week 3", "Day 1"), new DateTime(2024, 2, 2))  },
+            { 5, new (new ("Week 3", "Day 2"), new DateTime(2024, 2, 3))  },
+            { 6, new (new ("Week 3", "Day 3"), new DateTime(2024, 2, 4))  },
+            { 7, new (new ("Week 4", "Day 1"), new DateTime(2024, 2, 10)) },
+            { 8, new (new ("Week 4", "Day 2"), new DateTime(2024, 2, 11)) },
+            { 9, new (new ("Week 5", "Day 1"), new DateTime(2024, 3, 2)) },
+            { 10, new (new ("Week 5", "Day 2"), new DateTime(2024, 3, 3)) },
+            { 11, new (new ("Week 6", "Day 1"), new DateTime(2024, 2, 8)) },
+            { 12, new (new ("Week 6", "Day 2"), new DateTime(2024, 2, 9)) },
+            { 13, new (new ("Week 6", "Day 3"), new DateTime(2024, 2, 10))},
+        };
+    }
 }
 
 public class GolGGConstants

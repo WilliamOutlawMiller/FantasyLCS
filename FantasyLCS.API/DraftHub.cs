@@ -6,6 +6,10 @@ using System; // Needed for Random
 using Constants;
 using Microsoft.EntityFrameworkCore;
 using FantasyLCS.DataObjects;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text;
+using FantasyLCS.API;
+using System.Text.RegularExpressions;
 
 public class DraftHub : Hub
 {
@@ -193,20 +197,36 @@ public class DraftHub : Hub
         var users = _context.Users.Where(user => league.UserIDs.Contains(user.ID)).ToList();
         var teamIDs = users.Select(user => user.TeamID).ToList();
         var teams = _context.Teams.Where(team => teamIDs.Contains(team.ID)).ToList();
-
+        var random = new Random();
         if (league != null && league.LeagueStatus == LeagueStatus.DraftInProgress)
         {
             league.LeagueStatus = LeagueStatus.SeasonInProgress;
             _context.Update(league);
 
-            foreach (var draftPlayer in draft.DraftPlayers)
+            /*
+             * foreach (var draftPlayer in draft.DraftPlayers)
             {
                 var team = teams.FirstOrDefault(team => team.ID == draftPlayer.TeamID);
                 Player player = _context.Players.FirstOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
                 team.PlayerIDs.Add(player.ID);
             }
+            */
 
-            await _context.SaveChangesAsync();
+            var leagueMatches = MatchScheduler.GenerateLeagueMatches(league, teams, _context);
+
+            foreach (var leagueMatch in leagueMatches)
+            {
+                _context.LeagueMatches.Add(leagueMatch);
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
 
             await Clients.Group(leagueId.ToString()).SendAsync("DraftEnded");
         }

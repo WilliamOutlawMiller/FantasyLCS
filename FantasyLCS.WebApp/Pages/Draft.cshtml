@@ -39,7 +39,7 @@
             });
 
             connection.on("DraftEnded", function () {
-
+                return connection.invoke("GetCurrentDraftState", @Model.League.ID);
             });
 
             connection.on("PlayerDrafted", function (draftUpdate) {
