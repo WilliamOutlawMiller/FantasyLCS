@@ -26,7 +26,7 @@ public class DraftHub : Hub
         List<int?> nullableTeamIDs = users.Select(user => user.TeamID).ToList();
         List<int> teamIDs = nullableTeamIDs.Where(id => id.HasValue).Select(id => id.Value).ToList();
 
-        List<Team> leagueTeams = teams.Where(team => nullableTeamIDs.Contains(team.ID)).ToList();
+        List<Team> leagueTeams = teams.Where(team => teamIDs.Contains(team.ID)).ToList();
 
         if (league != null && league.LeagueStatus == LeagueStatus.NotStarted)
         {
@@ -111,6 +111,9 @@ public class DraftHub : Hub
                 };
 
                 await Clients.Group(leagueId.ToString()).SendAsync("PlayerDrafted", playerDraftedUpdate);
+
+                if (draft.DraftPlayers.All(dp => dp.TeamID != null))
+                    EndDraft(leagueId);
             }
         }
     }
@@ -125,11 +128,7 @@ public class DraftHub : Hub
             draft.CurrentRound++;
             draft.CurrentPickIndex = 0;
 
-            // Reverse the draft order for the next round if it's an even round (snake draft)
-            if (draft.CurrentRound % 2 == 0)
-            {
-                draft.DraftOrder.Reverse();
-            }
+            draft.DraftOrder.Reverse();
         }
     }
 
@@ -187,6 +186,31 @@ public class DraftHub : Hub
         }
     }
 
+    public async Task EndDraft(int leagueId)
+    {
+        var league = _context.Leagues.Find(leagueId);
+        var draft = _context.Drafts.Include(draft => draft.DraftPlayers).FirstOrDefault(draft => draft.LeagueID == leagueId);
+        var users = _context.Users.Where(user => league.UserIDs.Contains(user.ID)).ToList();
+        var teamIDs = users.Select(user => user.TeamID).ToList();
+        var teams = _context.Teams.Where(team => teamIDs.Contains(team.ID)).ToList();
+
+        if (league != null && league.LeagueStatus == LeagueStatus.DraftInProgress)
+        {
+            league.LeagueStatus = LeagueStatus.SeasonInProgress;
+            _context.Update(league);
+
+            foreach (var draftPlayer in draft.DraftPlayers)
+            {
+                var team = teams.FirstOrDefault(team => team.ID == draftPlayer.TeamID);
+                Player player = _context.Players.FirstOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
+                team.PlayerIDs.Add(player.ID);
+            }
+
+            await _context.SaveChangesAsync();
+
+            await Clients.Group(leagueId.ToString()).SendAsync("DraftEnded");
+        }
+    }
 
     public async Task JoinGroup(int leagueID)
     {
