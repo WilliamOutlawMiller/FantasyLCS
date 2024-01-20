@@ -29,13 +29,17 @@
 
 
             connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:5000/draftHub")
+                .withUrl("https://fantasy-lcs.com/draftHub")
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
             // Setup event handlers
             connection.on("DraftStarted", function () {
                 return connection.invoke("GetCurrentDraftState", @Model.League.ID);
+            });
+
+            connection.on("DraftEnded", function () {
+
             });
 
             connection.on("PlayerDrafted", function (draftUpdate) {
@@ -109,7 +113,6 @@
                     startDraftButton.disabled = false;
                 }
 
-                console.log(localUser, leagueOwner);
                 startDraftPlaceholder.style.display = draftState.leagueStatus === 0 ? 'flex' : 'none';
                 startDraftButton.disabled = draftState.leagueStatus !== 0;
                 startDraftButton.disabled = localUser !== leagueOwner;
@@ -146,14 +149,27 @@
                     });
 
 
+
                     const rosterSectionContainer = document.querySelector('.roster-section');
                     rosterSectionContainer.style.display = 'flex';
+                }
+
+                if (draftState.leagueStatus === 2) {
+                    console.log("Draft is over, updating UI for season in progress");
+
+                    // Clear the CurrentTeamInfo section or make any other necessary UI adjustments
+                    clearCurrentTeamInfo();
                 }
 
                 mainContent.style.display = 'block'; // Show the main content              
             });
 
         });
+
+        function clearCurrentTeamInfo() {
+            document.querySelector('.team-details').style.display = 'none';
+            document.querySelector('.roster-section').style.display = 'none';
+        }
 
         function updateDraftUI() {
             console.log("Updating Draft UI."); // Debugging line
