@@ -245,6 +245,11 @@ public class DataManager
             throw new Exception("This user is already in a league.");
         }
 
+        if (league.UserIDs.Count >= 8)
+        {
+            throw new Exception("This league already has eight players.");
+        }
+
         league.UserIDs.Add(user.ID);
         context.SaveChanges();
 
