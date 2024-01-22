@@ -2,24 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 public class DraftPlayer
 {
+    [JsonPropertyName("id")]
     public int ID { get; set; }
 
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
+    [JsonPropertyName("drafted")]
     public bool Drafted { get; set; }
 
+    [JsonPropertyName("position")]
     public Position Position { get; set; }
 
-    public int DraftID { get; set; } 
+    [JsonPropertyName("draftID")]
+    public int DraftID { get; set; }
 
-    public Draft Draft { get; set; } 
+    [JsonPropertyName("teamID")]
+    public int? TeamID { get; set; }
 
-    public int? TeamID { get; set; } 
-
+    [JsonPropertyName("imagePath")]
     public string ImagePath
     {
         get
