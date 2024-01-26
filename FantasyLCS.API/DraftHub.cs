@@ -36,15 +36,23 @@ public class DraftHub : Hub
         {
             league.LeagueStatus = LeagueStatus.DraftInProgress;
             _context.Update(league);
+            List<DraftPlayer> draftPlayers = new List<DraftPlayer>();
 
             var draft = new Draft
             {
                 LeagueID = leagueId,
-                DraftPlayers = DraftPlayerConstants.DraftPlayers,
                 DraftOrder = InitializeDraftOrder(teamIDs),
                 CurrentRound = 1,
                 CurrentPickIndex = 0
             };
+
+            foreach (var draftPlayer in DraftPlayerConstants.DraftPlayers)
+            {
+                draftPlayer.DraftID = draft.ID;
+                draftPlayers.Add(draftPlayer);
+            }
+
+            draft.DraftPlayers = draftPlayers;
 
             _context.Drafts.Add(draft);
             await _context.SaveChangesAsync();

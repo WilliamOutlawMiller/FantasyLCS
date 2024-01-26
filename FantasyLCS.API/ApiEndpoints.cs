@@ -325,6 +325,34 @@ public class ApiEndpoints
         }
     }
 
+    public static async Task<IResult> GetDraftPlayers(int leagueID, AppDbContext dbContext)
+    {
+        try
+        {
+            var league = dbContext.Leagues.Find(leagueID);
+
+            if (league != null)
+            {
+                var draft = dbContext.Drafts.Include(draft => draft.DraftPlayers).FirstOrDefault(draft => draft.LeagueID == leagueID);
+
+                if (draft == null)
+                {
+                    return Results.Problem("No draft found for this league.");
+                }
+
+                return Results.Ok(draft.DraftPlayers);
+            }
+            else
+            {
+                return Results.NotFound("League not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem("An error occurred: " + ex.Message);
+        }
+    }
+
     public static async Task<IResult> GetAllPlayers(AppDbContext dbContext)
     {
         try

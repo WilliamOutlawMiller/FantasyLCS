@@ -107,8 +107,6 @@ public class AppDbContext : DbContext
             .HasForeignKey(lm => lm.TeamTwoID);
 
         modelBuilder.Entity<Draft>()
-            .HasMany(d => d.DraftPlayers)
-            .WithOne(dp => dp.Draft)
-            .HasForeignKey(dp => dp.DraftID);
+            .HasMany(d => d.DraftPlayers);
     }
 }

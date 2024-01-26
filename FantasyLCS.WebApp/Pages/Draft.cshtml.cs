@@ -53,7 +53,22 @@ namespace FantasyLCS.WebApp.Pages
                     League = cachedHomePage.UserLeague;
                     Username = cachedHomePage.UserTeam.OwnerName.ToLower();
                     LeagueOwner = cachedHomePage.UserLeague.Owner.ToLower();
-                    DraftPlayers = DraftPlayerConstants.DraftPlayers;
+                    var response = await _httpClient.GetAsync(_apiUrl + $"/getdraftplayers/{League.ID}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        DraftPlayers = JsonSerializer.Deserialize<List<DraftPlayer>>(responseBody);
+
+                        var cacheEntryOptions = new MemoryCacheEntryOptions()
+                            .SetSlidingExpiration(TimeSpan.FromMinutes(30));
+
+                        _cache.Set(cacheKey, DraftPlayers, cacheEntryOptions);
+                    }
+                    else
+                    {
+                        DraftPlayers = new List<DraftPlayer>();
+                    }
                 }
                 else
                     return RedirectToPage("/Home");
