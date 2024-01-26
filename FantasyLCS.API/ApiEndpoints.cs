@@ -325,6 +325,34 @@ public class ApiEndpoints
         }
     }
 
+    public static async Task<IResult> GetDraftPlayers(int leagueID, AppDbContext dbContext)
+    {
+        try
+        {
+            var league = dbContext.Leagues.Find(leagueID);
+
+            if (league != null)
+            {
+                var draft = dbContext.Drafts.Include(draft => draft.DraftPlayers).FirstOrDefault(draft => draft.LeagueID == leagueID);
+
+                if (draft == null)
+                {
+                    return Results.Problem("No draft found for this league.");
+                }
+
+                return Results.Ok(draft.DraftPlayers);
+            }
+            else
+            {
+                return Results.NotFound("League not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem("An error occurred: " + ex.Message);
+        }
+    }
+
     public static async Task<IResult> GetAllPlayers(AppDbContext dbContext)
     {
         try
@@ -479,7 +507,10 @@ public class ApiEndpoints
             if (league == null)
                 return Results.Problem("Invalid League... Maybe clear your cookies?");
 
-            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches.Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
+            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
+                .Include(lm => lm.TeamOne)
+                .Include(lm => lm.TeamTwo)
+                .Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
 
             if (leagueMatches == null || leagueMatches.Count == 0)
                 return Results.Problem("League has no matches created.");

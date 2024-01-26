@@ -29,7 +29,7 @@
 
 
             connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://fantasy-lcs.com/draftHub")
+                .withUrl("http://localhost:5000/draftHub")
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
@@ -392,13 +392,13 @@
     }
 
     .team-logo-container {
-        width: 200px; /* Fixed width */
-        height: 200px; /* Fixed height */
-        background-size: contain;
-        background-repeat: no-repeat;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 10px auto 20px;
+        background-size: cover;
         background-position: center;
-        margin-bottom: 20px; /* Space below the logo */
-
+        background-repeat: no-repeat;
     }
 
     .team-info-left {
