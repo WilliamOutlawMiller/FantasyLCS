@@ -507,7 +507,10 @@ public class ApiEndpoints
             if (league == null)
                 return Results.Problem("Invalid League... Maybe clear your cookies?");
 
-            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches.Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
+            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
+                .Include(lm => lm.TeamOne)
+                .Include(lm => lm.TeamTwo)
+                .Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
 
             if (leagueMatches == null || leagueMatches.Count == 0)
                 return Results.Problem("League has no matches created.");

@@ -21,13 +21,10 @@
         margin-bottom: 15px;
     }
 
-    /* Match entry styles */
     .match-entry {
         display: flex;
         align-items: center;
-        justify-content: space-between; /* Space between team logos and match info */
-        padding: 15px;
-        border-bottom: 1px solid #eee; /* Separate match entries */
+        justify-content: space-between; /* This will put space between the flex items */
     }
 
     /* Last child shouldn't have a border-bottom */
@@ -36,22 +33,67 @@
     }
 
     .match-logo-container {
-        /* Keep the styles from team-logo-container */
+        /* Increase size of the logos */
+        width: 100px; /* Adjust width as needed */
+        height: 100px; /* Adjust height as needed */
+        background-size: cover;
+        background-position: center;
+        margin: 10px; /* Add margin around logos */
     }
 
     .match-info {
-        flex-grow: 1; /* Allows match info to fill available space */
-        padding: 0 20px; /* Spacing between logos and match info */
-    }
-
-    .match-info p {
-        margin: 0; /* Remove margin for alignment */
-        font-size: 16px; /* Adjust font size as needed */
+        /* Make sure this div doesn't grow to push the logos apart */
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto; /* Adjust the basis according to the content */
+        flex-direction: column; /* Stack date and score vertically */
+        order: 2; /* This will ensure that match-info is in the center */
+        text-align: center; /* Center the text inside this div */
+        display: flex;
+        justify-content: center; /* Center items vertically */
+        align-items: center; /* Center items horizontally */
     }
 
     .match-date {
-        font-weight: 600; /* Highlight match date */
-        margin-bottom: 5px; /* Space between date and other info */
+        font-size: 14px; /* Adjust font size as needed for the date */
+        margin-bottom: 5px; /* Space between the date and the score */
+    }
+
+    .match-score {
+        font-size: 24px; /* Increase font size for the score */
+        font-weight: bold; /* Make the score bold */
+        color: #333; /* Adjust color as needed for better visibility */
+    }
+
+    .team-logo-left, .team-logo-right {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .team-logo-left {
+        margin-right: auto;
+        order: 1; /* This will ensure that team-logo-left is the first item */
+    }
+
+    .team-logo-right {
+        margin-left: auto;
+        order: 3; /* This will ensure that team-logo-right is the last item */
+    }
+
+    /* Style for the week header */
+    .week-header {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px; /* Space before the match entries */
+    }
+
+    .winner-info {
+        font-weight: bold;
+        color: green; /* Adjust color as needed */
     }
 
     /* Button styles can remain the same if they are used on the Matches page */
@@ -71,24 +113,37 @@
     <section class="league-info-section">
         <h2>@Model.HomePage.UserLeague.Name League Matches</h2>
         <div class="matches-container">
-            @foreach (var team in Model.HomePage.LeagueTeams)
+            @foreach (var weekGroup in Model.Matches.GroupBy(m => m.Week).OrderBy(g => g.Key))
             {
-                <div class="match-section">
-                    <div class="match-entry">
-                        <div class="match-logo-container" style="background-image: url('@team.LogoUrl');"></div>
-                        <div class="match-info">
-                            <p class="match-date">Next Match Date: [Date Here]</p>
-                            <p><strong>@team.Name</strong></p>
-                            <p>Owner: @team.OwnerName</p>
-                            <p>Wins: @team.Wins - Losses: @team.Losses</p>
+                <div class="week-header">@weekGroup.Key</div>
+                @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
+                {
+                    <div class="match-section">
+                        <div class="match-entry">
+                            <div class="match-logo-container team-logo-left" style="background-image: url('@match.TeamOne.LogoUrl');"></div>
+
+                            <div class="match-info">
+                                <p class="match-date">@match.MatchDate.ToShortDateString()</p>
+                                @switch (match.Winner)
+                                {
+                                    case Winner.TeamOne:
+                                        <p class="match-score">1 - 0</p>
+                                        break;
+                                    case Winner.TeamTwo:
+                                        <p class="match-score">0 - 1</p>
+                                        break;
+                                    case Winner.NotPlayed:
+                                        <p class="match-score">0 - 0</p>
+                                        break;
+                                }
+                            </div>
+
+                            <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
                         </div>
-                        <!-- Add additional match details here -->
                     </div>
-                    <!-- Other matches can be listed here -->
-                </div>
+                }
             }
         </div>
     </section>
-
-    <!-- Other sections such as user's team info can be added here -->
+    <!-- Other sections -->
 </div>
