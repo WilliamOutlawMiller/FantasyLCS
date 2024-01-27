@@ -5,6 +5,10 @@
 
 *.json
 
+# SQLite database files
+*.db-shm
+*.db-wal
+
 # User-specific files
 *.rsuser
 *.suo

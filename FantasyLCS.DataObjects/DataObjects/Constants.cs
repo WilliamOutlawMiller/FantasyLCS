@@ -3,9 +3,9 @@ namespace Constants
     public class SeasonInfo
     {
         // todo: update these to Spring 2024 when data becomes available
-        public const string SEASON = "season-S13";
-        public const string SPLIT = "split-Summer";
-        public const string TOURNAMENT = "LCS%20Summer%202023";
+        public const string SEASON = "season-S14";
+        public const string SPLIT = "split-Spring";
+        public const string TOURNAMENT = "LCS%20Spring%202024";
 
         public class TeamListURL
         {
