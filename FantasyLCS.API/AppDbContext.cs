@@ -79,6 +79,18 @@ public class AppDbContext : DbContext
             .HasForeignKey(u => u.LeagueID)
             .IsRequired(false);
 
+        modelBuilder.Entity<Team>()
+            .Property(t => t.PlayerIDs)
+            // convert the List<int> to a comma-separated string when saving to the database, and back to a List<int> when reading from the database.
+            .HasConversion(
+                v => string.Join(",", v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                      .Select(int.Parse).ToList())
+            .Metadata.SetValueComparer(new ValueComparer<List<int>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList()));
+
         modelBuilder.Entity<League>()
             .Property(l => l.UserIDs)
             // convert the List<int> to a comma-separated string when saving to the database, and back to a List<int> when reading from the database.

@@ -7,6 +7,7 @@ public class FullStats
 {
     public int MatchID { get; set; }
 
+    [JsonIgnore]
     public Match Match { get; set; }
 
     public int PlayerID { get; set; }

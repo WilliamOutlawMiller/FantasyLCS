@@ -31,7 +31,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("DataUpdateLogs");
+                    b.ToTable("DataUpdateLogs", (string)null);
                 });
 
             modelBuilder.Entity("Draft", b =>
@@ -55,7 +55,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Drafts");
+                    b.ToTable("Drafts", (string)null);
                 });
 
             modelBuilder.Entity("DraftPlayer", b =>
@@ -84,7 +84,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("DraftID");
 
-                    b.ToTable("DraftPlayers");
+                    b.ToTable("DraftPlayers", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.FullStats", b =>
@@ -382,7 +382,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("MatchID", "PlayerID");
 
-                    b.ToTable("FullStats");
+                    b.ToTable("FullStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Match", b =>
@@ -393,7 +393,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Matches");
+                    b.ToTable("Matches", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Player", b =>
@@ -411,7 +411,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.AggressionStats", b =>
@@ -446,7 +446,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("AggressionStats");
+                    b.ToTable("AggressionStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.ChampionStats", b =>
@@ -481,7 +481,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("PlayerID");
 
-                    b.ToTable("ChampionStats");
+                    b.ToTable("ChampionStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.EarlyGameStats", b =>
@@ -521,7 +521,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("EarlyGameStats");
+                    b.ToTable("EarlyGameStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.GeneralStats", b =>
@@ -566,7 +566,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("GeneralStats");
+                    b.ToTable("GeneralStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.VisionStats", b =>
@@ -596,7 +596,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("VisionStats");
+                    b.ToTable("VisionStats", (string)null);
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.User", b =>
@@ -626,7 +626,7 @@ namespace FantasyLCS.API.Migrations
                     b.HasIndex("TeamID")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("League", b =>
@@ -661,7 +661,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Leagues");
+                    b.ToTable("Leagues", (string)null);
                 });
 
             modelBuilder.Entity("LeagueMatch", b =>
@@ -697,7 +697,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("TeamTwoID");
 
-                    b.ToTable("LeagueMatches");
+                    b.ToTable("LeagueMatches", (string)null);
                 });
 
             modelBuilder.Entity("Team", b =>
@@ -737,7 +737,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("DraftPlayer", b =>

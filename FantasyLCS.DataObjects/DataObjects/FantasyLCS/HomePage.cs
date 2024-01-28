@@ -11,9 +11,15 @@ public class HomePage
     [JsonPropertyName("userTeam")]
     public Team UserTeam { get; set; }
 
+
     [JsonPropertyName("userLeague")]
     public League UserLeague { get; set; }
 
+
     [JsonPropertyName("leagueTeams")]
     public List<Team> LeagueTeams { get; set; }
+
+
+    [JsonPropertyName("userTeamPlayers")]
+    public List<Player> UserTeamPlayers { get; set; }
 }

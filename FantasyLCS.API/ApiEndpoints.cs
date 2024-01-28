@@ -86,6 +86,7 @@ public class ApiEndpoints
             List<int?> leagueTeamIDs = new List<int?>();
             List<Team> teams = dbContext.Teams.ToList();
             List<Team> leagueTeams = new List<Team>();
+            List<Player> userTeamPlayers = new List<Player>();
 
             User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
             Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
@@ -102,6 +103,22 @@ public class ApiEndpoints
                 leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
 
                 leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
+
+                if (userLeague.LeagueStatus == LeagueStatus.SeasonInProgress)
+                {
+                    List<DraftPlayer> teamDraftPlayers = dbContext.DraftPlayers.Where(draftPlayer => userTeam.PlayerIDs.Contains(draftPlayer.ID)).ToList();
+
+                    foreach (var teamDraftPlayer in teamDraftPlayers)
+                    {
+                        userTeamPlayers.Add(dbContext.Players
+                            .Include(player => player.GeneralStats)
+                            .Include(player => player.AggressionStats)
+                            .Include(player => player.VisionStats)
+                            .Include(player => player.EarlyGameStats)
+                            .Include(player => player.ChampionStats)
+                            .FirstOrDefault(player => player.Name.ToLower().Equals(teamDraftPlayer.Name.ToLower())));
+                    }
+                }
             }
 
             // Create an instance of HomePageData and populate its properties
@@ -109,7 +126,8 @@ public class ApiEndpoints
             {
                 UserTeam = userTeam,
                 UserLeague = userLeague,
-                LeagueTeams = leagueTeams
+                LeagueTeams = leagueTeams,
+                UserTeamPlayers = userTeamPlayers
             };
 
             // Serialize the HomePageData object to JSON and return it
