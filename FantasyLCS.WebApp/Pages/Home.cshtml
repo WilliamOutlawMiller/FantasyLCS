@@ -332,12 +332,13 @@
         @foreach (var player in Model.HomePage.UserTeamPlayers)
         {
             <div class="section player-card">
-                <div class="player-image" style="background-image: url('@player.ImagePath');"></div>
+                <div class="player-image" style="background-image: url('@player.ImagePath.ToLower()');"></div>
                 <div class="player-name">@player.Name</div>
                 <div class="player-stats">
-                    <p><strong>Position:</strong> </p>
-                    <p><strong>Wins:</strong> </p>
-                    <p><strong>Losses:</strong> </p>
+                    <p><strong>KDA:</strong> @player.GeneralStats.KDA</p>
+                    <p><strong>Kill Participation:</strong> @player.GeneralStats.KillParticipation</p>
+                    <p><strong>CS Per Minute:</strong> @player.GeneralStats.CsPerMin</p>
+                    <p><strong>Gold Per Minute:</strong> @player.GeneralStats.GoldPerMin</p>
                     <!-- Add more stats as needed -->
                 </div>
             </div>

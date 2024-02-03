@@ -632,7 +632,7 @@
                 {
                     <div class="player-card" id="player-card-@player.ID"
                          onclick="selectPlayer(@player.ID, '@position')">
-                        <img class="headshot" src="@player.ImagePath" alt="@player.Name" />
+                        <img class="headshot" src="@player.ImagePath.ToLower()" alt="@player.Name" />
                         <p>@player.Name</p>
                         <img class="team-logo" src="" alt="Team Logo" style="display: none;" />
                     </div>
