@@ -65,6 +65,21 @@ public class Startup
         app.UseCors("CorsPolicy");
 
         var dbContextFactory = app.ApplicationServices.GetRequiredService<IDbContextFactory<AppDbContext>>();
+        var dbRefreshContext = dbContextFactory.CreateDbContext();
+
+        dbRefreshContext.Database.Migrate();
+        dbRefreshContext.SaveChanges();
+
+        lock (SharedLockObjects.ExternalDataRefreshLock)
+        {
+            // DataManager.UpdateMatchData(dbRefreshContext);
+            // DataManager.UpdatePlayerList(dbRefreshContext);
+        }
+
+        lock (SharedLockObjects.ScoresLock)
+        {
+            DataManager.UpdateScores(dbRefreshContext);
+        }
 
         app.UseRouting();
 
@@ -173,9 +188,9 @@ public class Startup
                 .WithName("GetLeagueMatches")
                 .WithOpenApi();
             
-            endpoints.MapGet("/getleaguematchscore/{id}", async (int id) =>
-            { return await ApiEndpoints.GetLeagueMatchScore(id, dbContextFactory.CreateDbContext()); })
-                .WithName("GetLeagueMatchScore")
+            endpoints.MapGet("/getleaguematchscores/{id}", async (int id) =>
+            { return await ApiEndpoints.GetLeagueMatchScores(id, dbContextFactory.CreateDbContext()); })
+                .WithName("GetLeagueMatchScores")
                 .WithOpenApi();
 
             endpoints.MapGet("/getteam/{id}", async (int id) =>

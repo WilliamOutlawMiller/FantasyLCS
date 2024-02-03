@@ -6,14 +6,21 @@ using Microsoft.VisualBasic;
 using Serilog;
 using System;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml;
+using System.Collections.Generic;
 
 
 namespace FantasyLCS.API;
 
-public class ApiEndpoints
+public static class ApiEndpoints
 {
+    private static object _updateDataLock = new object();
+
     public static async Task<IResult> Login(HttpContext context, AppDbContext dbContext)
     {
         try
@@ -544,31 +551,98 @@ public class ApiEndpoints
         }
     }
 
-    public static async Task<IResult> GetLeagueMatchScore(int id, AppDbContext dbContext)
+    /// <summary>
+    /// It's important to remember that DraftPlayers are different than Players in the following ways:
+    ///     Player:
+    ///         exactly 8 Players per LCS team
+    ///         each plays 1 match each week
+    ///         uses a unique ID set from where the data is pulled in from(API, Gol.GG, etc.)
+    ///      DraftPlayer:
+    ///         each league has a copy of each player as a DraftPlayer object
+    ///         each DraftPlayer is associated with an artificial team
+    ///         uses a unique ID created in fantasy-lcs domain
+    /// And finally, the stats object.
+    ///      FullStats: 
+    ///         ten FullStats per match, associated with real world players in a real world match(i.e.C9 vs FLY)
+    ///         stores PlayerID from the Player object, NOT the DraftPlayer object
+    ///         contains stats that we use to apply scores, which need to be relayed to the business data object
+
+
+    /// Maintaining our own data object with unique IDs is better for keeping our business data separate from external data objects.
+    /// We cannot rely on external data to be available before the season starts, but we can update ours with their data when it becomes available via the scraping interface.
+
+    /// The merging of these two data objects occurs here.This step is necessary, as the match stats are associated with the player IDs, but teams are associated with DraftPlayer IDs.
+    /// Ideally we could fix this by just storing the other IDs on each other.
+    /// Regardless, here is my current implementation.
+    /// </summary>
+    public static async Task<IResult> GetLeagueMatchScores(int id, AppDbContext dbContext)
     {
         try
         {
-            League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+            List<Score> leagueMatchScores = new List<Score>();
+
+            // Get all scores and fullstats objects for use later
             List<Score> scores = dbContext.Scores.ToList();
+            List<FullStat> fullStats = dbContext.FullStats.ToList();
 
-            if (league == null)
-                return Results.Problem("Invalid League... Maybe clear your cookies?");
-
-            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
+            LeagueMatch leagueMatch = dbContext.LeagueMatches
                 .Include(lm => lm.TeamOne)
                 .Include(lm => lm.TeamTwo)
-                .Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
+                .FirstOrDefault(leagueMatch => leagueMatch.ID == id);
 
-            if (leagueMatches == null || leagueMatches.Count == 0)
-                return Results.Problem("League has no matches created.");
+            if (leagueMatch == null)
+                return Results.Problem("League match not found.");
 
-            foreach (var leagueMatch in leagueMatches)
+            var draftPlayerIDs = new List<int>();
+            draftPlayerIDs.AddRange(leagueMatch.TeamOne.PlayerIDs);
+            draftPlayerIDs.AddRange(leagueMatch.TeamTwo.PlayerIDs);
+
+            // Get all draft players that are in the LeagueMatch (business data grouping of players associated with your fantasy league teams)
+            List<DraftPlayer> draftPlayers = dbContext.DraftPlayers.Where(dp => draftPlayerIDs.Contains(dp.ID)).ToList();
+
+            // Pair business object with real world data object
+
+            List<Tuple<DraftPlayer, Player>> playerObjectAssociations = new List<Tuple<DraftPlayer, Player>>();
+            foreach (var draftPlayer in draftPlayers)
             {
-                break;
+                // Get the real world player object that have the same name. It should be a 1 to 1 ratio, as each league should only contain one instance of any DraftPlayer
+                Player player = dbContext.Players.SingleOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
+                playerObjectAssociations.Add(new Tuple<DraftPlayer, Player>(draftPlayer, player));
             }
 
-            return Results.Ok(leagueMatches);
+            // objectAssociation stores Item1 = DraftPlayer, Item2 = Player
+            foreach (var objectAssociation in playerObjectAssociations)
+            {
+                FullStat fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == objectAssociation.Item2.ID && fullStat.MatchDate == leagueMatch.MatchDate);
+                if (fullStat == null)
+                {
+                    lock (SharedLockObjects.ExternalDataRefreshLock)
+                    {
+                        DataManager.UpdatePlayerList(dbContext);
+                        DataManager.UpdateMatchData(dbContext);
+                        fullStats = dbContext.FullStats.ToList();
+                    }
 
+                    fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == objectAssociation.Item2.ID);
+                }
+
+                Score score = scores.FirstOrDefault(score => score.PlayerID == objectAssociation.Item2.ID && score.MatchDate == fullStat.MatchDate);
+                if (score == null)
+                {
+                    lock (SharedLockObjects.ScoresLock)
+                    {
+                        // The score will be the same for each player, regardless of their fantasy league-specific team
+                        DataManager.UpdateScores(dbContext);
+                        scores = dbContext.Scores.ToList();
+                    }
+
+                    score = scores.FirstOrDefault(score => score.PlayerID == objectAssociation.Item2.ID && score.MatchDate == fullStat.MatchDate);
+                }
+
+                leagueMatchScores.Add(score);
+            }
+
+            return Results.Ok(leagueMatchScores);
         }
         catch (Exception ex)
         {

@@ -16,7 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
     public DbSet<Score> Scores { get; set; }
 
-    public DbSet<FullStats> FullStats { get; set; }
+    public DbSet<FullStat> FullStats { get; set; }
     public DbSet<GeneralStats> GeneralStats { get; set; }
     public DbSet<ChampionStats> ChampionStats { get; set; }
     public DbSet<AggressionStats> AggressionStats { get; set; }
@@ -67,7 +67,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ChampionStats>()
             .HasKey(cs => new { cs.ChampionID, cs.PlayerID });
 
-        modelBuilder.Entity<FullStats>()
+        modelBuilder.Entity<FullStat>()
             .HasKey(fs => new { fs.MatchID, fs.PlayerID });
 
         modelBuilder.Entity<User>()

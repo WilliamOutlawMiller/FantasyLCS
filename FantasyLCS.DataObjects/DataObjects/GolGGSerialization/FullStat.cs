@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace FantasyLCS.DataObjects;
 
-public class FullStats
+public class FullStat
 {
     public int MatchID { get; set; }
 
