@@ -172,8 +172,8 @@ public class Startup
             { return await ApiEndpoints.GetLeagueMatches(id, dbContextFactory.CreateDbContext()); })
                 .WithName("GetLeagueMatches")
                 .WithOpenApi();
-
-            endpoints.MapGet("/getleaguematchScore/{id}", async (int id) =>
+            
+            endpoints.MapGet("/getleaguematchscore/{id}", async (int id) =>
             { return await ApiEndpoints.GetLeagueMatchScore(id, dbContextFactory.CreateDbContext()); })
                 .WithName("GetLeagueMatchScore")
                 .WithOpenApi();
