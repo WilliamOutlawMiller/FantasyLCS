@@ -2,6 +2,8 @@
 using FantasyLCS.DataObjects.DataObjects.RequestData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using Serilog;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -80,12 +82,10 @@ public class ApiEndpoints
 
     public static async Task<IResult> GetHomePage(string username, AppDbContext dbContext)
     {
-        try
+        try        
         {
-            List<User> leagueUsers = new List<User>();
-            List<int?> leagueTeamIDs = new List<int?>();
-            List<Team> teams = dbContext.Teams.ToList();
             List<Team> leagueTeams = new List<Team>();
+            List<Team> teams = dbContext.Teams.ToList();
             List<Player> userTeamPlayers = new List<Player>();
 
             User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
@@ -98,9 +98,10 @@ public class ApiEndpoints
 
             if (userLeague != null)
             {
-                leagueUsers = dbContext.Users.Where(user => userLeague.UserIDs.Contains(user.ID)).ToList();
+                var leagueUserIDs = userLeague.UserIDs;
+                var leagueUsers = dbContext.Users.Where(user => leagueUserIDs.Contains(user.ID)).ToList();
 
-                leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
+                var leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
 
                 leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
 
@@ -135,6 +136,7 @@ public class ApiEndpoints
         }
         catch (Exception ex)
         {
+            Log.Logger.Error("Failure: " + ex);
             return Results.Problem("Failure: " + ex.Message);
         }
     }
@@ -547,6 +549,7 @@ public class ApiEndpoints
         try
         {
             League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+            List<Score> scores = dbContext.Scores.ToList();
 
             if (league == null)
                 return Results.Problem("Invalid League... Maybe clear your cookies?");
@@ -558,6 +561,11 @@ public class ApiEndpoints
 
             if (leagueMatches == null || leagueMatches.Count == 0)
                 return Results.Problem("League has no matches created.");
+
+            foreach (var leagueMatch in leagueMatches)
+            {
+                break;
+            }
 
             return Results.Ok(leagueMatches);
 

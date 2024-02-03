@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Draft> Drafts { get; set; }
     public DbSet<DraftPlayer> DraftPlayers { get; set; }
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
+    public DbSet<Score> Scores { get; set; }
 
     public DbSet<FullStats> FullStats { get; set; }
     public DbSet<GeneralStats> GeneralStats { get; set; }
@@ -58,6 +59,9 @@ public class AppDbContext : DbContext
             .HasMany(m => m.FullStats)
             .WithOne(fs => fs.Match)
             .HasForeignKey(fs => fs.MatchID);
+
+        modelBuilder.Entity<Score>()
+            .HasKey(s => new { s.MatchDate, s.PlayerID });
 
         // Configure ChampionStats with ChampionID as the primary key
         modelBuilder.Entity<ChampionStats>()

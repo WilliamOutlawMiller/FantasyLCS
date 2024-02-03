@@ -117,21 +117,22 @@ namespace Constants
 public class GolGGConstants
 {
     public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
+    public const string FULLSTATSDATETIME = "//div[contains(@class, 'row')]//div[contains(@class, 'col-12') and contains(@class, 'col-sm-5') and contains(@class, 'text-right')]/text";
     public const string MATCHLIST = "//table[contains(@class, 'table_list') and caption[contains(., 'results')]]";
     public const string TEAMLIST = "//div[contains(@class, 'col-12') and contains(@class, 'p-4')]/descendant::table";
-    public static Dictionary<string,string> TeamStats = new Dictionary<string, string>
+    public static Dictionary<string, string> TeamStats = new Dictionary<string, string>
     {
-        {"TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
-        {"BannedBy"          , "//table[@class='table_list' and caption[contains(.,'Most banned champions by')]]"        },
-        {"BannedAgainst"     , "//table[@class='table_list' and caption[contains(., 'Most banned champions against')]]"  },
-        {"Economy"           , "//table[@class='table_list' and caption[contains(., 'gold and farm stats')]]"            },
-        {"Aggression"        , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
-        {"Objectives"        , "//table[@class='table_list' and caption[contains(., 'objectives control stats')]]"       },
-        {"Vision"            , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   },
-        {"Roster"            , "//table[contains(@class, 'table_list') and caption[contains(., 'player')]]"              }
+        { "TeamSummary"       , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },
+        { "BannedBy"          , "//table[@class='table_list' and caption[contains(.,'Most banned champions by')]]"        },
+        { "BannedAgainst"     , "//table[@class='table_list' and caption[contains(., 'Most banned champions against')]]"  },
+        { "Economy"           , "//table[@class='table_list' and caption[contains(., 'gold and farm stats')]]"            },
+        { "Aggression"        , "//table[@class='table_list' and caption[contains(., 'damage and kills stats')]]"         },
+        { "Objectives"        , "//table[@class='table_list' and caption[contains(., 'objectives control stats')]]"       },
+        { "Vision"            , "//table[@class='table_list' and caption[contains(., 'vision stats')]]"                   },
+        { "Roster"            , "//table[contains(@class, 'table_list') and caption[contains(., 'player')]]"              }
     };
 
-    public static Dictionary<string,string> PlayerStats = new Dictionary<string, string>
+    public static Dictionary<string, string> PlayerStats = new Dictionary<string, string>
     {
         {"PlayerName"        , "//div[contains(@class, 'col-12') and contains(@class, 'mt-4')]/descendant::h1"           },
         {"GeneralStats"      , "//table[@class='table_list' and caption[contains(., 'stats')]]"                          },

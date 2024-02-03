@@ -64,9 +64,13 @@ public class GolGGScraper : StatsScraper
     {
         List<FullStats> fullStats = new List<FullStats>();
         string xPath = GolGGConstants.FULLSTATS;
+        string xPathDateTime = GolGGConstants.FULLSTATSDATETIME;
 
         try
         {
+            string dateTimeText = LocateHTMLNode(xPathDateTime).ToString();
+            DateTime parsedDate = DateTime.Parse(dateTimeText.Substring(0, 10)); 
+
             HtmlNode tableNode = LocateHTMLNode(xPath);
             List<Dictionary<string, string>> scrapedTable = ParseGolGGFullStatsHTML(tableNode);
 
@@ -74,7 +78,10 @@ public class GolGGScraper : StatsScraper
             JsonArray returnJson = ConvertGolGGFullStatsToJson(scrapedTable);
             foreach (JsonObject playerStatsJson in returnJson)
             {
-                fullStats.Add(JsonSerializer.Deserialize<FullStats>(playerStatsJson));
+                FullStats currentFullStat = JsonSerializer.Deserialize<FullStats>(playerStatsJson);
+                currentFullStat.MatchDate = parsedDate;
+
+                fullStats.Add(currentFullStat);
             }
 
             foreach (var fullStat in fullStats)

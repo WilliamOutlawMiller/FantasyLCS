@@ -12,6 +12,8 @@ public class FullStats
 
     public int PlayerID { get; set; }
 
+    public DateTime MatchDate { get; set; }
+
     [JsonPropertyName("Player")]
     public string Name { get; set; }
 
