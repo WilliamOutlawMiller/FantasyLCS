@@ -117,7 +117,7 @@ namespace Constants
 public class GolGGConstants
 {
     public const string FULLSTATS = "//table[contains(@class, 'completestats')]";
-    public const string FULLSTATSDATETIME = "//div[contains(@class, 'row')]//div[contains(@class, 'col-12') and contains(@class, 'col-sm-5') and contains(@class, 'text-right')]/text";
+    public const string FULLSTATSDATETIME = "//div[contains(@class, 'row')]//div[contains(@class, 'col-12') and contains(@class, 'col-sm-5') and contains(@class, 'text-right')]/text()";
     public const string MATCHLIST = "//table[contains(@class, 'table_list') and caption[contains(., 'results')]]";
     public const string TEAMLIST = "//div[contains(@class, 'col-12') and contains(@class, 'p-4')]/descendant::table";
     public static Dictionary<string, string> TeamStats = new Dictionary<string, string>

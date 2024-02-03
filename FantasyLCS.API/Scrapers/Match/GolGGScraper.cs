@@ -68,7 +68,8 @@ public class GolGGScraper : StatsScraper
 
         try
         {
-            string dateTimeText = LocateHTMLNode(xPathDateTime).ToString();
+            var dateTimeNode = LocateHTMLNode(xPathDateTime);
+            string dateTimeText = dateTimeNode.InnerText;
             DateTime parsedDate = DateTime.Parse(dateTimeText.Substring(0, 10)); 
 
             HtmlNode tableNode = LocateHTMLNode(xPath);
