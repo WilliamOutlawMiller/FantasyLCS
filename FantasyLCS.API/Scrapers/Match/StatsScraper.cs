@@ -66,15 +66,15 @@ public abstract class StatsScraper
 
     protected HtmlNode LocateHTMLNode(string xPath)
     {
-        var tbodyElement = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
+        var element = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
         
-        if (tbodyElement != null)
+        if (element != null)
         {
-            return tbodyElement;
+            return element;
         }
         else
         {
-            throw new Exception("Unable to find the <tbody> element.");
+            throw new Exception("Unable to find the node from the given xPath: " + xPath);
         }
     }
 
