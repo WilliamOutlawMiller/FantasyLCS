@@ -19,7 +19,7 @@ jobs:
 
       - name: Deploy API
         run: |
-          ssh -o StrictHostKeyChecking=no remotedesktop@raspberrypi << 'EOF'
+          ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasylcs.com << 'EOF'
 
           sudo systemctl stop fantasylcsapi.service
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Deploy WebAPP
         run: |
-          ssh -o StrictHostKeyChecking=no remotedesktop@raspberrypi << 'EOF'
+          ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasylcs.com << 'EOF'
 
           sudo systemctl stop fantasylcswebapp.service
 
