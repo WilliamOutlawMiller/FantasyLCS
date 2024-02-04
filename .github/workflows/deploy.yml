@@ -17,13 +17,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
-      - name: Deploy API
+      - name: Deploy API and WebApp
         run: |
           ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasy-lcs.com << 'EOF'
 
           sudo systemctl stop fantasylcsapi.service
+          sudo systemctl stop fantasylcswebapp.service
 
-          cd /home/remotedesktop/FantasyLCS.API.PipelineDeploy
+          cd /home/remotedesktop/FantasyLCS.PipelineDeploy
           git pull origin main
 
           dotnet publish FantasyLCS.API/FantasyLCS.API.csproj -c Release -o published/FantasyLCS.API
@@ -31,20 +32,11 @@ jobs:
           rsync -avh --delete published/FantasyLCS.API/ /home/remotedesktop/FantasyLCS.API
 
           sudo systemctl start fantasylcsapi.service
-          EOF
-
-      - name: Deploy WebAPP
-        run: |
-          ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasy-lcs.com << 'EOF'
-
-          sudo systemctl stop fantasylcswebapp.service
-
-          cd /home/remotedesktop/FantasyLCS.WebApp.PipelineDeploy
-          git pull origin main
 
           dotnet publish FantasyLCS.WebApp/FantasyLCS.WebApp.csproj -c Release -o published/FantasyLCS.WebApp
 
           rsync -avh --delete published/FantasyLCS.WebApp/ /home/remotedesktop/FantasyLCS.WebApp
 
           sudo systemctl start fantasylcswebapp.service
+
           EOF
