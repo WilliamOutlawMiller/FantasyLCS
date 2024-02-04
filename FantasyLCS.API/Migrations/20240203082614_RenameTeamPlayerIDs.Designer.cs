@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203082614_RenameTeamPlayerIDs")]
+    partial class RenameTeamPlayerIDs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -31,7 +34,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("DataUpdateLogs", (string)null);
+                    b.ToTable("DataUpdateLogs");
                 });
 
             modelBuilder.Entity("Draft", b =>
@@ -55,7 +58,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Drafts", (string)null);
+                    b.ToTable("Drafts");
                 });
 
             modelBuilder.Entity("DraftPlayer", b =>
@@ -90,7 +93,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("DraftID");
 
-                    b.ToTable("DraftPlayers", (string)null);
+                    b.ToTable("DraftPlayers");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.FullStat", b =>
@@ -391,7 +394,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("MatchID", "PlayerID");
 
-                    b.ToTable("FullStats", (string)null);
+                    b.ToTable("FullStats");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Match", b =>
@@ -402,7 +405,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Matches", (string)null);
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Player", b =>
@@ -423,7 +426,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.AggressionStats", b =>
@@ -458,7 +461,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("AggressionStats", (string)null);
+                    b.ToTable("AggressionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "aggressionStats");
                 });
@@ -495,7 +498,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("PlayerID");
 
-                    b.ToTable("ChampionStats", (string)null);
+                    b.ToTable("ChampionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "championStats");
                 });
@@ -537,7 +540,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("EarlyGameStats", (string)null);
+                    b.ToTable("EarlyGameStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "earlyGameStats");
                 });
@@ -584,7 +587,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("GeneralStats", (string)null);
+                    b.ToTable("GeneralStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "generalStats");
                 });
@@ -616,7 +619,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("VisionStats", (string)null);
+                    b.ToTable("VisionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "visionStats");
                 });
@@ -648,7 +651,7 @@ namespace FantasyLCS.API.Migrations
                     b.HasIndex("TeamID")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("League", b =>
@@ -683,7 +686,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Leagues", (string)null);
+                    b.ToTable("Leagues");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "league");
                 });
@@ -728,7 +731,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("TeamTwoID");
 
-                    b.ToTable("LeagueMatches", (string)null);
+                    b.ToTable("LeagueMatches");
                 });
 
             modelBuilder.Entity("Score", b =>
@@ -831,7 +834,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("MatchDate", "PlayerID");
 
-                    b.ToTable("Scores", (string)null);
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Team", b =>
@@ -871,7 +874,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "teamTwo");
                 });

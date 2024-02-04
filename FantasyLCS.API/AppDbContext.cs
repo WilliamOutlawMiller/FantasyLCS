@@ -14,8 +14,9 @@ public class AppDbContext : DbContext
     public DbSet<Draft> Drafts { get; set; }
     public DbSet<DraftPlayer> DraftPlayers { get; set; }
     public DbSet<DataUpdateLog> DataUpdateLogs { get; set; }
+    public DbSet<Score> Scores { get; set; }
 
-    public DbSet<FullStats> FullStats { get; set; }
+    public DbSet<FullStat> FullStats { get; set; }
     public DbSet<GeneralStats> GeneralStats { get; set; }
     public DbSet<ChampionStats> ChampionStats { get; set; }
     public DbSet<AggressionStats> AggressionStats { get; set; }
@@ -59,11 +60,14 @@ public class AppDbContext : DbContext
             .WithOne(fs => fs.Match)
             .HasForeignKey(fs => fs.MatchID);
 
+        modelBuilder.Entity<Score>()
+            .HasKey(s => new { s.MatchDate, s.PlayerID });
+
         // Configure ChampionStats with ChampionID as the primary key
         modelBuilder.Entity<ChampionStats>()
             .HasKey(cs => new { cs.ChampionID, cs.PlayerID });
 
-        modelBuilder.Entity<FullStats>()
+        modelBuilder.Entity<FullStat>()
             .HasKey(fs => new { fs.MatchID, fs.PlayerID });
 
         modelBuilder.Entity<User>()
@@ -78,6 +82,18 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(u => u.LeagueID)
             .IsRequired(false);
+
+        modelBuilder.Entity<Team>()
+            .Property(t => t.DraftPlayerIDs)
+            // convert the List<int> to a comma-separated string when saving to the database, and back to a List<int> when reading from the database.
+            .HasConversion(
+                v => string.Join(",", v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                      .Select(int.Parse).ToList())
+            .Metadata.SetValueComparer(new ValueComparer<List<int>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList()));
 
         modelBuilder.Entity<League>()
             .Property(l => l.UserIDs)

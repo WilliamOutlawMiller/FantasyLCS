@@ -20,6 +20,6 @@ public class Team
     [JsonPropertyName("losses")]
     public int Losses { get; set; }
 
-    [JsonPropertyName("playerIDs")]
-    public List<int> PlayerIDs { get; set; }
+    [JsonPropertyName("draftPlayerIDs")]
+    public List<int> DraftPlayerIDs { get; set; }
 }

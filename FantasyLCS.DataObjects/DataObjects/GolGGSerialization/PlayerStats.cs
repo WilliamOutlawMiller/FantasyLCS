@@ -7,7 +7,8 @@ namespace FantasyLCS.DataObjects.PlayerStats;
 public class GeneralStats
 {
     public int PlayerID { get; set; }
-        
+
+    [JsonIgnore]
     public Player Player { get; set; }
 
     [JsonPropertyName("Record")]
@@ -37,6 +38,7 @@ public class ChampionStats
     public int ChampionID { get; set; }
     public int PlayerID { get; set; }
 
+    [JsonIgnore]
     public Player Player { get; set; }
 
     [JsonPropertyName("Champion")]
@@ -56,6 +58,7 @@ public class AggressionStats
 {
     public int PlayerID { get; set; }
 
+    [JsonIgnore]
     public Player Player { get; set; }
 
     [JsonPropertyName("Damage Per Minute")]
@@ -78,6 +81,7 @@ public class EarlyGameStats
 {
     public int PlayerID { get; set; }
 
+    [JsonIgnore]
     public Player Player { get; set; }
 
     [JsonPropertyName("Ahead in CS at 15 min")]
@@ -103,6 +107,7 @@ public class VisionStats
 {
     public int PlayerID { get; set; }
 
+    [JsonIgnore]
     public Player Player { get; set; }
 
     [JsonPropertyName("Vision score Per Minute")]

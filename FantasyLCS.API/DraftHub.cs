@@ -211,14 +211,11 @@ public class DraftHub : Hub
             league.LeagueStatus = LeagueStatus.SeasonInProgress;
             _context.Update(league);
 
-            /*
-             * foreach (var draftPlayer in draft.DraftPlayers)
+            foreach (var draftPlayer in draft.DraftPlayers)
             {
                 var team = teams.FirstOrDefault(team => team.ID == draftPlayer.TeamID);
-                Player player = _context.Players.FirstOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
-                team.PlayerIDs.Add(player.ID);
+                team.DraftPlayerIDs.Add(draftPlayer.ID);
             }
-            */
 
             var leagueMatches = MatchScheduler.GenerateLeagueMatches(league, teams, _context);
 
