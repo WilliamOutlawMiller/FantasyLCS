@@ -54,7 +54,7 @@ public abstract class StatsScraper
     public abstract List<int> GetMatchIDs();
     public abstract List<int> GetTeamIDs();
     public abstract List<int> GetPlayerIDs(int teamID);
-    public abstract List<FullStats> GetMatchFullStats(int matchID);
+    public abstract List<FullStat> GetMatchFullStats(int matchID);
     public abstract Player GetPlayer(int playerID);
 
     public static async Task<HtmlDocument> LoadHtmlDocumentAsync(string url)
@@ -66,15 +66,15 @@ public abstract class StatsScraper
 
     protected HtmlNode LocateHTMLNode(string xPath)
     {
-        var tbodyElement = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
+        var element = CurrentWebpage.DocumentNode.SelectSingleNode(xPath);
         
-        if (tbodyElement != null)
+        if (element != null)
         {
-            return tbodyElement;
+            return element;
         }
         else
         {
-            throw new Exception("Unable to find the <tbody> element.");
+            throw new Exception("Unable to find the node from the given xPath: " + xPath);
         }
     }
 

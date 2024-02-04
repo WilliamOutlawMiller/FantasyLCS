@@ -19,12 +19,9 @@ public class Program
         {
             webBuilder.UseStartup<Startup>();
 
-            // if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-            // {
-                webBuilder.UseKestrel(options =>
-                {
-                    options.Listen(System.Net.IPAddress.Loopback, 5000);
-                });
-            // }
+            webBuilder.UseKestrel(options =>
+            {
+                options.Listen(System.Net.IPAddress.Loopback, 5000);
+            });
         });
 }

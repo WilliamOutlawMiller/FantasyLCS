@@ -60,13 +60,18 @@ public class GolGGScraper : StatsScraper
         }
     }
 
-    public override List<FullStats> GetMatchFullStats(int matchID)
+    public override List<FullStat> GetMatchFullStats(int matchID)
     {
-        List<FullStats> fullStats = new List<FullStats>();
+        List<FullStat> fullStats = new List<FullStat>();
         string xPath = GolGGConstants.FULLSTATS;
+        string xPathDateTime = GolGGConstants.FULLSTATSDATETIME;
 
         try
         {
+            var dateTimeNode = LocateHTMLNode(xPathDateTime);
+            string dateTimeText = dateTimeNode.InnerText;
+            DateTime parsedDate = DateTime.Parse(dateTimeText.Substring(0, 10)); 
+
             HtmlNode tableNode = LocateHTMLNode(xPath);
             List<Dictionary<string, string>> scrapedTable = ParseGolGGFullStatsHTML(tableNode);
 
@@ -74,7 +79,10 @@ public class GolGGScraper : StatsScraper
             JsonArray returnJson = ConvertGolGGFullStatsToJson(scrapedTable);
             foreach (JsonObject playerStatsJson in returnJson)
             {
-                fullStats.Add(JsonSerializer.Deserialize<FullStats>(playerStatsJson));
+                FullStat currentFullStat = JsonSerializer.Deserialize<FullStat>(playerStatsJson);
+                currentFullStat.MatchDate = parsedDate;
+
+                fullStats.Add(currentFullStat);
             }
 
             foreach (var fullStat in fullStats)
