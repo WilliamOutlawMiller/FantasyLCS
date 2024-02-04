@@ -19,7 +19,12 @@ public class HomePage
     [JsonPropertyName("leagueTeams")]
     public List<Team> LeagueTeams { get; set; }
 
-
     [JsonPropertyName("userTeamPlayers")]
     public List<Player> UserTeamPlayers { get; set; }
+
+    [JsonPropertyName("allPlayers")]
+    public List<Player> AllPlayers { get; set; }
+
+    [JsonPropertyName("leagueDraftPlayers")]
+    public List<DraftPlayer> LeagueDraftPlayers { get; set; }
 }

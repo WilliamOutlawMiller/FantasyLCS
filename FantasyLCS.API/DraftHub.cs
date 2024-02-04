@@ -214,7 +214,7 @@ public class DraftHub : Hub
             foreach (var draftPlayer in draft.DraftPlayers)
             {
                 var team = teams.FirstOrDefault(team => team.ID == draftPlayer.TeamID);
-                team.PlayerIDs.Add(draftPlayer.ID);
+                team.DraftPlayerIDs.Add(draftPlayer.ID);
             }
 
             var leagueMatches = MatchScheduler.GenerateLeagueMatches(league, teams, _context);

@@ -250,7 +250,7 @@ public class DataManager
             LogoUrl = logoUrl,
             Wins = 0,
             Losses = 0,
-            PlayerIDs = new List<int>()
+            DraftPlayerIDs = new List<int>()
         };
 
         context.Teams.Add(newTeam);
@@ -384,6 +384,93 @@ public class DataManager
         context.SaveChanges();
     }
 
+    public static List<Score> GetLeagueMatchScores(int id, AppDbContext context)
+    {
+        List<Score> leagueMatchScores = new List<Score>();
+
+        // Get all scores and fullstats objects for use later
+        List<Score> scores = context.Scores.ToList();
+        List<FullStat> fullStats = context.FullStats.ToList();
+
+        LeagueMatch leagueMatch = context.LeagueMatches
+            .Include(lm => lm.TeamOne)
+            .Include(lm => lm.TeamTwo)
+            .FirstOrDefault(leagueMatch => leagueMatch.ID == id);
+
+        if (leagueMatch == null)
+            throw new Exception("League match not found.");
+
+        var draftPlayerIDs = new List<int>();
+        draftPlayerIDs.AddRange(leagueMatch.TeamOne.DraftPlayerIDs);
+        draftPlayerIDs.AddRange(leagueMatch.TeamTwo.DraftPlayerIDs);
+
+        // Get all draft players that are in the LeagueMatch (business data grouping of players associated with your fantasy league teams)
+        List<DraftPlayer> draftPlayers = context.DraftPlayers.Where(dp => draftPlayerIDs.Contains(dp.ID)).ToList();
+
+        // Pair business object with real world data object
+
+        List<Tuple<DraftPlayer, Player>> playerObjectAssociations = new List<Tuple<DraftPlayer, Player>>();
+        foreach (var draftPlayer in draftPlayers)
+        {
+            // Get the real world player object that have the same name. It should be a 1 to 1 ratio, as each league should only contain one instance of any DraftPlayer
+            Player player = context.Players.SingleOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
+            playerObjectAssociations.Add(new Tuple<DraftPlayer, Player>(draftPlayer, player));
+        }
+
+        // objectAssociation stores Item1 = DraftPlayer, Item2 = Player
+        foreach (var objectAssociation in playerObjectAssociations)
+        {
+            DraftPlayer draftPlayer = objectAssociation.Item1;
+            Player player = objectAssociation.Item2;
+
+            FullStat fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == player.ID && fullStat.MatchDate == leagueMatch.MatchDate);
+            if (fullStat == null)
+            {
+                int substitutePlayerID = Substitutes.SubstitutePlayerIDs[player.ID];
+                if (substitutePlayerID != null)
+                {
+                    fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == substitutePlayerID && fullStat.MatchDate == leagueMatch.MatchDate);
+                }
+                else
+                {
+                    lock (SharedLockObjects.ExternalDataRefreshLock)
+                    {
+                        DataManager.UpdatePlayerList(context);
+                        DataManager.UpdateMatchData(context);
+                        fullStats = context.FullStats.ToList();
+                    }
+
+                    fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == player.ID);
+                }
+            }
+
+            Score score = scores.FirstOrDefault(score => score.PlayerID == player.ID && score.MatchDate == fullStat.MatchDate);
+            if (score == null)
+            {
+                int substitutePlayerID = Substitutes.SubstitutePlayerIDs[player.ID];
+                if (substitutePlayerID != null)
+                {
+                    score = scores.FirstOrDefault(score => score.PlayerID == substitutePlayerID && score.MatchDate == fullStat.MatchDate);
+                }
+                else
+                {
+                    lock (SharedLockObjects.ScoresLock)
+                    {
+                        // The score will be the same for each player, regardless of their fantasy league-specific team
+                        DataManager.UpdateScores(context);
+                        scores = context.Scores.ToList();
+                    }
+
+                    score = scores.FirstOrDefault(score => score.PlayerID == player.ID && score.MatchDate == fullStat.MatchDate);
+                }
+            }
+
+            leagueMatchScores.Add(score);
+        }
+
+        return leagueMatchScores;
+    }
+
     public static void AddPlayerToTeam(int teamID, int playerID, AppDbContext context)
     {
         var team = context.Teams.Find(teamID);
@@ -391,7 +478,7 @@ public class DataManager
 
         if (team != null && player != null)
         {
-            team.PlayerIDs.Add(playerID);
+            team.DraftPlayerIDs.Add(playerID);
             player.TeamID = teamID;
 
             context.SaveChanges();
@@ -405,7 +492,7 @@ public class DataManager
 
         if (team != null && player != null)
         {
-            team.PlayerIDs.Remove(playerID);
+            team.DraftPlayerIDs.Remove(playerID);
             player.TeamID = 0;
 
             context.SaveChanges();

@@ -84,7 +84,7 @@ public class AppDbContext : DbContext
             .IsRequired(false);
 
         modelBuilder.Entity<Team>()
-            .Property(t => t.PlayerIDs)
+            .Property(t => t.DraftPlayerIDs)
             // convert the List<int> to a comma-separated string when saving to the database, and back to a List<int> when reading from the database.
             .HasConversion(
                 v => string.Join(",", v),

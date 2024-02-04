@@ -94,6 +94,8 @@ public static class ApiEndpoints
             List<Team> leagueTeams = new List<Team>();
             List<Team> teams = dbContext.Teams.ToList();
             List<Player> userTeamPlayers = new List<Player>();
+            List<Player> allPlayers = new List<Player>();
+            List<DraftPlayer> leagueDraftPlayers = new List<DraftPlayer>();
 
             User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
             Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
@@ -114,7 +116,7 @@ public static class ApiEndpoints
 
                 if (userLeague.LeagueStatus == LeagueStatus.SeasonInProgress)
                 {
-                    List<DraftPlayer> teamDraftPlayers = dbContext.DraftPlayers.Where(draftPlayer => userTeam.PlayerIDs.Contains(draftPlayer.ID)).ToList();
+                    List<DraftPlayer> teamDraftPlayers = dbContext.DraftPlayers.Where(draftPlayer => userTeam.DraftPlayerIDs.Contains(draftPlayer.ID)).ToList();
 
                     foreach (var teamDraftPlayer in teamDraftPlayers)
                     {
@@ -126,6 +128,9 @@ public static class ApiEndpoints
                             .Include(player => player.ChampionStats)
                             .FirstOrDefault(player => player.Name.ToLower().Equals(teamDraftPlayer.Name.ToLower())));
                     }
+
+                    allPlayers = dbContext.Players.ToList();
+                    leagueDraftPlayers = dbContext.DraftPlayers.Where(dp => leagueTeamIDs.Contains(dp.TeamID)).ToList();
                 }
             }
 
@@ -135,7 +140,9 @@ public static class ApiEndpoints
                 UserTeam = userTeam,
                 UserLeague = userLeague,
                 LeagueTeams = leagueTeams,
-                UserTeamPlayers = userTeamPlayers
+                UserTeamPlayers = userTeamPlayers,
+                AllPlayers = allPlayers,
+                LeagueDraftPlayers = leagueDraftPlayers
             };
 
             // Serialize the HomePageData object to JSON and return it
@@ -579,70 +586,12 @@ public static class ApiEndpoints
     {
         try
         {
-            List<Score> leagueMatchScores = new List<Score>();
+            List<Score> scores = DataManager.GetLeagueMatchScores(id, dbContext);
 
-            // Get all scores and fullstats objects for use later
-            List<Score> scores = dbContext.Scores.ToList();
-            List<FullStat> fullStats = dbContext.FullStats.ToList();
+            if (scores.Count == 0) 
+                return Results.Problem("No scores found for that League Match.");
 
-            LeagueMatch leagueMatch = dbContext.LeagueMatches
-                .Include(lm => lm.TeamOne)
-                .Include(lm => lm.TeamTwo)
-                .FirstOrDefault(leagueMatch => leagueMatch.ID == id);
-
-            if (leagueMatch == null)
-                return Results.Problem("League match not found.");
-
-            var draftPlayerIDs = new List<int>();
-            draftPlayerIDs.AddRange(leagueMatch.TeamOne.PlayerIDs);
-            draftPlayerIDs.AddRange(leagueMatch.TeamTwo.PlayerIDs);
-
-            // Get all draft players that are in the LeagueMatch (business data grouping of players associated with your fantasy league teams)
-            List<DraftPlayer> draftPlayers = dbContext.DraftPlayers.Where(dp => draftPlayerIDs.Contains(dp.ID)).ToList();
-
-            // Pair business object with real world data object
-
-            List<Tuple<DraftPlayer, Player>> playerObjectAssociations = new List<Tuple<DraftPlayer, Player>>();
-            foreach (var draftPlayer in draftPlayers)
-            {
-                // Get the real world player object that have the same name. It should be a 1 to 1 ratio, as each league should only contain one instance of any DraftPlayer
-                Player player = dbContext.Players.SingleOrDefault(player => player.Name.ToLower().Equals(draftPlayer.Name.ToLower()));
-                playerObjectAssociations.Add(new Tuple<DraftPlayer, Player>(draftPlayer, player));
-            }
-
-            // objectAssociation stores Item1 = DraftPlayer, Item2 = Player
-            foreach (var objectAssociation in playerObjectAssociations)
-            {
-                FullStat fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == objectAssociation.Item2.ID && fullStat.MatchDate == leagueMatch.MatchDate);
-                if (fullStat == null)
-                {
-                    lock (SharedLockObjects.ExternalDataRefreshLock)
-                    {
-                        DataManager.UpdatePlayerList(dbContext);
-                        DataManager.UpdateMatchData(dbContext);
-                        fullStats = dbContext.FullStats.ToList();
-                    }
-
-                    fullStat = fullStats.FirstOrDefault(fullStat => fullStat.PlayerID == objectAssociation.Item2.ID);
-                }
-
-                Score score = scores.FirstOrDefault(score => score.PlayerID == objectAssociation.Item2.ID && score.MatchDate == fullStat.MatchDate);
-                if (score == null)
-                {
-                    lock (SharedLockObjects.ScoresLock)
-                    {
-                        // The score will be the same for each player, regardless of their fantasy league-specific team
-                        DataManager.UpdateScores(dbContext);
-                        scores = dbContext.Scores.ToList();
-                    }
-
-                    score = scores.FirstOrDefault(score => score.PlayerID == objectAssociation.Item2.ID && score.MatchDate == fullStat.MatchDate);
-                }
-
-                leagueMatchScores.Add(score);
-            }
-
-            return Results.Ok(leagueMatchScores);
+            return Results.Ok(scores);
         }
         catch (Exception ex)
         {

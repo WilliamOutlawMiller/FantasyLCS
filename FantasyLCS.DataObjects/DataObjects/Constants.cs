@@ -1,3 +1,5 @@
+using FantasyLCS.DataObjects;
+
 namespace Constants
 {
     public class SeasonInfo
@@ -110,6 +112,15 @@ namespace Constants
             { 11, new (new ("Week 6", "Day 1"), new DateTime(2024, 2, 8)) },
             { 12, new (new ("Week 6", "Day 2"), new DateTime(2024, 2, 9)) },
             { 13, new (new ("Week 6", "Day 3"), new DateTime(2024, 2, 10))},
+        };
+    }
+
+    public class Substitutes
+    {
+        public static Dictionary<int, int> SubstitutePlayerIDs = new Dictionary<int, int>
+        {
+            // Bvoy, WildTurtle
+            { 2085, 139 }
         };
     }
 }
