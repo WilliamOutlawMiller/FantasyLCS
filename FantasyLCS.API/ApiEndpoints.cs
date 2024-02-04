@@ -2,16 +2,25 @@
 using FantasyLCS.DataObjects.DataObjects.RequestData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using Serilog;
 using System;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml;
+using System.Collections.Generic;
 
 
 namespace FantasyLCS.API;
 
-public class ApiEndpoints
+public static class ApiEndpoints
 {
+    private static object _updateDataLock = new object();
+
     public static async Task<IResult> Login(HttpContext context, AppDbContext dbContext)
     {
         try
@@ -80,12 +89,13 @@ public class ApiEndpoints
 
     public static async Task<IResult> GetHomePage(string username, AppDbContext dbContext)
     {
-        try
+        try        
         {
-            List<User> leagueUsers = new List<User>();
-            List<int?> leagueTeamIDs = new List<int?>();
-            List<Team> teams = dbContext.Teams.ToList();
             List<Team> leagueTeams = new List<Team>();
+            List<Team> teams = dbContext.Teams.ToList();
+            List<Player> userTeamPlayers = new List<Player>();
+            List<Player> allPlayers = new List<Player>();
+            List<DraftPlayer> leagueDraftPlayers = new List<DraftPlayer>();
 
             User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
             Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
@@ -97,11 +107,31 @@ public class ApiEndpoints
 
             if (userLeague != null)
             {
-                leagueUsers = dbContext.Users.Where(user => userLeague.UserIDs.Contains(user.ID)).ToList();
+                var leagueUserIDs = userLeague.UserIDs;
+                var leagueUsers = dbContext.Users.Where(user => leagueUserIDs.Contains(user.ID)).ToList();
 
-                leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
+                var leagueTeamIDs = leagueUsers.Select(user => user.TeamID).ToList();
 
                 leagueTeams = teams.Where(team => leagueTeamIDs.Contains(team.ID)).ToList();
+
+                if (userLeague.LeagueStatus == LeagueStatus.SeasonInProgress)
+                {
+                    List<DraftPlayer> teamDraftPlayers = dbContext.DraftPlayers.Where(draftPlayer => userTeam.DraftPlayerIDs.Contains(draftPlayer.ID)).ToList();
+
+                    foreach (var teamDraftPlayer in teamDraftPlayers)
+                    {
+                        userTeamPlayers.Add(dbContext.Players
+                            .Include(player => player.GeneralStats)
+                            .Include(player => player.AggressionStats)
+                            .Include(player => player.VisionStats)
+                            .Include(player => player.EarlyGameStats)
+                            .Include(player => player.ChampionStats)
+                            .FirstOrDefault(player => player.Name.ToLower().Equals(teamDraftPlayer.Name.ToLower())));
+                    }
+
+                    allPlayers = dbContext.Players.ToList();
+                    leagueDraftPlayers = dbContext.DraftPlayers.Where(dp => leagueTeamIDs.Contains(dp.TeamID)).ToList();
+                }
             }
 
             // Create an instance of HomePageData and populate its properties
@@ -109,7 +139,10 @@ public class ApiEndpoints
             {
                 UserTeam = userTeam,
                 UserLeague = userLeague,
-                LeagueTeams = leagueTeams
+                LeagueTeams = leagueTeams,
+                UserTeamPlayers = userTeamPlayers,
+                AllPlayers = allPlayers,
+                LeagueDraftPlayers = leagueDraftPlayers
             };
 
             // Serialize the HomePageData object to JSON and return it
@@ -117,6 +150,7 @@ public class ApiEndpoints
         }
         catch (Exception ex)
         {
+            Log.Logger.Error("Failure: " + ex);
             return Results.Problem("Failure: " + ex.Message);
         }
     }
@@ -524,25 +558,40 @@ public class ApiEndpoints
         }
     }
 
-    public static async Task<IResult> GetLeagueMatchScore(int id, AppDbContext dbContext)
+    /// <summary>
+    /// It's important to remember that DraftPlayers are different than Players in the following ways:
+    ///     Player:
+    ///         exactly 8 Players per LCS team
+    ///         each plays 1 match each week
+    ///         uses a unique ID set from where the data is pulled in from(API, Gol.GG, etc.)
+    ///      DraftPlayer:
+    ///         each league has a copy of each player as a DraftPlayer object
+    ///         each DraftPlayer is associated with an artificial team
+    ///         uses a unique ID created in fantasy-lcs domain
+    /// And finally, the stats object.
+    ///      FullStats: 
+    ///         ten FullStats per match, associated with real world players in a real world match(i.e.C9 vs FLY)
+    ///         stores PlayerID from the Player object, NOT the DraftPlayer object
+    ///         contains stats that we use to apply scores, which need to be relayed to the business data object
+
+
+    /// Maintaining our own data object with unique IDs is better for keeping our business data separate from external data objects.
+    /// We cannot rely on external data to be available before the season starts, but we can update ours with their data when it becomes available via the scraping interface.
+
+    /// The merging of these two data objects occurs here.This step is necessary, as the match stats are associated with the player IDs, but teams are associated with DraftPlayer IDs.
+    /// Ideally we could fix this by just storing the other IDs on each other.
+    /// Regardless, here is my current implementation.
+    /// </summary>
+    public static async Task<IResult> GetLeagueMatchScores(int id, AppDbContext dbContext)
     {
         try
         {
-            League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
+            List<Score> scores = DataManager.GetLeagueMatchScores(id, dbContext);
 
-            if (league == null)
-                return Results.Problem("Invalid League... Maybe clear your cookies?");
+            if (scores.Count == 0) 
+                return Results.Problem("No scores found for that League Match.");
 
-            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
-                .Include(lm => lm.TeamOne)
-                .Include(lm => lm.TeamTwo)
-                .Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
-
-            if (leagueMatches == null || leagueMatches.Count == 0)
-                return Results.Problem("League has no matches created.");
-
-            return Results.Ok(leagueMatches);
-
+            return Results.Ok(scores);
         }
         catch (Exception ex)
         {

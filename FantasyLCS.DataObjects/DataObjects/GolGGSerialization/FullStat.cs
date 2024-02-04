@@ -3,13 +3,16 @@ using System.Text.Json.Serialization;
 
 namespace FantasyLCS.DataObjects;
 
-public class FullStats
+public class FullStat
 {
     public int MatchID { get; set; }
 
+    [JsonIgnore]
     public Match Match { get; set; }
 
     public int PlayerID { get; set; }
+
+    public DateTime MatchDate { get; set; }
 
     [JsonPropertyName("Player")]
     public string Name { get; set; }

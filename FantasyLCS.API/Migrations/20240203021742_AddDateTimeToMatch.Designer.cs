@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FantasyLCS.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203021742_AddDateTimeToMatch")]
+    partial class AddDateTimeToMatch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -31,7 +34,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("DataUpdateLogs", (string)null);
+                    b.ToTable("DataUpdateLogs");
                 });
 
             modelBuilder.Entity("Draft", b =>
@@ -55,7 +58,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Drafts", (string)null);
+                    b.ToTable("Drafts");
                 });
 
             modelBuilder.Entity("DraftPlayer", b =>
@@ -90,10 +93,10 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("DraftID");
 
-                    b.ToTable("DraftPlayers", (string)null);
+                    b.ToTable("DraftPlayers");
                 });
 
-            modelBuilder.Entity("FantasyLCS.DataObjects.FullStat", b =>
+            modelBuilder.Entity("FantasyLCS.DataObjects.FullStats", b =>
                 {
                     b.Property<int>("MatchID")
                         .HasColumnType("INTEGER");
@@ -391,7 +394,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("MatchID", "PlayerID");
 
-                    b.ToTable("FullStats", (string)null);
+                    b.ToTable("FullStats");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Match", b =>
@@ -402,7 +405,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Matches", (string)null);
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.Player", b =>
@@ -423,7 +426,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("FantasyLCS.DataObjects.PlayerStats.AggressionStats", b =>
@@ -458,7 +461,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("AggressionStats", (string)null);
+                    b.ToTable("AggressionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "aggressionStats");
                 });
@@ -495,7 +498,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("PlayerID");
 
-                    b.ToTable("ChampionStats", (string)null);
+                    b.ToTable("ChampionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "championStats");
                 });
@@ -537,7 +540,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("EarlyGameStats", (string)null);
+                    b.ToTable("EarlyGameStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "earlyGameStats");
                 });
@@ -584,7 +587,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("GeneralStats", (string)null);
+                    b.ToTable("GeneralStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "generalStats");
                 });
@@ -616,7 +619,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("VisionStats", (string)null);
+                    b.ToTable("VisionStats");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "visionStats");
                 });
@@ -648,7 +651,7 @@ namespace FantasyLCS.API.Migrations
                     b.HasIndex("TeamID")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("League", b =>
@@ -683,7 +686,7 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Leagues", (string)null);
+                    b.ToTable("Leagues");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "league");
                 });
@@ -728,110 +731,23 @@ namespace FantasyLCS.API.Migrations
 
                     b.HasIndex("TeamTwoID");
 
-                    b.ToTable("LeagueMatches", (string)null);
+                    b.ToTable("LeagueMatches");
                 });
 
             modelBuilder.Entity("Score", b =>
                 {
                     b.Property<DateTime>("MatchDate")
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "matchDate");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PlayerID")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "playerID");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double>("BountyCollectedScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "bountyCollectedScore");
-
-                    b.Property<double>("BountyLostScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "bountyLostScore");
-
-                    b.Property<double>("CCInstancesScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "ccInstancesScore");
-
-                    b.Property<double>("CCTimeScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "ccTimeScore");
-
-                    b.Property<double>("CSD15Score")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "csd15Score");
-
-                    b.Property<double>("DPMScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "dpmScore");
-
-                    b.Property<double>("DamageTakenScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "damageTakenScore");
-
-                    b.Property<double>("DoubleKillScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "doubleKillScore");
-
-                    b.Property<double>("FinalScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "finalScore");
-
-                    b.Property<double>("GD15Score")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "gd15Score");
-
-                    b.Property<double>("KDAScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "kdaScore");
-
-                    b.Property<double>("KPScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "kpScore");
-
-                    b.Property<int>("MatchID")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "matchID");
-
-                    b.Property<double>("ObjectiveStealScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "objectiveStealScore");
-
-                    b.Property<double>("PentaKillScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "pentaKillScore");
-
-                    b.Property<double>("QuadraKillScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "quadraKillScore");
-
-                    b.Property<double>("SoloKillScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "soloKillScore");
-
-                    b.Property<double>("TeamHealingScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "teamHealingScore");
-
-                    b.Property<double>("TeamShieldingScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "teamShieldingScore");
-
-                    b.Property<double>("TripleKillScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "tripleKillScore");
-
-                    b.Property<double>("TurretDamageScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "turretDamageScore");
-
-                    b.Property<double>("VSPMScore")
-                        .HasColumnType("REAL")
-                        .HasAnnotation("Relational:JsonPropertyName", "vspmScore");
+                    b.Property<int>("FinalScore")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("MatchDate", "PlayerID");
 
-                    b.ToTable("Scores", (string)null);
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Team", b =>
@@ -840,11 +756,6 @@ namespace FantasyLCS.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    b.Property<string>("DraftPlayerIDs")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "draftPlayerIDs");
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()
@@ -865,13 +776,18 @@ namespace FantasyLCS.API.Migrations
                         .HasColumnType("TEXT")
                         .HasAnnotation("Relational:JsonPropertyName", "ownerName");
 
+                    b.Property<string>("PlayerIDs")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasAnnotation("Relational:JsonPropertyName", "playerIDs");
+
                     b.Property<int>("Wins")
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Relational:JsonPropertyName", "wins");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
 
                     b.HasAnnotation("Relational:JsonPropertyName", "teamTwo");
                 });
@@ -885,7 +801,7 @@ namespace FantasyLCS.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FantasyLCS.DataObjects.FullStat", b =>
+            modelBuilder.Entity("FantasyLCS.DataObjects.FullStats", b =>
                 {
                     b.HasOne("FantasyLCS.DataObjects.Match", "Match")
                         .WithMany("FullStats")

@@ -4,6 +4,15 @@
     ViewData["Title"] = "Matches";
 }
 
+<script>
+    function toggleDropdown(element) {
+        // Find the score dropdown within the clicked match section
+        const dropdown = element.querySelector('.score-dropdown');
+        // Toggle the display property
+        dropdown.style.display = dropdown.style.display === 'none' ? 'flex' : 'none';
+    }
+</script>
+
 <style>
     /* Matches page container and layout styles */
     .matches-container {
@@ -96,7 +105,47 @@
         color: green; /* Adjust color as needed */
     }
 
-    /* Button styles can remain the same if they are used on the Matches page */
+    .score-dropdown {
+        display: none; /* Initially hide the dropdown */
+        flex-direction: row; /* Align team scores side by side */
+        gap: 10px;
+        justify-content: space-between; /* Align team scores on opposite ends */
+        padding: 10px;
+        background-color: #f1f1f1; /* Light background for the dropdown */
+        border-radius: 5px;
+        margin-top: 10px; /* Space between match entry and scores */
+    }
+
+    .team-scores {
+        display: flex;
+        flex-direction: column; /* Stack scores vertically */
+        width: 50%; /* Half the width for each team */
+        padding: 0 10px; /* Padding on the sides */
+    }
+
+    .player-score {
+        background-color: #ffffff;
+        margin: 5px 0; /* Space between player scores */
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for each score */
+        display: flex;
+        justify-content: space-between; /* Align the name and score */
+        padding: 10px;
+    }
+
+    .team-one .player-score {
+        flex-direction: row; /* Keep the name on the left and score on the right */
+    }
+
+    .team-two .player-score {
+        display: flex;
+        justify-content: space-between; /* This will ensure the score and name are on opposite ends */
+    }
+
+    .team-two .player-score span:first-child {
+        margin-right: 10px; /* This will ensure there is space between the score and the name */
+    }
 
     /* Typography styles can be adjusted to fit the Matches page context */
     h2, h3 {
@@ -118,7 +167,7 @@
                 <div class="week-header">@weekGroup.Key</div>
                 @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
                 {
-                    <div class="match-section">
+                    <div class="match-section" onclick="toggleDropdown(this)">
                         <div class="match-entry">
                             <div class="match-logo-container team-logo-left" style="background-image: url('@match.TeamOne.LogoUrl');"></div>
 
@@ -139,6 +188,31 @@
                             </div>
 
                             <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
+                        </div>
+
+                        <div class="score-dropdown" id="scores-@match.ID">
+                            <!-- Team One Scores -->
+                            <div class="team-scores team-one">
+                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamOneID && dp.ID == s.Key.Item2)))
+                                {
+                                    <div class="player-score">
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
+                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Team Two Scores -->
+                            <div class="team-scores team-two">
+                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamTwoID && dp.ID == s.Key.Item2)))
+                                {
+                                    <div class="player-score">
+                                        <!-- Score is now placed before the name -->
+                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
