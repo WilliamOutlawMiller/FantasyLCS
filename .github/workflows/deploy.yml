@@ -1,0 +1,50 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy API
+        run: |
+          ssh -o StrictHostKeyChecking=no remotedesktop@raspberrypi << 'EOF'
+
+          sudo systemctl stop fantasylcsapi.service
+
+          cd /home/remotedesktop/FantasyLCS.API.PipelineDeploy
+          git pull origin main
+
+          dotnet publish -c Release -o published
+
+          rsync -avh --delete published/ /home/remotedesktop/FantasyLCS.API
+
+          sudo systemctl start fantasylcsapi.service
+          EOF
+
+      - name: Deploy WebAPP
+        run: |
+          ssh -o StrictHostKeyChecking=no remotedesktop@raspberrypi << 'EOF'
+
+          sudo systemctl stop fantasylcswebapp.service
+
+          cd /home/remotedesktop/FantasyLCS.WebApp.PipelineDeploy
+          git pull origin main
+
+          dotnet publish -c Release -o published
+
+          rsync -avh --delete published/ /home/remotedesktop/FantasyLCS.WebApp
+
+          sudo systemctl start fantasylcswebapp.service
+          EOF
