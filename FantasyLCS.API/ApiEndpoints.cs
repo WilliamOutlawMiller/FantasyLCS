@@ -17,6 +17,7 @@ using System.Collections.Generic;
 
 namespace FantasyLCS.API;
 
+// test
 public static class ApiEndpoints
 {
     private static object _updateDataLock = new object();
