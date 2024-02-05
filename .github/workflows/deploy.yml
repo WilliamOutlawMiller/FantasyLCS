@@ -21,24 +21,18 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasy-lcs.com << 'EOF'
 
-          DOTNET_PATH="/home/remotedesktop/.dotnet"
-
           sudo systemctl stop fantasylcsapi.service
           sudo systemctl stop fantasylcswebapp.service
 
           cd /home/remotedesktop/FantasyLCS.PipelineDeploy
           git pull origin main
 
-          \$DOTNET_PATH/dotnet publish FantasyLCS.API/FantasyLCS.API.csproj -c Release -o published/FantasyLCS.API
-
+          /home/remotedesktop/.dotnet/dotnet publish FantasyLCS.API/FantasyLCS.API.csproj -c Release -o published/FantasyLCS.API
           rsync -avh --delete published/FantasyLCS.API/ /home/remotedesktop/FantasyLCS.API
-
           sudo systemctl start fantasylcsapi.service
 
-          \$DOTNET_PATH/dotnet publish FantasyLCS.WebApp/FantasyLCS.WebApp.csproj -c Release -o published/FantasyLCS.WebApp
-
+          /home/remotedesktop/.dotnet/dotnet publish FantasyLCS.WebApp/FantasyLCS.WebApp.csproj -c Release -o published/FantasyLCS.WebApp
           rsync -avh --delete published/FantasyLCS.WebApp/ /home/remotedesktop/FantasyLCS.WebApp
-
           sudo systemctl start fantasylcswebapp.service
 
           EOF
