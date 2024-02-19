@@ -332,7 +332,7 @@
         @foreach (var player in Model.HomePage.UserTeamPlayers)
         {
             <div class="section player-card">
-                <div class="player-image" style="background-image: url('@player.ImagePath.ToLower()');"></div>
+                <div class="player-image" style="background-image: url('@player.ImagePath');"></div>
                 <div class="player-name">@player.Name</div>
                 <div class="player-stats">
                     <p><strong>KDA:</strong> @player.GeneralStats.KDA</p>
