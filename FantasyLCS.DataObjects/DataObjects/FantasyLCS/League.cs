@@ -18,6 +18,7 @@ public class League
     [JsonPropertyName("userIDs")]
     public List<int> UserIDs { get; set; }
 
+    [JsonPropertyName("leagueStatus")]
     public LeagueStatus LeagueStatus { get; set; }
 }
 

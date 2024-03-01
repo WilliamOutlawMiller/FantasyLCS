@@ -316,7 +316,7 @@
         <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
         <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
         <a class="btn @(Model.HomePage.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
-        <a class="btn @(Model.HomePage.UserLeague != null && ((int)Model.HomePage.UserLeague.LeagueStatus) > 1 ? "" : "btn-disabled")" asp-page="/Matches">Matches</a>
+        <a class="btn @(Model.HomePage.UserLeague != null && (int)Model.HomePage.UserLeague.LeagueStatus > 1 ? "" : "btn-disabled")" asp-page="/Matches">Matches</a>
         <a class="btn @(Model.HomePage.UserLeague != null && Model.HomePage.LeagueTeams.Count == 8 && (int)Model.HomePage.UserLeague.LeagueStatus < 2 ? "" : "btn-disabled")" asp-page="/Draft">Draft</a>
         <div class="refresh-button-container">
             <form method="post">
