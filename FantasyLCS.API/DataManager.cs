@@ -191,7 +191,8 @@ public class DataManager
         score.DPMScore = Convert.ToDouble(fullStat.DPM) * 0.01;
         score.VSPMScore = Convert.ToDouble(fullStat.VisionScorePerMinute) * 0.8;
 
-        score.CSD15Score = Convert.ToDouble(fullStat.CSD15) * 0.15;
+        // CSD15 scoring is removed due to Senna ADC lanes. Can change multiplier in the future to re-add.
+        score.CSD15Score = Convert.ToDouble(fullStat.CSD15) * 0;
         score.GD15Score = Convert.ToDouble(fullStat.GD15) * 0.005;
 
         score.DamageTakenScore = Convert.ToDouble(fullStat.TotalDamageTaken) * 0.00005;
