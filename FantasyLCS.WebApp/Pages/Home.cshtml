@@ -316,7 +316,7 @@
         <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/CreateLeague">Create League</a>
         <a class="btn @(Model.HomePage.UserTeam == null || Model.HomePage.UserLeague != null ? "btn-disabled" : "")" asp-page="/JoinLeague">Join League</a>
         <a class="btn @(Model.HomePage.UserLeague == null ? "btn-disabled" : "")" asp-page="/LeaveLeague">Leave League</a>
-        <a class="btn @(Model.HomePage.UserLeague == null || (int) Model.HomePage.UserLeague.LeagueStatus > 1 ? "btn-disabled" : "")" asp-page="/Matches">Matches</a>
+        <a class="btn @(Model.HomePage.UserLeague != null && (int)Model.HomePage.UserLeague.LeagueStatus > 1 ? "" : "btn-disabled")" asp-page="/Matches">Matches</a>
         <a class="btn @(Model.HomePage.UserLeague != null && Model.HomePage.LeagueTeams.Count == 8 && (int)Model.HomePage.UserLeague.LeagueStatus < 2 ? "" : "btn-disabled")" asp-page="/Draft">Draft</a>
         <div class="refresh-button-container">
             <form method="post">
@@ -332,7 +332,7 @@
         @foreach (var player in Model.HomePage.UserTeamPlayers)
         {
             <div class="section player-card">
-                <div class="player-image" style="background-image: url('@player.ImagePath.ToLower()');"></div>
+                <div class="player-image" style="background-image: url('@player.ImagePath');"></div>
                 <div class="player-name">@player.Name</div>
                 <div class="player-stats">
                     <p><strong>KDA:</strong> @player.GeneralStats.KDA</p>

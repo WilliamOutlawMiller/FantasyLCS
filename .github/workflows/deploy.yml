@@ -1,0 +1,40 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy API and WebApp
+        run: |
+          ssh -o StrictHostKeyChecking=no remotedesktop@deploy.fantasy-lcs.com << 'EOF'
+
+          sudo systemctl stop fantasylcsapi.service
+          sudo systemctl stop fantasylcswebapp.service
+
+          cd /home/remotedesktop/FantasyLCS.PipelineDeploy
+          git pull origin main
+
+          /home/remotedesktop/.dotnet/dotnet publish FantasyLCS.API/FantasyLCS.API.csproj -c Release -o published/FantasyLCS.API
+          sudo cp /home/remotedesktop/FantasyLCS.API/appdata.db /home/remotedesktop/FantasyLCS.Backup/appdata.db.backup
+
+          sudo -u www-data rsync -avh --delete --exclude 'appdata.db' --exclude 'appsettings.json' published/FantasyLCS.API/ /home/remotedesktop/FantasyLCS.API
+          sudo systemctl start fantasylcsapi.service
+
+          /home/remotedesktop/.dotnet/dotnet publish FantasyLCS.WebApp/FantasyLCS.WebApp.csproj -c Release -o published/FantasyLCS.WebApp
+          sudo -u www-data rsync -avh --delete --exclude 'appdata.db' --exclude 'appsettings.json' published/FantasyLCS.WebApp/ /home/remotedesktop/FantasyLCS.WebApp
+          sudo systemctl start fantasylcswebapp.service
+
+          EOF

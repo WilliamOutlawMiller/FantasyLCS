@@ -48,7 +48,7 @@ namespace FantasyLCS.WebApp.Pages
 
                 if (HomePage.UserLeague == null)
                         return RedirectToPage("/Home");
-                if ((int)HomePage.UserLeague.LeagueStatus !> 1)
+                if ((int)HomePage.UserLeague.LeagueStatus < 1)
                         return RedirectToPage("/Home");
 
                 // Get LeagueMatches
