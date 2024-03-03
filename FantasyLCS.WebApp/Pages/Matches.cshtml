@@ -190,7 +190,7 @@
                             <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
                         </div>
 
-                        <div class="score-dropdown" id="scores-@match.ID">
+                        <div class="score-dropdown" style="display: none;" id="scores-@match.ID">
                             <!-- Team One Scores -->
                             <div class="team-scores team-one">
                                 @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamOneID && dp.ID == s.Key.Item2)))
