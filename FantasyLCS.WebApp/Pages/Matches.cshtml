@@ -32,46 +32,40 @@
 
     .match-entry {
         display: flex;
+        justify-content: center; /* Align children to the center */
         align-items: center;
-        justify-content: space-between; /* This will put space between the flex items */
-    }
-
-    /* Last child shouldn't have a border-bottom */
-    .match-entry:last-child {
-        border-bottom: none;
+        padding: 10px;
     }
 
     .match-logo-container {
-        /* Increase size of the logos */
-        width: 100px; /* Adjust width as needed */
-        height: 100px; /* Adjust height as needed */
+        flex: 0 0 auto; /* Do not grow or shrink, keep the logos size fixed */
+        width: 100px;
+        height: 100px;
         background-size: cover;
         background-position: center;
-        margin: 10px; /* Add margin around logos */
+        margin: 10px;
     }
 
     .match-info {
-        /* Make sure this div doesn't grow to push the logos apart */
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: auto; /* Adjust the basis according to the content */
-        flex-direction: column; /* Stack date and score vertically */
-        order: 2; /* This will ensure that match-info is in the center */
-        text-align: center; /* Center the text inside this div */
+        order: 2; /* Keep the match-info centered between team names and logos */
+        padding: 0 20px; /* Padding on the sides */
+        flex: 0 0 auto; /* Do not grow or shrink */
         display: flex;
-        justify-content: center; /* Center items vertically */
-        align-items: center; /* Center items horizontally */
+        flex-direction: column;
+        justify-content: center; /* Center content vertically */
+        align-items: center; /* Center content horizontally */
     }
 
     .match-date {
-        font-size: 14px; /* Adjust font size as needed for the date */
-        margin-bottom: 5px; /* Space between the date and the score */
+        font-size: 14px;
+        margin-bottom: 5px; /* Space between date and score */
     }
 
     .match-score {
-        font-size: 24px; /* Increase font size for the score */
-        font-weight: bold; /* Make the score bold */
-        color: #333; /* Adjust color as needed for better visibility */
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        order: 3;
     }
 
     .team-logo-left, .team-logo-right {
@@ -81,16 +75,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-    }
-
-    .team-logo-left {
-        margin-right: auto;
-        order: 1; /* This will ensure that team-logo-left is the first item */
-    }
-
-    .team-logo-right {
-        margin-left: auto;
-        order: 3; /* This will ensure that team-logo-right is the last item */
     }
 
     /* Style for the week header */
@@ -147,6 +131,40 @@
         margin-right: 10px; /* This will ensure there is space between the score and the name */
     }
 
+    .team-name {
+        flex-grow: 1; /* Allows the team names to expand and fill the available space */
+        margin: 0 10px; /* Space around the team names */
+        white-space: nowrap; /* Keep the text on a single line */
+        overflow: hidden; /* Hide overflow */
+        text-overflow: ellipsis; /* Add an ellipsis for text that overflows */
+    }
+
+    .team-logo-left {
+        order: 1; /* Ensure the left logo is the first item */
+        margin-right: 10px;
+    }
+
+    .team-logo-right {
+        order: 5; /* Ensure the right logo is the last item */
+        margin-left: 10px;
+    }
+
+    .team-name-left {
+        font-size: large;
+        font-weight: bold;
+        text-align: left; /* Right align the left team name */
+        order: 2;
+        width: 30%;
+    }
+
+    .team-name-right {
+        font-size: large;
+        font-weight: bold;
+        text-align: right; /* Left align the right team name */
+        order: 4;
+        width: 30%;
+    }
+
     /* Typography styles can be adjusted to fit the Matches page context */
     h2, h3 {
         font-size: 20px; /* Adjusted for visual hierarchy */
@@ -170,6 +188,7 @@
                     <div class="match-section" onclick="toggleDropdown(this)">
                         <div class="match-entry">
                             <div class="match-logo-container team-logo-left" style="background-image: url('@match.TeamOne.LogoUrl');"></div>
+                            <div class="team-name team-name-left">@match.TeamOne.Name</div>
 
                             <div class="match-info">
                                 <p class="match-date">@match.MatchDate.ToShortDateString()</p>
@@ -187,6 +206,7 @@
                                 }
                             </div>
 
+                            <div class="team-name team-name-right">@match.TeamTwo.Name</div>
                             <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
                         </div>
 
