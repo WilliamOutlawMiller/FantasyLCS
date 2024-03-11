@@ -189,7 +189,7 @@ public class Startup
                 .WithOpenApi();
             
             endpoints.MapGet("/getleaguematchscores/{id}", async (int id) =>
-            { return await ApiEndpoints.GetLeagueMatchScores(id, dbContextFactory.CreateDbContext()); })
+            { return await ApiEndpoints.GetLeagueMatchScore(id, dbContextFactory.CreateDbContext()); })
                 .WithName("GetLeagueMatchScores")
                 .WithOpenApi();
 

@@ -582,11 +582,11 @@ public static class ApiEndpoints
     /// Ideally we could fix this by just storing the other IDs on each other.
     /// Regardless, here is my current implementation.
     /// </summary>
-    public static async Task<IResult> GetLeagueMatchScores(int id, AppDbContext dbContext)
+    public static async Task<IResult> GetLeagueMatchScore(int id, AppDbContext dbContext)
     {
         try
         {
-            List<Score> scores = DataManager.GetLeagueMatchScores(id, dbContext);
+            List<Score> scores = DataManager.GetLeagueMatchScore(id, dbContext);
 
             if (scores.Count == 0) 
                 return Results.Problem("No scores found for that League Match.");

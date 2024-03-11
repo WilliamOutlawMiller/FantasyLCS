@@ -385,7 +385,7 @@ public class DataManager
         context.SaveChanges();
     }
 
-    public static List<Score> GetLeagueMatchScores(int id, AppDbContext context)
+    public static List<Score> GetLeagueMatchScore(int id, AppDbContext context)
     {
         List<Score> leagueMatchScores = new List<Score>();
 
