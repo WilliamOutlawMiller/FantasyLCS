@@ -137,32 +137,47 @@
         white-space: nowrap; /* Keep the text on a single line */
         overflow: hidden; /* Hide overflow */
         text-overflow: ellipsis; /* Add an ellipsis for text that overflows */
+        width: 30%;
+        font-size: large;
+        font-weight: bold;
     }
 
     .team-logo-left {
-        order: 1; /* Ensure the left logo is the first item */
+        order: 1;
         margin-right: 10px;
+        text-align: left;
     }
 
     .team-logo-right {
-        order: 5; /* Ensure the right logo is the last item */
+        order: 7;
         margin-left: 10px;
+        text-align: right;
+    }
+
+    .final-score {
+        width: 10%;
+    }
+
+    .final-score-left {
+        order: 2;
+        margin-right: 10px;
+        text-align: right;
+    }
+
+    .final-score-right {
+        order: 5;
+        margin-left: 10px;
+        text-align: left;
     }
 
     .team-name-left {
-        font-size: large;
-        font-weight: bold;
-        text-align: left; /* Right align the left team name */
         order: 2;
-        width: 30%;
+        text-align: left;
     }
 
     .team-name-right {
-        font-size: large;
-        font-weight: bold;
-        text-align: right; /* Left align the right team name */
-        order: 4;
-        width: 30%;
+        order: 6;
+        text-align: right; 
     }
 
     /* Typography styles can be adjusted to fit the Matches page context */
@@ -180,7 +195,7 @@
     <section class="league-info-section">
         <h2>@Model.HomePage.UserLeague.Name League Matches</h2>
         <div class="matches-container">
-            @foreach (var weekGroupLeagueMatches in Model.MatchesPage.LeagueMatches.GroupBy(m => m.Week).OrderBy(g => g.Key))
+            @foreach (var weekGroupLeagueMatches in Model.MatchesPage.LeagueMatches.GroupBy(m => m.Week).OrderByDescending(g => g.Key))
             {
                 <div class="week-header">@weekGroupLeagueMatches.Key</div>
                 @foreach (var leagueMatch in weekGroupLeagueMatches.OrderBy(m => m.MatchDate))
@@ -192,7 +207,7 @@
                         <div class="match-entry">
                             <div class="match-logo-container team-logo-left" style="background-image: url('@teamOne.LogoUrl');"></div>
                             <div class="team-name team-name-left">@teamOne.Name</div>
-
+                            <div class="final-score final-score-left">@leagueMatch.TeamOneFinalScore.ToString("0.0")</div>
                             <div class="match-info">
                                 <p class="match-date">@leagueMatch.MatchDate.ToShortDateString()</p>
                                 @switch (leagueMatch.Winner)
@@ -208,7 +223,7 @@
                                         break;
                                 }
                             </div>
-
+                            <div class="final-score final-score-right">@leagueMatch.TeamTwoFinalScore.ToString("0.0")</div>
                             <div class="team-name team-name-right">@teamTwo.Name</div>
                             <div class="match-logo-container team-logo-right" style="background-image: url('@teamTwo.LogoUrl');"></div>
                         </div>

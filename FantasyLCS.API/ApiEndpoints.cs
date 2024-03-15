@@ -221,6 +221,17 @@ public static class ApiEndpoints
                 }
             }
 
+            foreach (var leagueMatch in matchesPage.LeagueMatches)
+            {
+                var teamOneScores = matchesPage.LeagueMatchPlayerScores.Where(lmps => leagueMatch.TeamOne.DraftPlayerIDs.Contains(lmps.DraftPlayerID) && lmps.MatchDate == leagueMatch.MatchDate).ToList();
+                var teamTwoScores = matchesPage.LeagueMatchPlayerScores.Where(lmps => leagueMatch.TeamTwo.DraftPlayerIDs.Contains(lmps.DraftPlayerID) && lmps.MatchDate == leagueMatch.MatchDate).ToList();
+
+                leagueMatch.TeamOneFinalScore = teamOneScores.Select(fs => fs.FinalScore).Sum();
+                leagueMatch.TeamTwoFinalScore = teamTwoScores.Select(fs => fs.FinalScore).Sum();
+
+                leagueMatch.Winner = leagueMatch.TeamOneFinalScore > leagueMatch.TeamTwoFinalScore ? Winner.TeamOne : Winner.TeamTwo;
+            }
+
             return Results.Ok(matchesPage);
         }
         catch (Exception ex)
