@@ -385,18 +385,13 @@ public class DataManager
         context.SaveChanges();
     }
 
-    public static List<Score> GetLeagueMatchScores(int id, AppDbContext context)
+    public static List<Score> GetLeagueMatchScores(LeagueMatch leagueMatch, AppDbContext context)
     {
         List<Score> leagueMatchScores = new List<Score>();
 
         // Get all scores and fullstats objects for use later
         List<Score> scores = context.Scores.ToList();
         List<FullStat> fullStats = context.FullStats.ToList();
-
-        LeagueMatch leagueMatch = context.LeagueMatches
-            .Include(lm => lm.TeamOne)
-            .Include(lm => lm.TeamTwo)
-            .FirstOrDefault(leagueMatch => leagueMatch.ID == id);
 
         if (leagueMatch == null)
             throw new Exception("League match not found.");

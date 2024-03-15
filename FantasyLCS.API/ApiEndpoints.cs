@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Xml;
 using System.Collections.Generic;
-
+using Constants;
 
 namespace FantasyLCS.API;
 
@@ -98,10 +98,11 @@ public static class ApiEndpoints
             List<DraftPlayer> leagueDraftPlayers = new List<DraftPlayer>();
 
             User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
-            Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
 
             if (user == null)
                 return Results.Problem("User not found. Try deleting cookies?");
+
+            Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
 
             League userLeague = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
 
@@ -152,6 +153,90 @@ public static class ApiEndpoints
         {
             Log.Logger.Error("Failure: " + ex);
             return Results.Problem("Failure: " + ex.Message);
+        }
+    }
+
+    public static async Task<IResult> GetMatchesPage(string username, AppDbContext dbContext)
+    {
+        MatchesPage matchesPage = new MatchesPage();
+
+        try
+        {
+            User user = dbContext.Users.FirstOrDefault(user => user.Username.ToLower().Equals(username.ToLower()));
+
+            if (user == null)
+                return Results.Problem("User not found. Try deleting cookies?");
+
+            List<Team> teams = dbContext.Teams.ToList();
+            List<int?> teamIDs = teams.Select(t => (int?)t.ID).ToList();
+
+            Team userTeam = teams.FirstOrDefault(team => team.ID == user.TeamID);
+
+            League userLeague = dbContext.Leagues.SingleOrDefault(league => league.ID == user.LeagueID);
+
+            if (userLeague == null)
+                return Results.Problem("Invalid League... Maybe clear your cookies?");
+            List<DraftPlayer> leagueDraftPlayers = dbContext.DraftPlayers.Where(dp => teamIDs.Contains(dp.TeamID)).ToList();
+            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
+                .Where(leagueMatch => leagueMatch.LeagueID == userLeague.ID)
+                .ToList();
+
+            matchesPage.LeagueMatches = leagueMatches;
+
+            foreach (var leagueMatch in leagueMatches)
+            {
+                List<Score> scores = new List<Score>();
+
+                scores = DataManager.GetLeagueMatchScores(leagueMatch, dbContext);
+
+                foreach (var score in scores)
+                {
+                    Player player = dbContext.Players.SingleOrDefault(p => p.ID == score.PlayerID);
+                    DraftPlayer draftPlayer = leagueDraftPlayers.SingleOrDefault(dp => dp.Name.ToLower().Equals(player.Name.ToLower()));
+                    if (draftPlayer == null)
+                    {
+                        foreach (var entry in Substitutes.SubstitutePlayerIDs)
+                        {
+                            if (entry.Value == player.ID)
+                            {
+                                player = dbContext.Players.SingleOrDefault(p => p.ID == entry.Key);
+                                draftPlayer = leagueDraftPlayers.SingleOrDefault(dp => dp.Name.ToLower().Equals(player.Name.ToLower()));
+                            }
+                        }
+
+                    }
+
+                    LeagueMatchPlayerScore leagueMatchScore = new LeagueMatchPlayerScore
+                    {
+                        LeagueMatchID = leagueMatch.ID,
+                        MatchDate = leagueMatch.MatchDate,
+                        Week = leagueMatch.Week,
+                        TeamOneID = leagueMatch.TeamOneID,
+                        TeamTwoID = leagueMatch.TeamTwoID,
+                        DraftPlayerID = draftPlayer.ID,
+                        FinalScore = score.FinalScore
+                    };
+
+                    matchesPage.LeagueMatchPlayerScores.Add(leagueMatchScore);
+                }
+            }
+
+            foreach (var leagueMatch in matchesPage.LeagueMatches)
+            {
+                var teamOneScores = matchesPage.LeagueMatchPlayerScores.Where(lmps => leagueMatch.TeamOne.DraftPlayerIDs.Contains(lmps.DraftPlayerID) && lmps.MatchDate == leagueMatch.MatchDate).ToList();
+                var teamTwoScores = matchesPage.LeagueMatchPlayerScores.Where(lmps => leagueMatch.TeamTwo.DraftPlayerIDs.Contains(lmps.DraftPlayerID) && lmps.MatchDate == leagueMatch.MatchDate).ToList();
+
+                leagueMatch.TeamOneFinalScore = teamOneScores.Select(fs => fs.FinalScore).Sum();
+                leagueMatch.TeamTwoFinalScore = teamTwoScores.Select(fs => fs.FinalScore).Sum();
+
+                leagueMatch.Winner = leagueMatch.TeamOneFinalScore > leagueMatch.TeamTwoFinalScore ? Winner.TeamOne : Winner.TeamTwo;
+            }
+
+            return Results.Ok(matchesPage);
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem("An error occurred: " + ex.Message);
         }
     }
 
@@ -532,32 +617,6 @@ public static class ApiEndpoints
         }
     }
 
-    public static async Task<IResult> GetLeagueMatches(int id, AppDbContext dbContext)
-    {
-        try
-        {
-            League league = dbContext.Leagues.SingleOrDefault(league => league.ID == id);
-
-            if (league == null)
-                return Results.Problem("Invalid League... Maybe clear your cookies?");
-
-            List<LeagueMatch> leagueMatches = dbContext.LeagueMatches
-                .Include(lm => lm.TeamOne)
-                .Include(lm => lm.TeamTwo)
-                .Where(leagueMatch => leagueMatch.LeagueID == league.ID).ToList();
-
-            if (leagueMatches == null || leagueMatches.Count == 0)
-                return Results.Problem("League has no matches created.");
-
-            return Results.Ok(leagueMatches);
-
-        }
-        catch (Exception ex)
-        {
-            return Results.Problem("An error occurred: " + ex.Message);
-        }
-    }
-
     /// <summary>
     /// It's important to remember that DraftPlayers are different than Players in the following ways:
     ///     Player:
@@ -586,7 +645,9 @@ public static class ApiEndpoints
     {
         try
         {
-            List<Score> scores = DataManager.GetLeagueMatchScores(id, dbContext);
+            LeagueMatch leagueMatch = dbContext.LeagueMatches.FirstOrDefault(lm => lm.ID == id);
+
+            List<Score> scores = DataManager.GetLeagueMatchScores(leagueMatch, dbContext);
 
             if (scores.Count == 0) 
                 return Results.Problem("No scores found for that League Match.");

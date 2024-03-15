@@ -148,6 +148,11 @@ public class Startup
                 .WithName("GetHomePage")
                 .WithOpenApi();
 
+            endpoints.MapGet("/getmatchespage/{username}", async (string username) =>
+                { return await ApiEndpoints.GetMatchesPage(username, dbContextFactory.CreateDbContext()); })
+                .WithName("GetMatchesPage")
+                .WithOpenApi();
+
             endpoints.MapGet("/getallteams", async () =>
                 { return await ApiEndpoints.GetAllTeams(dbContextFactory.CreateDbContext()); })
                 .WithName("GetAllTeams")
@@ -181,11 +186,6 @@ public class Startup
             endpoints.MapGet("/getleaguebyusername/{username}", async (string username) =>
                 { return await ApiEndpoints.GetLeagueByUsername(username, dbContextFactory.CreateDbContext()); })
                 .WithName("GetLeagueByUsername")
-                .WithOpenApi();
-
-            endpoints.MapGet("/getleaguematches/{id}", async (int id) =>
-            { return await ApiEndpoints.GetLeagueMatches(id, dbContextFactory.CreateDbContext()); })
-                .WithName("GetLeagueMatches")
                 .WithOpenApi();
             
             endpoints.MapGet("/getleaguematchscores/{id}", async (int id) =>

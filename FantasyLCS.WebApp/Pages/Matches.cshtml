@@ -32,46 +32,40 @@
 
     .match-entry {
         display: flex;
+        justify-content: center; /* Align children to the center */
         align-items: center;
-        justify-content: space-between; /* This will put space between the flex items */
-    }
-
-    /* Last child shouldn't have a border-bottom */
-    .match-entry:last-child {
-        border-bottom: none;
+        padding: 10px;
     }
 
     .match-logo-container {
-        /* Increase size of the logos */
-        width: 100px; /* Adjust width as needed */
-        height: 100px; /* Adjust height as needed */
+        flex: 0 0 auto; /* Do not grow or shrink, keep the logos size fixed */
+        width: 100px;
+        height: 100px;
         background-size: cover;
         background-position: center;
-        margin: 10px; /* Add margin around logos */
+        margin: 10px;
     }
 
     .match-info {
-        /* Make sure this div doesn't grow to push the logos apart */
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: auto; /* Adjust the basis according to the content */
-        flex-direction: column; /* Stack date and score vertically */
-        order: 2; /* This will ensure that match-info is in the center */
-        text-align: center; /* Center the text inside this div */
+        order: 2; /* Keep the match-info centered between team names and logos */
+        padding: 0 20px; /* Padding on the sides */
+        flex: 0 0 auto; /* Do not grow or shrink */
         display: flex;
-        justify-content: center; /* Center items vertically */
-        align-items: center; /* Center items horizontally */
+        flex-direction: column;
+        justify-content: center; /* Center content vertically */
+        align-items: center; /* Center content horizontally */
     }
 
     .match-date {
-        font-size: 14px; /* Adjust font size as needed for the date */
-        margin-bottom: 5px; /* Space between the date and the score */
+        font-size: 14px;
+        margin-bottom: 5px; /* Space between date and score */
     }
 
     .match-score {
-        font-size: 24px; /* Increase font size for the score */
-        font-weight: bold; /* Make the score bold */
-        color: #333; /* Adjust color as needed for better visibility */
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        order: 3;
     }
 
     .team-logo-left, .team-logo-right {
@@ -81,16 +75,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-    }
-
-    .team-logo-left {
-        margin-right: auto;
-        order: 1; /* This will ensure that team-logo-left is the first item */
-    }
-
-    .team-logo-right {
-        margin-left: auto;
-        order: 3; /* This will ensure that team-logo-right is the last item */
     }
 
     /* Style for the week header */
@@ -147,6 +131,55 @@
         margin-right: 10px; /* This will ensure there is space between the score and the name */
     }
 
+    .team-name {
+        flex-grow: 1; /* Allows the team names to expand and fill the available space */
+        margin: 0 10px; /* Space around the team names */
+        white-space: nowrap; /* Keep the text on a single line */
+        overflow: hidden; /* Hide overflow */
+        text-overflow: ellipsis; /* Add an ellipsis for text that overflows */
+        width: 30%;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .team-logo-left {
+        order: 1;
+        margin-right: 10px;
+        text-align: left;
+    }
+
+    .team-logo-right {
+        order: 7;
+        margin-left: 10px;
+        text-align: right;
+    }
+
+    .final-score {
+        width: 10%;
+    }
+
+    .final-score-left {
+        order: 2;
+        margin-right: 10px;
+        text-align: right;
+    }
+
+    .final-score-right {
+        order: 5;
+        margin-left: 10px;
+        text-align: left;
+    }
+
+    .team-name-left {
+        order: 2;
+        text-align: left;
+    }
+
+    .team-name-right {
+        order: 6;
+        text-align: right; 
+    }
+
     /* Typography styles can be adjusted to fit the Matches page context */
     h2, h3 {
         font-size: 20px; /* Adjusted for visual hierarchy */
@@ -162,18 +195,22 @@
     <section class="league-info-section">
         <h2>@Model.HomePage.UserLeague.Name League Matches</h2>
         <div class="matches-container">
-            @foreach (var weekGroup in Model.Matches.GroupBy(m => m.Week).OrderBy(g => g.Key))
+            @foreach (var weekGroupLeagueMatches in Model.MatchesPage.LeagueMatches.GroupBy(m => m.Week).OrderByDescending(g => g.Key))
             {
-                <div class="week-header">@weekGroup.Key</div>
-                @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
+                <div class="week-header">@weekGroupLeagueMatches.Key</div>
+                @foreach (var leagueMatch in weekGroupLeagueMatches.OrderBy(m => m.MatchDate))
                 {
+                    Team teamOne = Model.HomePage.LeagueTeams.FirstOrDefault(team => team.ID == leagueMatch.TeamOneID);
+                    Team teamTwo = Model.HomePage.LeagueTeams.FirstOrDefault(team => team.ID == leagueMatch.TeamTwoID);
+
                     <div class="match-section" onclick="toggleDropdown(this)">
                         <div class="match-entry">
-                            <div class="match-logo-container team-logo-left" style="background-image: url('@match.TeamOne.LogoUrl');"></div>
-
+                            <div class="match-logo-container team-logo-left" style="background-image: url('@teamOne.LogoUrl');"></div>
+                            <div class="team-name team-name-left">@teamOne.Name</div>
+                            <div class="final-score final-score-left">@leagueMatch.TeamOneFinalScore.ToString("0.0")</div>
                             <div class="match-info">
-                                <p class="match-date">@match.MatchDate.ToShortDateString()</p>
-                                @switch (match.Winner)
+                                <p class="match-date">@leagueMatch.MatchDate.ToShortDateString()</p>
+                                @switch (leagueMatch.Winner)
                                 {
                                     case Winner.TeamOne:
                                         <p class="match-score">1 - 0</p>
@@ -186,30 +223,31 @@
                                         break;
                                 }
                             </div>
-
-                            <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
+                            <div class="final-score final-score-right">@leagueMatch.TeamTwoFinalScore.ToString("0.0")</div>
+                            <div class="team-name team-name-right">@teamTwo.Name</div>
+                            <div class="match-logo-container team-logo-right" style="background-image: url('@teamTwo.LogoUrl');"></div>
                         </div>
 
-                        <div class="score-dropdown" id="scores-@match.ID">
+                        <div class="score-dropdown" style="display: none;" id="scores-@leagueMatch.ID">
                             <!-- Team One Scores -->
                             <div class="team-scores team-one">
-                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamOneID && dp.ID == s.Key.Item2)))
+                                @foreach (var score in Model.MatchesPage.LeagueMatchPlayerScores.Where(s => s.LeagueMatchID == leagueMatch.ID && teamOne.DraftPlayerIDs.Contains(s.DraftPlayerID)))
                                 {
                                     <div class="player-score">
-                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
-                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.DraftPlayerID)?.Name</span>
+                                        <span>@score.FinalScore.ToString("0.0")</span>
                                     </div>
                                 }
                             </div>
 
                             <!-- Team Two Scores -->
                             <div class="team-scores team-two">
-                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamTwoID && dp.ID == s.Key.Item2)))
+                                @foreach (var score in Model.MatchesPage.LeagueMatchPlayerScores.Where(s => s.LeagueMatchID == leagueMatch.ID && teamTwo.DraftPlayerIDs.Contains(s.DraftPlayerID)))
                                 {
                                     <div class="player-score">
                                         <!-- Score is now placed before the name -->
-                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
-                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
+                                        <span>@score.FinalScore.ToString("0.0")</span>
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.DraftPlayerID)?.Name</span>
                                     </div>
                                 }
                             </div>

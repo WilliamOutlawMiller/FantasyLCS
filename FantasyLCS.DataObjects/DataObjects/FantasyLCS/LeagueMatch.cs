@@ -14,7 +14,7 @@ public class LeagueMatch
     [JsonPropertyName("leagueID")]
     public int LeagueID { get; set; }
 
-    [JsonPropertyName("league")]
+    [JsonIgnore]
     public League League { get; set; }
 
     [JsonPropertyName("week")]
@@ -26,14 +26,20 @@ public class LeagueMatch
     [JsonPropertyName("teamOneID")]
     public int TeamOneID { get; set; }
 
-    [JsonPropertyName("teamOne")]
+    [JsonIgnore]
     public Team TeamOne { get; set; }
+
+    [JsonPropertyName("teamOneFinalScore")]
+    public double TeamOneFinalScore { get; set; } = 0;
 
     [JsonPropertyName("teamTwoID")]
     public int TeamTwoID { get; set; }
 
-    [JsonPropertyName("teamTwo")]
+    [JsonIgnore]
     public Team TeamTwo { get; set; }
+
+    [JsonPropertyName("teamTwoFinalScore")]
+    public double TeamTwoFinalScore { get; set; } = 0;
 
     [JsonPropertyName("winner")]
     public Winner Winner { get; set; }

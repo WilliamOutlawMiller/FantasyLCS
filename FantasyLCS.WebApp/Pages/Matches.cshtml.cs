@@ -20,22 +20,19 @@ namespace FantasyLCS.WebApp.Pages
             _apiUrl = configuration["ApiSettings:BaseUrl"];
         }
 
-        public List<LeagueMatch> Matches { get; set; }
-
         public HomePage HomePage { get; set; }
 
-        public Dictionary<Tuple<int, int>, Score> LeagueMatchScores { get; set; } = new Dictionary<Tuple<int, int>, Score>();
+        public MatchesPage MatchesPage { get; set; } = new MatchesPage();
 
         public async Task<IActionResult> OnGetAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
+                var username = User.Identity.Name;
                 string matchCacheKey = $"MatchPageData-{User.Identity.Name}";
-                string scoresCacheKey = $"ScorePageData-{User.Identity.Name}";
                 string homeCacheKey = $"HomePageData-{User.Identity.Name}";
                 HomePage cachedHomePage;
-                List<LeagueMatch> cachedMatches;
-                Dictionary<Tuple<int, int>, Score> cachedScores;
+                MatchesPage cachedMatchesPage;
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromMinutes(30));
@@ -52,66 +49,20 @@ namespace FantasyLCS.WebApp.Pages
                         return RedirectToPage("/Home");
 
                 // Get LeagueMatches
-                if (_cache.TryGetValue(matchCacheKey, out cachedMatches))
-                    Matches = cachedMatches;
+                if (_cache.TryGetValue(matchCacheKey, out cachedMatchesPage))
+                    MatchesPage = cachedMatchesPage;
                 else
                 {
-                    var response = await _httpClient.GetAsync(_apiUrl + $"/getleaguematches/{HomePage.UserLeague.ID}");
+                    var response = await _httpClient.GetAsync(_apiUrl + $"/getmatchespage/{username}");
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseBody = await response.Content.ReadAsStringAsync();
-                        Matches = JsonSerializer.Deserialize<List<LeagueMatch>>(responseBody);
+                        MatchesPage = JsonSerializer.Deserialize<MatchesPage>(responseBody);
                     }
                 }
 
-                // Get Scores
-                if (_cache.TryGetValue(scoresCacheKey, out cachedScores))
-                {
-                    LeagueMatchScores = cachedScores;
-                }
-                else
-                {
-                    if (Matches.Count > 0)
-                    {
-                        // todo: refactor
-                        foreach (var match in Matches)
-                        {
-                            var response = await _httpClient.GetAsync(_apiUrl + $"/getleaguematchscores/{match.ID}");
-
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var responseBody = await response.Content.ReadAsStringAsync();
-                                var scores = JsonSerializer.Deserialize<List<Score>>(responseBody);
-
-                                foreach (var score in scores)
-                                {
-                                    Player player = HomePage.AllPlayers.SingleOrDefault(p => p.ID == score.PlayerID);
-                                    DraftPlayer draftPlayer = HomePage.LeagueDraftPlayers.SingleOrDefault(dp => dp.Name.ToLower().Equals(player.Name.ToLower()));
-                                    if (draftPlayer == null)
-                                    {
-                                        foreach (var entry in Substitutes.SubstitutePlayerIDs)
-                                        {
-                                            if (entry.Value == player.ID)
-                                            {
-                                                player = HomePage.AllPlayers.SingleOrDefault(p => p.ID == entry.Key);
-                                                draftPlayer = HomePage.LeagueDraftPlayers.SingleOrDefault(dp => dp.Name.ToLower().Equals(player.Name.ToLower()));
-                                            }
-                                        }
-                                    }
-                                    Tuple<int, int> matchPlayerPairing = Tuple.Create(match.ID, draftPlayer.ID);
-                                    LeagueMatchScores.Add(matchPlayerPairing, score);
-                                }
-
-
-                            }
-                        }
-                    }
-                }
-
-                _cache.Set(matchCacheKey, Matches, cacheEntryOptions);
-
-                _cache.Set(scoresCacheKey, LeagueMatchScores, cacheEntryOptions);
+                _cache.Set(matchCacheKey, MatchesPage, cacheEntryOptions);
             }
             else
             {
