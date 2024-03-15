@@ -109,9 +109,9 @@ namespace Constants
             { 8, new (new ("Week 4", "Day 2"), new DateTime(2024, 2, 11)) },
             { 9, new (new ("Week 5", "Day 1"), new DateTime(2024, 3, 2)) },
             { 10, new (new ("Week 5", "Day 2"), new DateTime(2024, 3, 3)) },
-            { 11, new (new ("Week 6", "Day 1"), new DateTime(2024, 2, 8)) },
-            { 12, new (new ("Week 6", "Day 2"), new DateTime(2024, 2, 9)) },
-            { 13, new (new ("Week 6", "Day 3"), new DateTime(2024, 2, 10))},
+            { 11, new (new ("Week 6", "Day 1"), new DateTime(2024, 3, 8)) },
+            { 12, new (new ("Week 6", "Day 2"), new DateTime(2024, 3, 9)) },
+            { 13, new (new ("Week 6", "Day 3"), new DateTime(2024, 3, 10))},
         };
     }
 

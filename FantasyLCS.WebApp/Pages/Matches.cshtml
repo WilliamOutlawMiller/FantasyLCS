@@ -180,19 +180,22 @@
     <section class="league-info-section">
         <h2>@Model.HomePage.UserLeague.Name League Matches</h2>
         <div class="matches-container">
-            @foreach (var weekGroup in Model.Matches.GroupBy(m => m.Week).OrderBy(g => g.Key))
+            @foreach (var weekGroupLeagueMatches in Model.MatchesPage.LeagueMatches.GroupBy(m => m.Week).OrderBy(g => g.Key))
             {
-                <div class="week-header">@weekGroup.Key</div>
-                @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
+                <div class="week-header">@weekGroupLeagueMatches.Key</div>
+                @foreach (var leagueMatch in weekGroupLeagueMatches.OrderBy(m => m.MatchDate))
                 {
+                    Team teamOne = Model.HomePage.LeagueTeams.FirstOrDefault(team => team.ID == leagueMatch.TeamOneID);
+                    Team teamTwo = Model.HomePage.LeagueTeams.FirstOrDefault(team => team.ID == leagueMatch.TeamTwoID);
+
                     <div class="match-section" onclick="toggleDropdown(this)">
                         <div class="match-entry">
-                            <div class="match-logo-container team-logo-left" style="background-image: url('@match.TeamOne.LogoUrl');"></div>
-                            <div class="team-name team-name-left">@match.TeamOne.Name</div>
+                            <div class="match-logo-container team-logo-left" style="background-image: url('@teamOne.LogoUrl');"></div>
+                            <div class="team-name team-name-left">@teamOne.Name</div>
 
                             <div class="match-info">
-                                <p class="match-date">@match.MatchDate.ToShortDateString()</p>
-                                @switch (match.Winner)
+                                <p class="match-date">@leagueMatch.MatchDate.ToShortDateString()</p>
+                                @switch (leagueMatch.Winner)
                                 {
                                     case Winner.TeamOne:
                                         <p class="match-score">1 - 0</p>
@@ -206,30 +209,30 @@
                                 }
                             </div>
 
-                            <div class="team-name team-name-right">@match.TeamTwo.Name</div>
-                            <div class="match-logo-container team-logo-right" style="background-image: url('@match.TeamTwo.LogoUrl');"></div>
+                            <div class="team-name team-name-right">@teamTwo.Name</div>
+                            <div class="match-logo-container team-logo-right" style="background-image: url('@teamTwo.LogoUrl');"></div>
                         </div>
 
-                        <div class="score-dropdown" style="display: none;" id="scores-@match.ID">
+                        <div class="score-dropdown" style="display: none;" id="scores-@leagueMatch.ID">
                             <!-- Team One Scores -->
                             <div class="team-scores team-one">
-                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamOneID && dp.ID == s.Key.Item2)))
+                                @foreach (var score in Model.MatchesPage.LeagueMatchPlayerScores.Where(s => s.LeagueMatchID == leagueMatch.ID && teamOne.DraftPlayerIDs.Contains(s.DraftPlayerID)))
                                 {
                                     <div class="player-score">
-                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
-                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.DraftPlayerID)?.Name</span>
+                                        <span>@score.FinalScore.ToString("0.0")</span>
                                     </div>
                                 }
                             </div>
 
                             <!-- Team Two Scores -->
                             <div class="team-scores team-two">
-                                @foreach (var score in Model.LeagueMatchScores.Where(s => s.Key.Item1 == match.ID && Model.HomePage.LeagueDraftPlayers.Any(dp => dp.TeamID == match.TeamTwoID && dp.ID == s.Key.Item2)))
+                                @foreach (var score in Model.MatchesPage.LeagueMatchPlayerScores.Where(s => s.LeagueMatchID == leagueMatch.ID && teamTwo.DraftPlayerIDs.Contains(s.DraftPlayerID)))
                                 {
                                     <div class="player-score">
                                         <!-- Score is now placed before the name -->
-                                        <span>@score.Value.FinalScore.ToString("0.0")</span>
-                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.Key.Item2)?.Name</span>
+                                        <span>@score.FinalScore.ToString("0.0")</span>
+                                        <span>@Model.HomePage.LeagueDraftPlayers.FirstOrDefault(dp => dp.ID == score.DraftPlayerID)?.Name</span>
                                     </div>
                                 }
                             </div>
